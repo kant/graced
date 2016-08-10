@@ -6,9 +6,9 @@ GrACED was developed in the Institute for Development and Design, INGAR CONICET-
 
 ## Publication
 GrACED has generated several publications, in both the local and international academy. More insight about its design, inner working and obtained results can be found in the following:
-* Computers In Industry [Volume 73, 2015] (http://dx.doi.org/10.1016/j.compind.2015.07.011).
-* 2º CoNaIISI [Argentina, 2014] (http://conaiisi.unsl.edu.ar/ProceedingsCoNaIISI2014.pdf).
-* 43º JAIIO 3º SII [Argentina, 2014] (http://43jaiio.sadio.org.ar/proceedings/SII/4_Vidoni_Vecchietti.pdf).
+* Computers In Industry: [Volume 73, 2015] (http://dx.doi.org/10.1016/j.compind.2015.07.011).
+* 2º CoNaIISI: [Argentina, 2014] (http://conaiisi.unsl.edu.ar/ProceedingsCoNaIISI2014.pdf).
+* 43º JAIIO 3º SII: [Argentina, 2014] (http://43jaiio.sadio.org.ar/proceedings/SII/4_Vidoni_Vecchietti.pdf).
 
 
 
