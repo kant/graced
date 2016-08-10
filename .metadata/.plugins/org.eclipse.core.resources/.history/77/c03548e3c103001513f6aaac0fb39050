@@ -1,0 +1,202 @@
+package gui.controller;
+
+import gui.controller.component.PTreeTableColumn;
+import gui.view.model.ProjectModel;
+import gui.view.model.TypeCriterion;
+import gui.view.model.TypeDimension;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableCell;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableView;
+import javafx.scene.control.cell.CheckBoxTreeTableCell;
+import javafx.scene.text.Text;
+import javafx.util.Callback;
+
+
+
+/**
+ * Controller class for the tab that shows the types (both dimension and
+ * criterion) available to the user. This types are always by default.
+ * 
+ * @author Ing. Melina C. Vidoni ~ 2015
+ *
+ */
+public class TypesTabController {
+	private ProjectModel projectModel;
+	
+	@FXML private Tab typesTab;
+
+	@FXML private TreeTableView<TypeDimension> tableDimension;
+	@FXML private PTreeTableColumn<TypeDimension, String> dimensionName;
+	@FXML private PTreeTableColumn<TypeDimension, Boolean> dimensionUsable;
+	@FXML private PTreeTableColumn<TypeDimension, String> dimensionDescription;
+	
+	@FXML private TreeTableView<TypeCriterion> tableCriterion;
+	@FXML private PTreeTableColumn<TypeCriterion, String> criterionName;
+	@FXML private PTreeTableColumn<TypeCriterion, Boolean> criterionUsable;
+	@FXML private PTreeTableColumn<TypeCriterion, String> criterionDescription;
+	
+	
+	
+	/**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
+    @FXML
+    private void initialize() {
+    	// Get the project
+    	projectModel = ProjectModel.getInstance();
+    	System.out.println("init typestab: " + projectModel.getProjectName());
+    	
+    	// Set the tab information
+    	typesTab.setClosable(false);
+    	
+    	// Initialize Dimension
+    	initDimension();
+    	
+    	// Initialize Criterion
+    	initCriterion();
+    }
+
+
+
+
+    /**
+     * Method to initialize the criterion titled pane.
+     */
+	private void initCriterion() {
+		// Get the root
+		TreeItem<TypeCriterion> rootCriterion = projectModel.getCriterionRoot();
+		rootCriterion.setExpanded(true);
+		
+		// Add it to the table
+		tableCriterion.setRoot(rootCriterion);
+		tableCriterion.setColumnResizePolicy((param) -> true );
+		
+		// Set data on columns
+		criterionName.setCellValueFactory(
+	            (TreeTableColumn.CellDataFeatures<TypeCriterion, String> param) -> 
+	            new ReadOnlyStringWrapper(param.getValue().getValue().getName())
+	    );
+		
+		criterionUsable.setCellValueFactory(
+	            (TreeTableColumn.CellDataFeatures<TypeCriterion, Boolean> param) -> 
+	            new ReadOnlyBooleanWrapper(param.getValue().getValue().getUsable())
+	    );
+		
+		criterionDescription.setCellValueFactory(
+	            (TreeTableColumn.CellDataFeatures<TypeCriterion, String> param) -> 
+	            new ReadOnlyStringWrapper(param.getValue().getValue().getDescription())
+	    );
+		
+		
+		// Format the usable column
+		criterionUsable.setCellFactory(CheckBoxTreeTableCell.forTreeTableColumn(criterionUsable)) ;
+		
+
+		// Wrap the text on the description column
+		criterionDescription.setCellFactory(new Callback<TreeTableColumn<TypeCriterion,String>, TreeTableCell<TypeCriterion,String>>() {
+            @Override
+            public TreeTableCell<TypeCriterion, String> call( TreeTableColumn<TypeCriterion, String> param) {
+            	final TreeTableCell<TypeCriterion, String> cell = new TreeTableCell<TypeCriterion, String>() {
+            		private Text text;
+                    
+            		@Override
+                    public void updateItem(String item, boolean empty) {
+            			super.updateItem(item, empty);
+                        if (!isEmpty()) {
+                        	text = new Text(item.toString());
+                            //text.setWrappingWidth(200); // Setting the wrapping width to the Text
+                        	text.wrappingWidthProperty().bind(param.widthProperty().subtract(15));
+                            setGraphic(text);
+                        }
+                    }
+            	};
+                return cell;
+            }
+		});
+
+	}
+
+
+
+
+	/**
+	 * Method to initialize the dimension titled pane.
+	 */
+	private void initDimension() {	
+		// Get the root
+		TreeItem<TypeDimension> rootDimension = projectModel.getDimensionRoot();
+		rootDimension.setExpanded(true);
+		
+		// Add it to the table
+		tableDimension.setRoot(rootDimension);
+		tableDimension.setColumnResizePolicy((param) -> true );
+		
+		// Set data on colums
+		dimensionName.setCellValueFactory(
+	            (TreeTableColumn.CellDataFeatures<TypeDimension, String> param) -> 
+	            new ReadOnlyStringWrapper(param.getValue().getValue().getName())
+	    );
+		
+		dimensionUsable.setCellValueFactory(
+	            (TreeTableColumn.CellDataFeatures<TypeDimension, Boolean> param) -> 
+	            new ReadOnlyBooleanWrapper(param.getValue().getValue().getUsable())
+	    );
+		
+		dimensionDescription.setCellValueFactory(
+	            (TreeTableColumn.CellDataFeatures<TypeDimension, String> param) -> 
+	            new ReadOnlyStringWrapper(param.getValue().getValue().getDescription())
+	    );
+		
+		
+		// Center information on usable column
+		//dimensionUsable.setCellFactory(CheckBoxTreeTableCell.forTreeTableColumn(dimensionUsable));
+		dimensionUsable.setCellFactory(new Callback<TreeTableColumn<TypeDimension,Boolean>,TreeTableCell<TypeDimension,Boolean>>() {
+	        @Override 
+	        public TreeTableCell<TypeDimension,Boolean> call( TreeTableColumn<TypeDimension,Boolean> p ) {
+	        	return new CheckBoxTreeTableCell<>().setAlignment(Pos.CENTER);; 
+	        }
+    	});
+
+
+		// Wrap the text on dimension column
+		dimensionDescription.setCellFactory(new Callback<TreeTableColumn<TypeDimension,String>, TreeTableCell<TypeDimension,String>>() {
+            @Override
+            public TreeTableCell<TypeDimension, String> call( TreeTableColumn<TypeDimension, String> param) {
+            	final TreeTableCell<TypeDimension, String> cell = new TreeTableCell<TypeDimension, String>() {
+            		private Text text;
+                    
+            		@Override
+                    public void updateItem(String item, boolean empty) {
+            			super.updateItem(item, empty);
+                        if (!isEmpty()) {
+                        	text = new Text(item.toString());
+                        	text.wrappingWidthProperty().bind(param.widthProperty().subtract(10));
+                            setGraphic(text);
+                        }
+                    }
+            	};
+                return cell;
+            }
+		});
+
+
+
+
+	}
+
+
+
+
+
+
+
+
+
+}

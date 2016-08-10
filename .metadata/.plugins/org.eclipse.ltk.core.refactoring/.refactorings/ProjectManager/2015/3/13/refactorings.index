@@ -1,0 +1,45 @@
+1427282287700	Rename resource 'StakeholderTypes.csv'
+1427282297583	Rename resource 'StakeholderTypes'
+1427282328748	Rename enum constant 'STAKEHOLDER_TYPES_FILE'
+1427287288753	Rename method 'initDimention'
+1427289282677	Rename resource 'RootLayout.fxml'
+1427289291054	Rename type 'RootLayoutController'
+1427289305629	Rename enum constant 'ROOT_LAYOUT'
+1427290748251	Copy file
+1427291327665	Move files
+1427291334934	Copy file
+1427291338323	Move file
+1427293206128	Infer generic type arguments
+1427294174848	Encapsulate field 'usable'
+1427294343498	Rename type 'TypesNodeModel'
+1427294744950	Infer generic type arguments
+1427298575430	Rename type 'TypesNode'
+1427298601854	Copy compilation unit
+1427298761678	Delete element
+1427298764449	Copy file
+1427298770782	Rename resource 'StakeholderTypesCriterion'
+1427299721646	Rename field 'stakeholdersTypesRoot'
+1427299877072	Rename method 'getTypesRoot'
+1427299885774	Rename method 'setTypesRoot'
+1427300556993	Rename enum constant 'TYPES'
+1427300701152	Rename local variable 'recordTypesName'
+1427301137022	Rename field 'typesExists'
+1427301178076	Rename method 'readTypes'
+1427301333320	Rename enum constant 'TYPES_TREE_ICON'
+1427369895800	Rename type 'PTableColumn'
+1427374669951	Delete element
+1427374701288	Copy file
+1427374708302	Rename resource 'StakeholderRoles'
+1427385171079	Encapsulate field 'rolesTableModel'
+1427386834655	Encapsulate field 'rolesExists'
+1427389522341	Delete element
+1427389524988	Copy file
+1427389530735	Rename resource 'StakeholderTypesDimension'
+1427468149287	Encapsulate field 'rolesSaved'
+1427472230257	Encapsulate field 'instance'
+1427474305798	Infer generic type arguments
+1427475852671	Rename enum constant 'ROLES'
+1427475932632	Encapsulate field 'rolesType'
+1427476127827	Copy compilation unit
+1427476134901	Rename type 'LabelsMainFile'
+1427476179309	Rename field 'route'

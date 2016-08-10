@@ -1,0 +1,405 @@
+package gui.controller;
+
+import gui.application.MainApp;
+import gui.application.paths.ImageLocation;
+import gui.controller.component.TextAreaTableCell;
+import gui.view.model.Actors;
+import gui.view.model.InfIntType;
+import gui.view.model.ProjectModel;
+
+import java.util.Optional;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.ImageView;
+import javafx.util.Callback;
+import javafx.util.converter.DefaultStringConverter;
+
+
+
+
+
+/**
+ * Controller class for the ActorsTab. It configs the editable table, with
+ * text fields and text areas, and also the buttons and their actions.
+ *
+ * @author Ing. Melina C. Vidoni ~ 2015
+ *
+ */
+public class ActorsTabController {
+	private ProjectModel project;
+
+	@FXML private Tab actorsTab;
+	
+	@FXML private TableView<Actors> actorsTable;
+	@FXML private TableColumn<Actors, String> idColumn;
+	@FXML private TableColumn<Actors, String> stakeholderColumn;
+	@FXML private TableColumn<Actors, String> descriptionColumn;
+	@FXML private TableColumn<Actors, String> typeColumn;
+	@FXML private TableColumn<Actors, String> criterionColumn;
+	@FXML private TableColumn<Actors, String> dimensionColumn;
+	@FXML private TableColumn<Actors, String> roleColumn;
+	@FXML private TableColumn<Actors, String> influenceColumn;
+	@FXML private TableColumn<Actors, String> interestColumn;
+
+	
+	
+	
+	
+	
+	/**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
+    @FXML
+    private void initialize() {
+    	// Get basic instances
+    	project = ProjectModel.getInstance();
+    	MainApp.getMainApp().setActorsTab(this);
+    	
+    	// Set the correct name
+    	correctTabName();
+    	actorsTab.setClosable(true);
+    	
+    	// For the table
+    	actorsTable.setItems(project.getActorsTableModel());
+    	actorsTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    	  	
+
+    	// Set the columns
+    	idColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty());
+    	stakeholderColumn.setCellValueFactory(cellData -> cellData.getValue().stakeholderProperty());
+    	descriptionColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
+    	criterionColumn.setCellValueFactory(cellData -> cellData.getValue().criterionProperty());
+    	dimensionColumn.setCellValueFactory(cellData -> cellData.getValue().dimensionProperty());
+    	roleColumn.setCellValueFactory(cellData -> cellData.getValue().roleProperty());
+    	influenceColumn.setCellValueFactory(cellData -> cellData.getValue().influenceProperty());
+    	interestColumn.setCellValueFactory(cellData -> cellData.getValue().interestProperty());
+    	
+    	// Config combo box
+    	configCellFactories();
+    }
+    
+    
+    
+	/**
+	 * Key listener for when the edition is committed by pressing Enter.
+	 * @param t The cell where the event was realized.
+	 */
+	@FXML
+	private void onCellEditCommit(CellEditEvent<Actors, String> t) {
+		// Get column
+		int columnIndex = t.getTablePosition().getColumn();
+		
+		// Depending the column...
+		switch(columnIndex) {
+			case 1: // Stakeholder
+					((Actors) t.getTableView().getItems()
+								.get(t.getTablePosition().getRow())).setStakeholder(t.getNewValue());
+					break;
+					
+			case 2: // Description
+					((Actors) t.getTableView().getItems()
+							.get(t.getTablePosition().getRow())).setDescription(t.getNewValue());
+					break;
+				
+			case 3: // Criterion
+					((Actors) t.getTableView().getItems()
+								.get(t.getTablePosition().getRow())).setCriterion(t.getNewValue());
+					break;
+					
+			case 4: // Dimension
+					((Actors) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+								.setDimension(t.getNewValue());
+					break;
+			
+			case 5: // Dimension
+					((Actors) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+							.setRole(t.getNewValue());
+					break;
+				
+			case 6: // Dimension
+					((Actors) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+							.setInfluence(t.getNewValue());
+					break;
+				
+			case 7: // Dimension
+					((Actors) t.getTableView().getItems().get(t.getTablePosition().getRow()))
+							.setInterest(t.getNewValue());
+				break;
+		}
+		
+    	// Set changes unsaved
+    	project.setActorsSaved(false);
+    	this.correctTabName();
+	}
+	
+    
+    
+    
+    
+    
+    /**
+     * Method that addes functionality to the button "Add Roles" in the custom
+     * roles tab. Only one row is added at a time, and the first cell should be
+     * selected to allow start editing.
+     * 
+     * @bug The automated editing mode does not work on the first row added, but
+     * works perfectly from the second and forth. Not error message is displayed.
+     */
+    @FXML
+    public void addNewActor() {
+    	// Save the index
+    	int index = project.getActorsTableModel().size();
+    	String id = "S" + Integer.toString(index + 1); 
+    	
+    	
+    	// Add the new role
+    	project.getActorsTableModel().add(index, new Actors(id, "", "", "", "", "", "", ""));
+    	project.setActorsSaved(false);
+    	
+    	// Now set to edit the first column
+    	actorsTable.edit(index, stakeholderColumn);
+    }
+    
+    
+    
+    
+    
+    
+    /**
+     * Method that adds funcionality for the button "Remove Actors" in the
+     * custom roles tab. Multiple actors can be selected, and then deleted
+     * without previous warning. Their IDs will be updated to the new amount
+     * of actors.
+     */
+    @FXML
+    public void deleteActors() {
+    	// Get selected items
+    	ObservableList<Actors> selected = actorsTable.getSelectionModel().getSelectedItems();
+    	
+    	// Delete the selected items
+    	project.getActorsTableModel().removeAll(selected);
+    	
+    	// Update indexes
+    	for(Actors a : project.getActorsTableModel()) {
+    		// Get the new index
+    		String id = "S" + Integer.toString(project.getActorsTableModel().indexOf(a) + 1);
+    		
+    		// Replace it
+    		a.setId(id);
+    	}
+    	
+    	// Set not saved
+    	project.setActorsSaved(false);
+    }
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * Method that configures the combo boxes on the cells that should have them.
+     */
+    private void configCellFactories() {
+    	// Textfield box
+    	stakeholderColumn.setCellFactory(TextFieldTableCell.<Actors>forTableColumn());
+    	descriptionColumn.setCellFactory(TextAreaTableCell.<Actors>forTableColumn());
+    	
+    	// Role combo box
+    	roleColumn.setCellFactory(ComboBoxTableCell
+    			.forTableColumn(new DefaultStringConverter(), project.getRolesCombo() ));
+    	
+    	// Dimension Combo Box
+    	dimensionColumn.setCellFactory(ComboBoxTableCell
+    			.forTableColumn(new DefaultStringConverter(), project.getDimensionCombo() ));
+    	
+    	// Criterion Combo Box
+    	criterionColumn.setCellFactory(ComboBoxTableCell
+    			.forTableColumn(new DefaultStringConverter(), project.getCriterionCombo() ));
+    	
+    	// Load influence and interest
+    	influenceColumn.setCellFactory(ComboBoxTableCell
+    			.forTableColumn(new DefaultStringConverter(), InfIntType.getInterestInfluenceCombo() ));
+    	
+    	interestColumn.setCellFactory(ComboBoxTableCell
+    			.forTableColumn(new DefaultStringConverter(), InfIntType.getInterestInfluenceCombo() ));
+    	
+    	
+    	// Configure the id to center the text
+    	idColumn.setCellFactory(new Callback<TableColumn<Actors, String>, TableCell<Actors, String>>() {
+	        @Override
+	        public TableCell<Actors, String> call(TableColumn<Actors, String> param) {
+	        	
+	        	TableCell<Actors, String> cell = new TableCell<Actors, String>() {
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText(empty ? null : getString());
+                        setGraphic(null);
+                    }
+
+                    private String getString() {
+                        return getItem() == null ? "" : getItem().toString();
+                    }
+                };
+
+                cell.setAlignment(Pos.CENTER);
+                cell.setAlignment(VPos.TOP);
+                
+                return cell;
+	        }
+	        
+	    });
+	}
+
+
+
+
+
+	/**
+     * Method to set the correct name of the tab, depending if its content
+     * is saved or not.
+     */
+    public void correctTabName() {
+    	actorsTab.setText( (project.isActorsSaved()) ? "Actors" : "*Actors" );
+    }
+    
+    
+    
+    
+    
+    
+	/**
+	 * Event handler for the case where the tab is requested to be closed
+	 * and this studies the content and decides what to do.
+	 * @param e The event, so it can consume it if neccesary.
+	 */
+	@FXML
+    private void onCloseTabRequest(Event e) {
+		// If there are charts open
+		if( MainApp.getMainApp().isOpenDChartTab() || MainApp.getMainApp().isOpenIIChartTab() ) {
+			// Prepare the basic alert thing
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.initOwner( MainApp.getMainApp().getPrimaryStage() );
+			
+			// Set the image
+			alert.setGraphic(new ImageView(this.getClass().getResource(
+					ImageLocation.ALERT_CANT.toString()).toString()));
+			
+			// Set the text of the message
+			alert.setTitle("Error on Closing");
+			alert.setHeaderText("Current Actors tab cannot be closed.");
+			alert.setContentText("Currently the tab with charts is open, and thus, the actors of the"
+					+ " project cannot be removed. If you want to do so, please remove the charts and"
+					+ " then procede to remove the actors.");
+			
+			// Show alert
+			alert.showAndWait();
+			
+			// Consume the event and do nothing
+			e.consume();		
+		}
+		/*
+		 * SAVED CHANGES
+		 */
+		else if( project.isActorsSaved() ) {
+			//If actors are saved, closing them will remove them from the project
+				
+			// Prepare the basic alert thing
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.initOwner( MainApp.getMainApp().getPrimaryStage() );
+			
+			// Set the image
+			alert.setGraphic(new ImageView(this.getClass().getResource(
+					ImageLocation.ALERT_WARNING.toString()).toString()));
+			
+			// Set the text of the message
+			alert.setTitle("Removing Existing Actors");
+			alert.setHeaderText("Closing this tab will clear the current actors");
+			alert.setContentText("By closing this tab the current actors will be cleared from the project."
+					+ " Are you sure you want to remove the actors?");
+
+
+			// Show alert and wait
+			Optional<ButtonType> result = alert.showAndWait();
+				
+			// CLOSE TAB AND REMOVE ACTORS
+			if (result.get() == ButtonType.OK) {
+				// Clear roles
+				project.setActorsTableModel( FXCollections.observableArrayList() );			
+				project.setActorsSaved(false);	
+				
+				// Set tab closed
+				MainApp.getMainApp().setOpenActorsTab(false);
+			} 
+			// DO NOTHING
+			else {
+				// ... user chose CANCEL or closed the dialog. Don't save and don't close the tab.
+				e.consume();
+			}
+		}
+
+		/*
+		 * UNSAVED CHANGES
+		 */
+		else {
+			// Prepare the basic alert thing
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.initOwner( MainApp.getMainApp().getPrimaryStage() );
+				
+			// Set the image
+			alert.setGraphic(new ImageView(this.getClass().getResource(ImageLocation.ALERT_WARNING.toString()).toString()));
+				
+			// Set the text of the message
+			alert.setTitle("Unsaved Changes");
+			alert.setHeaderText("There are unsaved changes on the Actors of the project.");
+			alert.setContentText("There are changes not saved that will be lost if you close the tab."
+						+ "Are you sure you want to close the tab?");
+
+
+			// Show alert and wait
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			/*
+			 *  CLOSE TAB AND DON'T SAVE
+			 */
+			if (result.get() == ButtonType.OK) {
+			    // Clear roles
+				project.setActorsTableModel( FXCollections.observableArrayList() );			
+				project.setActorsSaved(false);		
+				
+				MainApp.getMainApp().setOpenActorsTab(false);
+			} 
+			/*
+			 *  DO NOTHINGS
+			 */
+			else {
+			    // ... user chose CANCEL or closed the dialog
+				// Don't save and don't close the tab
+				e.consume();
+			}
+		}
+	
+
+    }
+
+
+}

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root fx:id="" maxHeight="650.0" maxWidth="800.0" minHeight="650.0" minWidth="800.0" prefHeight="650.0" prefWidth="800.0" type="GridPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.ProgressPanelController">
+  <columnConstraints>
+<ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" />
+<ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="300.0" prefWidth="300.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="110.0" minHeight="110.0" prefHeight="110.0" vgrow="SOMETIMES" />
+<RowConstraints maxHeight="130.0" minHeight="130.0" prefHeight="130.0" vgrow="SOMETIMES" />
+<RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="46.0" minHeight="46.0" prefHeight="46.0" vgrow="SOMETIMES" />
+<RowConstraints maxHeight="1000.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
+<RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+<children><HBox fx:id="stepsBar" maxHeight="40.0" maxWidth="700.0" minHeight="40.0" minWidth="700.0" prefHeight="40.0" prefWidth="700.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+<GridPane.margin>
+<Insets bottom="30.0" />
+</GridPane.margin>
+<children><ToggleButton fx:id="buttonStep1" disable="true" maxWidth="175.0" minWidth="175.0" mnemonicParsing="false" prefWidth="175.0" text="STEP 1&#10;Starting GrACED&#10;" textAlignment="CENTER">
+<toggleGroup>
+<ToggleGroup fx:id="buttonGroup" />
+</toggleGroup></ToggleButton><ToggleButton fx:id="buttonStep2" disable="true" maxWidth="175.0" minWidth="175.0" mnemonicParsing="false" prefWidth="175.0" text="STEP 2&#10;Classifying Tables" textAlignment="CENTER" toggleGroup="$buttonGroup" /><ToggleButton fx:id="buttonStep3" disable="true" maxWidth="175.0" minWidth="175.0" mnemonicParsing="false" prefWidth="175.0" text="STEP 3&#10;Propagating Percents" textAlignment="CENTER" toggleGroup="$buttonGroup" /><ToggleButton fx:id="buttonStep4" disable="true" maxWidth="175.0" minWidth="175.0" mnemonicParsing="false" prefWidth="175.0" text="STEP 4&#10;Generating Charts" textAlignment="CENTER" toggleGroup="$buttonGroup" />
+</children></HBox><Button fx:id="exitButton" mnemonicParsing="false" onAction="#exitSystem" text="Cancel" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="TOP">
+<graphic><ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/button_cancel.png" />
+</image></ImageView>
+</graphic></Button><ProgressBar fx:id="progressBar" maxWidth="700.0" minWidth="700.0" prefHeight="17.0" prefWidth="700.0" progress="0.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" /><Label text="Current:       " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+<font>
+<Font name="System Bold" size="12.0" />
+</font></Label><Label fx:id="doingLabel" text="doing..." GridPane.columnIndex="2" GridPane.rowIndex="5" GridPane.valignment="TOP">
+<font>
+<Font size="12.0" />
+</font></Label><Label fx:id="stepTitleLabel" text="STEP 1" textFill="#122497" GridPane.columnIndex="1" GridPane.rowIndex="2">
+<font>
+<Font name="System Bold" size="14.0" />
+</font></Label><Label fx:id="stepInfoLabel" maxWidth="700.0" minWidth="700.0" prefWidth="700.0" text="wewe&#10;asas" textAlignment="JUSTIFY" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.valignment="TOP">
+<font>
+<Font name="System Italic" size="11.0" />
+</font></Label><GridPane style="-fx-background-color: FFFFFF;" GridPane.columnSpan="2147483647">
+<children>
+<Label text="Analizing Database &amp; Processing Information" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+<font>
+<Font name="System Bold" size="14.0" />
+</font>
+<GridPane.margin>
+<Insets left="80.0" />
+</GridPane.margin>
+</Label>
+<Label text="Please wait while the agent goes through all the steps and analize the database." GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+<GridPane.margin>
+<Insets left="80.0" top="10.0" />
+</GridPane.margin>
+</Label>
+<ImageView pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowSpan="2147483647" GridPane.valignment="CENTER">
+<image>
+<Image url="@img/icon_process.png" />
+</image>
+</ImageView>
+</children>
+<columnConstraints>
+<ColumnConstraints hgrow="SOMETIMES" minWidth="620.0" prefWidth="620.0" />
+<ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+</columnConstraints>
+<rowConstraints>
+<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+</rowConstraints>
+</GridPane>
+</children>
+</fx:root>

@@ -1,0 +1,63 @@
+1407776058566	Delete element
+1407776095399	Delete element
+1407846449458	Delete element
+1407846700417	Delete element
+1407847333202	Copy compilation unit
+1407847372802	Rename enum constant 'NODE'
+1407847531065	Rename enum constant 'COLUMNBOW'
+1407847547712	Rename enum constant 'TABLEBOW'
+1407847564124	Rename enum constant 'USABLE'
+1407855125276	Delete element
+1407937007593	Rename local variable 'tableIcon'
+1407937542728	Rename local variable 'tableItem'
+1407945432659	Move compilation unit
+1407945435999	Delete element
+1407945659174	Delete element
+1407949210257	Move compilation unit
+1408016589494	Delete element
+1408018944105	Rename resource 'Style.css'
+1408018966213	Delete element
+1408023792731	Delete element
+1408024157484	Delete element
+1408026435879	Delete element
+1408027639353	Infer generic type arguments
+1408027940737	Infer generic type arguments
+1408028086063	Infer generic type arguments
+1408028109610	Infer generic type arguments
+1408030543003	Encapsulate field 'tablename'
+1408032373450	Encapsulate field 'current'
+1408034098233	Encapsulate field 'name'
+1408034116529	Encapsulate field 'flatTableQty'
+1408034123397	Encapsulate field 'minPercent'
+1408034127713	Encapsulate field 'maxPercent'
+1408034132481	Encapsulate field 'averagePercent'
+1408034302936	Rename field 'minPercent'
+1408034323086	Rename field 'maxPercent'
+1408034332862	Rename field 'percentSum'
+1408103282829	Move compilation units
+1408103433342	Delete elements
+1408104079261	Copy compilation unit
+1408104167260	Rename enum constant 'TABLE'
+1408104208309	Rename enum constant 'TABLENAME'
+1408104223991	Rename enum constant 'CLASS'
+1408104249535	Rename enum constant 'TABLE_CLASS'
+1408104267597	Rename enum constant 'COLUMN_CLASS'
+1408104281052	Rename enum constant 'CLASS_PERCENT'
+1408104291119	Rename enum constant 'MIN_PERCEN'
+1408104305995	Rename enum constant 'COLUMN'
+1408104455608	Delete element
+1408106809550	Delete element
+1408106810751	Delete element
+1408106887872	Delete element
+1408108508583	Encapsulate field 'defaultProportion'
+1408109125563	Rename local variable 'tablenameList'
+1408120317034	Rename field 'minProportion'
+1408120323705	Rename field 'maxProportion'
+1408120331202	Rename field 'proportionSum'
+1408120350273	Rename method 'addProportionSum'
+1408120359057	Rename method 'getAverageProportion'
+1408120367753	Rename method 'setMaxProportion'
+1408120374002	Rename method 'getMaxProportion'
+1408120381354	Rename method 'setMinProportion'
+1408120580520	Encapsulate field 'qtyTotalTable'
+1408120641277	Rename method 'addPercentnSum'

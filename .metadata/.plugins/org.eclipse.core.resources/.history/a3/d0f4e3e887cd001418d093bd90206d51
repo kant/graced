@@ -1,0 +1,58 @@
+package logic.csvmanager;
+
+import gui.application.paths.ProjectFileNames;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import com.opencsv.CSVWriter;
+
+
+
+public class CreateNewProject {
+	private String name;
+	private File directory;
+	
+	
+	/**
+	 * Default constructor to start a project
+	 * @param n Name of the project
+	 * @param d Directory of the project
+	 */
+	public CreateNewProject(String n, File d) {
+		name = n;
+		directory = d;
+	}
+	
+	
+	
+	public void create() {
+		try {
+			// Obtain path
+			String path = directory.getAbsolutePath() + File.separatorChar + ProjectFileNames.MAIN_FILE.toString();
+				
+			// Open the CSV writer
+			CSVWriter writer = new CSVWriter(new FileWriter(path));
+			
+		    // Create records
+			String[] recordSeparator = {"sep=,"};
+			String recordProjectName = "Project Name," + name;
+			String recordOriginalPath = "Original Path," + directory.getAbsolutePath();
+		      
+			// Write the records
+			writer.writeNext( recordSeparator );
+			writer.writeNext( recordProjectName.split(",") );
+			writer.writeNext( recordOriginalPath.split(",") );
+			
+	        
+		     //close the writer
+		     writer.close();
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+}

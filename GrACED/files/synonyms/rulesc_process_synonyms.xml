@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:synonym xmlns:tns="http://www.example.org/SynonymsSchema"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.example.org/SynonymsSchema SynonymsSchema.xsd"
+             tns:mainWord="process">
+
+
+<!-- SYNONYMS -->
+
+<tns:word tns:originalWord="processed"></tns:word>
+<tns:word tns:originalWord="processing"></tns:word>
+<tns:word tns:originalWord="processor"></tns:word>
+<tns:word tns:originalWord="process"></tns:word>
+
+
+</tns:synonym>

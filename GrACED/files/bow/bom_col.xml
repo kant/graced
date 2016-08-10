@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:bow tns:bowName="Bill Of Materials"
+		 xmlns:tns="http://www.example.org/BagOfWordsSchema" 
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		 xsi:schemaLocation="http://www.example.org/BagOfWordsSchema BagOfWordsSchema.xsd ">
+
+
+<!--Word: acct-->
+<tns:word tns:word="acct" tns:hasSynonyms="true" tns:synonymsFile="bomc_acct_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: active-->
+<tns:word tns:word="active" tns:hasSynonyms="true" tns:synonymsFile="bomc_active_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: allocation-->
+<tns:word tns:word="allocation" tns:hasSynonyms="true" tns:synonymsFile="bomc_allocation_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: alternative-->
+<tns:word tns:word="alternative" tns:hasSynonyms="true" tns:synonymsFile="bomc_alternative_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: amended-->
+<tns:word tns:word="amended" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: amount-->
+<tns:word tns:word="amount" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: assay-->
+<tns:word tns:word="assay" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: attribute-->
+<tns:word tns:word="attribute" tns:hasSynonyms="true" tns:synonymsFile="bomc_attribute_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: back-->
+<tns:word tns:word="back" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: batch-->
+<tns:word tns:word="batch" tns:hasSynonyms="true" tns:synonymsFile="bomc_batch_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: bom-->
+<tns:word tns:word="bom" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="10"></tns:word>
+
+<!--Word: buying-->
+<tns:word tns:word="buying" tns:hasSynonyms="true" tns:synonymsFile="bomc_buying_synonyms.xml" tns:wordWeight="2"></tns:word>
+
+<!--Word: case-->
+<tns:word tns:word="case" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: category-->
+<tns:word tns:word="category" tns:hasSynonyms="true" tns:synonymsFile="bomc_category_synonyms.xml" tns:wordWeight="5"></tns:word>
+
+<!--Word: change-->
+<tns:word tns:word="change" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: client-->
+<tns:word tns:word="client" tns:hasSynonyms="true" tns:synonymsFile="bomc_client_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: code-->
+<tns:word tns:word="code" tns:hasSynonyms="true" tns:synonymsFile="bomc_code_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: coeff-->
+<tns:word tns:word="coeff" tns:hasSynonyms="true" tns:synonymsFile="bomc_coeff_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: color-->
+<tns:word tns:word="color" tns:hasSynonyms="true" tns:synonymsFile="bomc_color_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: company-->
+<tns:word tns:word="company" tns:hasSynonyms="true" tns:synonymsFile="bomc_company_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: component-->
+<tns:word tns:word="component" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="2"></tns:word>
+
+<!--Word: consumed-->
+<tns:word tns:word="consumed" tns:hasSynonyms="true" tns:synonymsFile="bomc_consumed_synonyms.xml" tns:wordWeight="2"></tns:word>
+
+<!--Word: copy-->
+<tns:word tns:word="copy" tns:hasSynonyms="true" tns:synonymsFile="bomc_copy_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: cost-->
+<tns:word tns:word="cost" tns:hasSynonyms="true" tns:synonymsFile="bomc_cost_synonyms.xml" tns:wordWeight="3"></tns:word>
+
+<!--Word: critical-->
+<tns:word tns:word="critical" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: current-->
+<tns:word tns:word="current" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="2"></tns:word>
+
+<!--Word: date-->
+<tns:word tns:word="date" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: default-->
+<tns:word tns:word="default" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: delay-->
+<tns:word tns:word="delay" tns:hasSynonyms="true" tns:synonymsFile="bomc_delay_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: delivered-->
+<tns:word tns:word="delivered" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: description-->
+<tns:word tns:word="description" tns:hasSynonyms="true" tns:synonymsFile="bomc_description_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: document-->
+<tns:word tns:word="document" tns:hasSynonyms="true" tns:synonymsFile="bomc_document_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: ean13-->
+<tns:word tns:word="ean13" tns:hasSynonyms="true" tns:synonymsFile="bomc_ean13_synonyms.xml" tns:wordWeight="2"></tns:word>
+
+<!--Word: efficiency-->
+<tns:word tns:word="efficiency" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: element-->
+<tns:word tns:word="element" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: entered-->
+<tns:word tns:word="entered" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: extra-->
+<tns:word tns:word="extra" tns:hasSynonyms="true" tns:synonymsFile="bomc_extra_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: factor-->
+<tns:word tns:word="factor" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: feature-->
+<tns:word tns:word="feature" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: flush-->
+<tns:word tns:word="flush" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: forecast-->
+<tns:word tns:word="forecast" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: frozen-->
+<tns:word tns:word="frozen" tns:hasSynonyms="true" tns:synonymsFile="bomc_frozen_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: future-->
+<tns:word tns:word="future" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: group-->
+<tns:word tns:word="group" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: height-->
+<tns:word tns:word="height" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: help-->
+<tns:word tns:word="help" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: hour-->
+<tns:word tns:word="hour" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: image-->
+<tns:word tns:word="image" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: imposion-->
+<tns:word tns:word="imposion" tns:hasSynonyms="true" tns:synonymsFile="bomc_imposion_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: incoming-->
+<tns:word tns:word="incoming" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: instance-->
+<tns:word tns:word="instance" tns:hasSynonyms="true" tns:synonymsFile="bomc_instance_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: issue-->
+<tns:word tns:word="issue" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: item-->
+<tns:word tns:word="item" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: lead-->
+<tns:word tns:word="lead" tns:hasSynonyms="true" tns:synonymsFile="bomc_lead_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: left-->
+<tns:word tns:word="left" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: length-->
+<tns:word tns:word="length" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: level-->
+<tns:word tns:word="level" tns:hasSynonyms="true" tns:synonymsFile="bomc_level_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: line-->
+<tns:word tns:word="line" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: list-->
+<tns:word tns:word="list" tns:hasSynonyms="true" tns:synonymsFile="bomc_list_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: location-->
+<tns:word tns:word="location" tns:hasSynonyms="true" tns:synonymsFile="bomc_location_synonyms.xml" tns:wordWeight="2"></tns:word>
+
+<!--Word: manager-->
+<tns:word tns:word="manager" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: margin-->
+<tns:word tns:word="margin" tns:hasSynonyms="true" tns:synonymsFile="bomc_margin_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: material-->
+<tns:word tns:word="material" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: medium-->
+<tns:word tns:word="medium" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: method-->
+<tns:word tns:word="method" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: mins-->
+<tns:word tns:word="mins" tns:hasSynonyms="true" tns:synonymsFile="bomc_mins_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: name-->
+<tns:word tns:word="name" tns:hasSynonyms="true" tns:synonymsFile="bomc_name_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: net-->
+<tns:word tns:word="net" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: new-->
+<tns:word tns:word="new" tns:hasSynonyms="true" tns:synonymsFile="bomc_new_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: notice-->
+<tns:word tns:word="notice" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: number-->
+<tns:word tns:word="number" tns:hasSynonyms="true" tns:synonymsFile="bomc_number_synonyms.xml" tns:wordWeight="2"></tns:word>
+
+<!--Word: offset-->
+<tns:word tns:word="offset" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: operating-->
+<tns:word tns:word="operating" tns:hasSynonyms="true" tns:synonymsFile="bomc_operating_synonyms.xml" tns:wordWeight="2"></tns:word>
+
+<!--Word: order-->
+<tns:word tns:word="order" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: outgoing-->
+<tns:word tns:word="outgoing" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: parent-->
+<tns:word tns:word="parent" tns:hasSynonyms="true" tns:synonymsFile="bomc_parent_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: percentage-->
+<tns:word tns:word="percentage" tns:hasSynonyms="true" tns:synonymsFile="bomc_percentage_synonyms.xml" tns:wordWeight="2"></tns:word>
+
+<!--Word: phantom-->
+<tns:word tns:word="phantom" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: position-->
+<tns:word tns:word="position" tns:hasSynonyms="true" tns:synonymsFile="bomc_position_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: post-->
+<tns:word tns:word="post" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: price-->
+<tns:word tns:word="price" tns:hasSynonyms="true" tns:synonymsFile="bomc_price_synonyms.xml" tns:wordWeight="3"></tns:word>
+
+<!--Word: procure-->
+<tns:word tns:word="procure" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: product-->
+<tns:word tns:word="product" tns:hasSynonyms="true" tns:synonymsFile="bomc_product_synonyms.xml" tns:wordWeight="5"></tns:word>
+
+<!--Word: production-->
+<tns:word tns:word="production" tns:hasSynonyms="true" tns:synonymsFile="bomc_production_synonyms.xml" tns:wordWeight="2"></tns:word>
+
+<!--Word: project-->
+<tns:word tns:word="project" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: property-->
+<tns:word tns:word="property" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: quantity-->
+<tns:word tns:word="quantity" tns:hasSynonyms="true" tns:synonymsFile="bomc_quantity_synonyms.xml" tns:wordWeight="5"></tns:word>
+
+<!--Word: rack-->
+<tns:word tns:word="rack" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: rate-->
+<tns:word tns:word="rate" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="2"></tns:word>
+
+<!--Word: reject-->
+<tns:word tns:word="reject" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: rental-->
+<tns:word tns:word="rental" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: required-->
+<tns:word tns:word="required" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="2"></tns:word>
+
+<!--Word: revision-->
+<tns:word tns:word="revision" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: right-->
+<tns:word tns:word="right" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: rm-->
+<tns:word tns:word="rm" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: routing-->
+<tns:word tns:word="routing" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: row-->
+<tns:word tns:word="row" tns:hasSynonyms="true" tns:synonymsFile="bomc_row_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: sale-->
+<tns:word tns:word="sale" tns:hasSynonyms="true" tns:synonymsFile="bomc_sale_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: schema-->
+<tns:word tns:word="schema" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="3"></tns:word>
+
+<!--Word: scrap-->
+<tns:word tns:word="scrap" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: sequence-->
+<tns:word tns:word="sequence" tns:hasSynonyms="true" tns:synonymsFile="bomc_sequence_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: set-->
+<tns:word tns:word="set" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: small-->
+<tns:word tns:word="small" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: standard-->
+<tns:word tns:word="standard" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="2"></tns:word>
+
+<!--Word: start-->
+<tns:word tns:word="start" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: status-->
+<tns:word tns:word="status" tns:hasSynonyms="true" tns:synonymsFile="bomc_status_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: stock-->
+<tns:word tns:word="stock" tns:hasSynonyms="true" tns:synonymsFile="bomc_stock_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: stop-->
+<tns:word tns:word="stop" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: supply-->
+<tns:word tns:word="supply" tns:hasSynonyms="true" tns:synonymsFile="bomc_supply_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: template-->
+<tns:word tns:word="template" tns:hasSynonyms="true" tns:synonymsFile="bomc_template_synonyms.xml" tns:wordWeight="3"></tns:word>
+
+<!--Word: time-->
+<tns:word tns:word="time" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: total-->
+<tns:word tns:word="total" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: track-->
+<tns:word tns:word="track" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: type-->
+<tns:word tns:word="type" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: unit-->
+<tns:word tns:word="unit" tns:hasSynonyms="true" tns:synonymsFile="bomc_unit_synonyms.xml" tns:wordWeight="5"></tns:word>
+
+<!--Word: use-->
+<tns:word tns:word="use" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: user-->
+<tns:word tns:word="user" tns:hasSynonyms="true" tns:synonymsFile="bomc_user_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: valid-->
+<tns:word tns:word="valid" tns:hasSynonyms="true" tns:synonymsFile="bomc_valid_synonyms.xml" tns:wordWeight="0.24"></tns:word>
+
+<!--Word: valuation-->
+<tns:word tns:word="valuation" tns:hasSynonyms="true" tns:synonymsFile="bomc_valuation_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: variants-->
+<tns:word tns:word="variants" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: volume-->
+<tns:word tns:word="volume" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: warehouse-->
+<tns:word tns:word="warehouse" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="2"></tns:word>
+
+<!--Word: warranty-->
+<tns:word tns:word="warranty" tns:hasSynonyms="true" tns:synonymsFile="bomc_warranty_synonyms.xml" tns:wordWeight="0.14"></tns:word>
+
+<!--Word: weight-->
+<tns:word tns:word="weight" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: width-->
+<tns:word tns:word="width" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: workstation-->
+<tns:word tns:word="workstation" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="0.14"></tns:word>
+
+</tns:bow>

@@ -1,0 +1,59 @@
+package gui.listeners;
+
+
+
+import gui.components.ModelsInfoTableModel;
+import gui.components.TextAreaCellEditor;
+import gui.components.TextAreaRenderer;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JTable;
+
+
+
+
+/**
+ * Listener of the button that adds a row in a table that is
+ * prepared to allow the column information data input.
+ *  Implements ActionListener.
+ * @author Ing. Melina C. Vidoni - 2013.
+ *
+ */
+public class AddRowModelInfoTableAL implements ActionListener {
+	private JTable table;
+	private ModelsInfoTableModel tableModel;
+	
+	
+	
+	/**
+	 * Default constructor of the class.
+	 * @param netm Reference to the table.
+	 */
+	public AddRowModelInfoTableAL(JTable t) {
+		table = t;
+		tableModel = (ModelsInfoTableModel) t.getModel();
+	}
+
+	
+
+	/**
+	 * Method that prepares a row of the table with all of the necessary components.
+	 */
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		// Prepare a row
+		Object[] row = new String[4];
+						
+		// Get the model
+		table.getColumnModel().getColumn(1).setCellRenderer( new TextAreaRenderer() );
+		table.getColumnModel().getColumn(1).setCellEditor( new TextAreaCellEditor() );
+
+		// Add it
+		tableModel.addRow(row);
+		table.repaint();
+	}
+
+	
+}

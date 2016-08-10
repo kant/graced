@@ -1,0 +1,294 @@
+Creating elements for DatabaseInfoPanel.java
+
+
+>>>  about to create class java.awt.Dimension, constructor=public java.awt.Dimension(int,int)
+
+    >>>  about to create class java.awt.Dimension
+    <<< created class java.awt.Dimension
+<<< created class java.awt.Dimension
+
+>>>  about to create class java.awt.GridBagLayout, constructor=public java.awt.GridBagLayout()
+<<< created class java.awt.GridBagLayout
+
+>>>  about to create class java.awt.Color, constructor=public java.awt.Color(int,int,int)
+
+    >>>  about to create class java.awt.Color
+    <<< error creating class java.awt.Color, java.lang.NoSuchMethodException: java.awt.Color.<init>()
+<<< created class java.awt.Color
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+
+        >>>  about to create class java.awt.Insets
+        <<< error creating class java.awt.Insets, java.lang.NoSuchMethodException: java.awt.Insets.<init>()
+    <<< created class java.awt.Insets
+
+    >>>  about to create class java.awt.GridBagConstraints
+    <<< created class java.awt.GridBagConstraints
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagLayout, constructor=public java.awt.GridBagLayout()
+<<< created class java.awt.GridBagLayout
+
+>>>  about to create class java.awt.Font, constructor=public java.awt.Font(java.lang.String,int,int)
+<<< error trying to make class java.awt.Font, java.lang.IllegalArgumentException
+<<< error creating class java.awt.Font, java.lang.IllegalArgumentException
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagLayout, constructor=public java.awt.GridBagLayout()
+<<< created class java.awt.GridBagLayout
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagLayout, constructor=public java.awt.GridBagLayout()
+<<< created class java.awt.GridBagLayout
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class javax.swing.border.SoftBevelBorder, constructor=public javax.swing.border.SoftBevelBorder(int,java.awt.Color,java.awt.Color,java.awt.Color,java.awt.Color)
+
+    >>>  about to create class javax.swing.border.SoftBevelBorder
+    <<< error creating class javax.swing.border.SoftBevelBorder, java.lang.NoSuchMethodException: javax.swing.border.SoftBevelBorder.<init>()
+<<< created class javax.swing.border.SoftBevelBorder
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class javax.swing.border.SoftBevelBorder, constructor=public javax.swing.border.SoftBevelBorder(int,java.awt.Color,java.awt.Color,java.awt.Color,java.awt.Color)
+<<< created class javax.swing.border.SoftBevelBorder
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class javax.swing.border.SoftBevelBorder, constructor=public javax.swing.border.SoftBevelBorder(int,java.awt.Color,java.awt.Color,java.awt.Color,java.awt.Color)
+<<< created class javax.swing.border.SoftBevelBorder
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class javax.swing.border.SoftBevelBorder, constructor=public javax.swing.border.SoftBevelBorder(int,java.awt.Color,java.awt.Color,java.awt.Color,java.awt.Color)
+<<< created class javax.swing.border.SoftBevelBorder
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class javax.swing.border.SoftBevelBorder, constructor=public javax.swing.border.SoftBevelBorder(int,java.awt.Color,java.awt.Color,java.awt.Color,java.awt.Color)
+<<< created class javax.swing.border.SoftBevelBorder
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class java.awt.GridBagConstraints, constructor=public java.awt.GridBagConstraints(int,int,int,int,double,double,int,int,java.awt.Insets,int,int)
+
+    >>>  about to create class java.awt.Insets, constructor=public java.awt.Insets(int,int,int,int)
+    <<< created class java.awt.Insets
+<<< created class java.awt.GridBagConstraints
+
+>>>  about to create class javax.swing.JPanel, constructor=public javax.swing.JPanel()
+<<< created class javax.swing.JPanel
+
+>>>  about to create class javax.swing.JPanel, constructor=public javax.swing.JPanel()
+<<< created class javax.swing.JPanel
+
+>>>  about to create class javax.swing.JLabel, constructor=public javax.swing.JLabel()
+<<< created class javax.swing.JLabel
+
+>>>  about to create class javax.swing.JLabel, constructor=public javax.swing.JLabel()
+<<< created class javax.swing.JLabel
+
+>>>  about to create class javax.swing.JLabel, constructor=public javax.swing.JLabel()
+<<< created class javax.swing.JLabel
+
+>>>  about to create class javax.swing.JPanel, constructor=public javax.swing.JPanel()
+<<< created class javax.swing.JPanel
+
+>>>  about to create class javax.swing.JButton, constructor=public javax.swing.JButton()
+<<< created class javax.swing.JButton
+
+>>>  about to create class javax.swing.JButton, constructor=public javax.swing.JButton()
+<<< created class javax.swing.JButton
+
+>>>  about to create class javax.swing.JPanel, constructor=public javax.swing.JPanel()
+<<< created class javax.swing.JPanel
+
+>>>  about to create class javax.swing.JLabel, constructor=public javax.swing.JLabel()
+<<< created class javax.swing.JLabel
+
+>>>  about to create class javax.swing.JLabel, constructor=public javax.swing.JLabel()
+<<< created class javax.swing.JLabel
+
+>>>  about to create class javax.swing.JLabel, constructor=public javax.swing.JLabel()
+<<< created class javax.swing.JLabel
+
+>>>  about to create class javax.swing.JLabel, constructor=public javax.swing.JLabel()
+<<< created class javax.swing.JLabel
+
+>>>  about to create class javax.swing.JLabel, constructor=public javax.swing.JLabel()
+<<< created class javax.swing.JLabel
+
+>>>  about to create class javax.swing.JLabel, constructor=public javax.swing.JLabel()
+<<< created class javax.swing.JLabel
+
+>>>  about to create class javax.swing.JTextField, constructor=public javax.swing.JTextField()
+<<< created class javax.swing.JTextField
+
+>>>  about to create class javax.swing.JTextField, constructor=public javax.swing.JTextField()
+<<< created class javax.swing.JTextField
+
+>>>  about to create class gui.components.CustomTextField, constructor=public gui.components.CustomTextField()
+<<< created class gui.components.CustomTextField
+
+>>>  about to create class gui.components.CustomTextField, constructor=public gui.components.CustomTextField()
+<<< created class gui.components.CustomTextField
+
+>>>  about to create class javax.swing.JPasswordField, constructor=public javax.swing.JPasswordField()
+<<< created class javax.swing.JPasswordField
+
+>>>  about to create class javax.swing.JComboBox, constructor=public javax.swing.JComboBox(java.lang.Object[])
+
+    >>>  about to create class javax.swing.JComboBox
+    <<< created class javax.swing.JComboBox
+<<< created class javax.swing.JComboBox
+
+>>>  about to create class javax.swing.JLabel, constructor=public javax.swing.JLabel()
+<<< created class javax.swing.JLabel
+
+>>>  about to create class javax.swing.JLabel, constructor=public javax.swing.JLabel()
+<<< created class javax.swing.JLabel
+
+>>>  about to create class javax.swing.JLabel, constructor=public javax.swing.JLabel()
+<<< created class javax.swing.JLabel
+
+>>>  about to create class javax.swing.JLabel, constructor=public javax.swing.JLabel()
+<<< created class javax.swing.JLabel
+
+>>>  about to create class javax.swing.JLabel, constructor=public javax.swing.JLabel()
+<<< created class javax.swing.JLabel
+
+>>>  about to create class javax.swing.JLabel, constructor=public javax.swing.JLabel()
+<<< created class javax.swing.JLabel

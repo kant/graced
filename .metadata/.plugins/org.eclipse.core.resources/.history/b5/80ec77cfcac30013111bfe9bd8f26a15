@@ -1,0 +1,199 @@
+package gui.controller;
+
+import gui.view.model.BarChartModel;
+import gui.view.model.MouseExitAnimation;
+import gui.view.model.MouseHoverAnimation;
+import gui.view.model.NameTableModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
+import xmlfiles.ResultsGenerator;
+
+
+
+
+/**
+ * Controller class for the charts panel with all the results of the execution
+ * of the agent. It initializes all the mandatory listeners.
+ * @author Ing. Melina C. Vidoni - 2014
+ *
+ */
+public class ChartsPanelController extends Controller {
+	@FXML private PieChart mainPie;
+	@FXML private TableView<NameTableModel> tableMainPie;
+	@FXML private TableColumn<NameTableModel, String> tableMPColumn;
+	@FXML private Label typeTitleLabel;
+	@FXML private Label typeDescLabel;
+	
+	@FXML private TreeView<String> treeview;
+	@FXML private BarChart<String, Number> categoryBC;
+	@FXML private CategoryAxis xAxis;
+	@FXML private NumberAxis yAxis;
+	
+	
+
+	
+    /**
+     * The default constructor of the class.
+     * The constructor is called before the initialize() method.
+     */
+	public ChartsPanelController() { }
+	
+	
+	
+	
+    /**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
+    @FXML
+    private void initialize() { 
+    	
+    	/*
+    	 * PREPARE MAIN PIE
+    	 */
+    	configMainPie();
+    	
+    	
+    	/*
+    	 * CONFIG BAR CHART
+    	 */
+    	configBarChart();
+    	
+    }
+
+
+
+
+    /**
+     * A method for configuring the treeview and the barcharts regarding belonging percentages
+     * on each of the categories found. It adds the listener for each of the tree nodes.
+     */
+    @SuppressWarnings("deprecation")
+	private void configBarChart() {
+    	// Generate the tree
+		treeview.setRoot( ResultsGenerator.getTreeRoot() );
+		treeview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		
+		// Add the listener
+		treeview.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
+
+				@SuppressWarnings("unchecked")
+				@Override
+				public void changed(ObservableValue<? extends TreeItem<String>> observable,
+											TreeItem<String> oldValue, TreeItem<String> newValue) {
+
+					// If user clicked on a table
+	                if( TreeView.getNodeLevel(newValue) == 1 ) {
+	                	// Clean the chart
+	                	categoryBC.getData().clear();
+	                	
+	                	// Set the title of the barchart
+	                	categoryBC.setTitle("Table: " + newValue.getValue());
+	                	
+	                	// Get the model
+	                	BarChartModel model = ResultsGenerator.getModelFor( newValue.getValue() );
+	                	categoryBC.getData().addAll( model.getTableSeries(), model.getColumnSeries() );
+	                	
+	                }
+	                	
+				}
+	            
+	            
+	        });
+		
+		
+		// Bar chart
+		yAxis.setLabel("Belonging %");
+		yAxis.setAutoRanging(false);
+		yAxis.setUpperBound(100.0);
+		yAxis.setTickUnit(10.0);
+		
+		
+		xAxis.setLabel("Categories");
+	}
+
+
+
+
+	/**
+     * Method that configures the main pie of the panel.
+     */
+	private void configMainPie() {
+    	// Prepare the descriptions
+    	final String descCat = "This type of tables counts all the tables that has been categorized in at least"
+				+ " one of the available classes generated using the standard ANSI/ISA-95. The tables contained"
+				+ " in this type are tables that most likely contain manufacturing information.";
+    	final String descUncat = "This type of tables counts all the tables that hasn't been able to get a category"
+				+ " from the classes availables, due to getting low belonging percentage, or low matching of words."
+				+ " This tables are most likely to no contain any manufacturing information at all.";
+    	
+    	
+    	// Set first pie
+    	mainPie.setTitle("Uncategorized vs Categorized");
+    	mainPie.setData( ResultsGenerator.getInfoMainPC() );
+    	tableMPColumn.setCellValueFactory(new PropertyValueFactory<NameTableModel, String>("name"));
+    	tableMainPie.setPlaceholder(new Label("< Click Pie for Information >"));
+    	
+    	// Load info
+    	tableMainPie.setItems( ResultsGenerator.getNamelist("Categorized") );
+    	typeTitleLabel.setText("Categorized");
+    	typeDescLabel.setText( descCat );
+    	
+    	
+    	// Add listeners
+    	for (final PieChart.Data data : mainPie.getData()) {
+    		// Add animation
+    		data.getNode().setOnMouseEntered(new MouseHoverAnimation(data,mainPie));
+    		data.getNode().setOnMouseExited(new MouseExitAnimation());
+    		
+    		// Add listener for the click
+    	    data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+    	            @Override 
+    	            public void handle(MouseEvent e) {   	      
+    	            	
+    	            	
+    	            	// Add the items
+    	            	tableMainPie.setItems( ResultsGenerator.getNamelist(data.getName()) );
+    	            	
+    	            	// Change the description
+    	            	typeTitleLabel.setText( data.getName() );
+    	            	if( data.getName().equals("Categorized") ) {
+    	            		typeDescLabel.setText( descCat );
+    	            	}
+    	            	else {
+    	            		typeDescLabel.setText( descUncat );
+    	            	}
+    	             }
+    	    });
+    	}
+	}
+	
+	
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+}

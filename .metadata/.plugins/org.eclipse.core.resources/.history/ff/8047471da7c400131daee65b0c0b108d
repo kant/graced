@@ -1,0 +1,757 @@
+package xmlfiles;
+
+import gui.view.model.BarChartModel;
+import gui.view.model.NameTableModel;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedList;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
+import javafx.scene.control.TreeItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+
+
+
+
+/**
+ * A singleton class that has all the main method to generate the graphic results and
+ * store it on static variables that can be later be accesed without getting to the
+ * instance of the class.
+ * @author Ing. Melina C. Vidoni - 2014
+ *
+ */
+public class ResultsGenerator {
+	private static String UNCLASS_FILE = "files/results/UnclassifiedTables.xml";
+	private static String CLASS_FILE = "files/results/ClassifiedTables.xml";	
+	private static ResultsGenerator instance = new ResultsGenerator();
+
+	private static  ObservableList<PieChart.Data> infoMainPC;
+	private int totalTables;
+	private static ObservableList<NameTableModel> uncatTables;
+	private static ObservableList<NameTableModel> catTables;
+	
+	private static TreeItem<String> rootItem;
+	private static LinkedList<BarChartModel> barchartInfo;
+	
+	
+	private static ObservableList<PieChart.Data> infoTypesPC;
+	private static TreeItem<String> rootTypeTricky;
+	private static TreeItem<String> rootTypeTrue;
+	private static TreeItem<String> rootTypeNeutral;
+	private static int totalClassification;
+	
+	
+	
+	
+	
+	
+	/**
+	 * Default constructor of the class.
+	 */
+	private ResultsGenerator() {
+		// Initialize vars
+		totalTables = 0;
+		totalClassification = 0;
+		
+		uncatTables = FXCollections.observableArrayList();
+		catTables = FXCollections.observableArrayList();
+		barchartInfo = new LinkedList<BarChartModel>();
+	}
+	
+	
+	
+	/**
+	 * Getter for the instance, given that this is a singleton method.
+	 * @return the only instance of the clas.
+	 */
+	public static ResultsGenerator getInstance() {
+		return instance;
+	}
+	
+	
+	
+	
+
+	/**
+	 * A method for generating the pie chart with all the types information. Also saves and classifies
+	 * the tree items that will show when a pie is clicked.
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+	public void generateTypesPie() throws SAXException, IOException, ParserConfigurationException {
+		// Add the first node to each root
+		rootTypeTricky = new TreeItem<String> ("Tricky Classifications",  new ImageView(new Image("/gui/view/img/tree-root-tricky.png")) );
+		rootTypeTricky.setExpanded(true);
+		
+		rootTypeTrue = new TreeItem<String> ("True Classifications",  new ImageView(new Image("/gui/view/img/tree-root-true.png")) );
+		rootTypeTrue.setExpanded(true);
+
+		rootTypeNeutral = new TreeItem<String> ("Neutral Classifications",  new ImageView(new Image("/gui/view/img/tree-root-neutral.png")) );
+		rootTypeNeutral.setExpanded(true);
+
+		
+		// Prepare vars to save percents
+		int trickyQty = 0;
+		int trueQty = 0;
+		@SuppressWarnings("unused")
+		int neutralQty = 0;
+        
+		
+	
+		/*
+		 * READ THE FILE AND MAKE THE TREES
+		 */
+		// Reference the file
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		Document synDoc = dbFactory.newDocumentBuilder().parse( new File( CLASS_FILE ) );
+						 
+		// Normalize it
+		synDoc.getDocumentElement().normalize();
+						 
+		// Now get the nodes
+		NodeList nodes = synDoc.getElementsByTagName( CatTablesLabels.TABLE.getLabel() );
+						 
+		// For all the nodes...
+		for (int i = 0; i < nodes.getLength(); i++) {
+			// Get the current one
+			Node node = nodes.item(i);
+			 
+			// If it is a node
+			if ( node.getNodeType() == Node.ELEMENT_NODE ) {
+				// Get the element
+				Element element = (Element) node;
+				  
+				// Separate this name
+				String tname = element.getAttribute( CatTablesLabels.TABLENAME.getLabel() );
+								
+				// Get the column
+				NodeList catNodes = element.getElementsByTagName( CatTablesLabels.CLASS.getLabel() );
+				
+				// For all the nodes...
+				for(int j=0; j<catNodes.getLength(); j++) {
+					 // Get the current one
+					 Node cnode = catNodes.item(j);
+					 
+					 // If it is a node
+					 if ( cnode.getNodeType() == Node.ELEMENT_NODE ) {
+						 // Get the element
+						 Element celement = (Element) cnode;
+						 
+						 // Get the class name and add it to the total
+						 String className = celement.getAttribute( CatTablesLabels.CLASS_NAME.getLabel() );
+						 totalClassification++;
+						 
+						 // Get the table classification
+						 Node tabNode = celement.getElementsByTagName( CatTablesLabels.TABLE_CLASS.getLabel() ).item(0);
+						 Element tabElement = (Element) tabNode;
+						 double tabPercent = Double.valueOf( tabElement.getAttribute( CatTablesLabels.CLASS_PERCENT.getLabel()) ); 
+						 
+						 // Get the column classification
+						 Node colNode = celement.getElementsByTagName( CatTablesLabels.COLUMN_CLASS.getLabel() ).item(0);
+						 Element colElement = (Element) colNode;
+						 double colPercent = Double.valueOf( colElement.getAttribute( CatTablesLabels.CLASS_PERCENT.getLabel() ) );
+						 
+						 /*
+						  * NOW CHECK THE BELONGING
+						  */
+						 // If column % is less than table %...
+						 if( (tabPercent <= 18.0) && (colPercent < 10.0) && (colPercent <= tabPercent) ) {
+							 /*
+							  * TRICKY CLASS
+							  */
+							 trickyQty++;
+							 
+							 // Add the information to the tree
+							 addTypeTreeItem( tname, className, 'T' );
+								
+						 }
+						 // If col % are greater than 30...
+						 else if( colPercent >= 30.0 ) {
+							 /*
+							  * TRUE CLASS
+							  */
+							 trueQty++;
+							 
+							 // Save to the list
+							 addTypeTreeItem( tname, className, 'V' );	
+						 }
+						 // In the other hand
+						 else {
+							 /*
+							  * NEUTRAL CLASS
+							  */
+							 neutralQty++;
+							 
+							 // Save to the list
+							 addTypeTreeItem( tname, className, 'N' );
+						 }
+					 }
+				 } // Category Loop
+				
+			 }
+		} // For each node
+        
+		
+		
+		double percentTricky = ( ((double) trickyQty ) * 100 ) / ((double) totalClassification);
+		double percentTrue = ( ((double) trueQty ) * 100 ) / ((double) totalClassification);
+
+
+		// Generate the data
+		infoTypesPC = FXCollections.observableArrayList(
+                new PieChart.Data("Tricky", percentTricky ),
+                new PieChart.Data("Neutral", (100 - percentTricky - percentTrue) ),
+                new PieChart.Data("True", percentTrue) );
+	}
+	
+	
+	
+	
+	/**
+	 * A method for adding a treeitem with a subitem in a given type. If the treeitem
+	 * already exists, it just simply add the subitem.
+	 * @param tname The table treeitem to be searched for.
+	 * @param className The class subtreeitem to be added.
+	 * @param c The type of tree where the logic searches.
+	 */
+	private void addTypeTreeItem(String tname, String className, char c) {
+		// Prepare a flag
+		boolean added = false;
+		
+		// Regarding each type
+		switch( c ) {
+		case 'T': // TRICKY CASE
+				  
+				  // Look in the tree
+				  for( TreeItem<String> item : rootTypeTricky.getChildren() ) {
+					  // If this item has the name
+					  if( item.getValue().equals(tname) ) {
+						  // Add the category
+						  TreeItem<String> categoryNode = new TreeItem<String>( className, new ImageView(new Image("/gui/view/img/tree-category.png")) );
+						  item.getChildren().add(categoryNode);
+						  
+						  // Set to true
+						  added = true;
+						  break;
+					  }
+				  }
+				  
+				  // Check if it wasn't added
+				  if( !added ) {
+						 // Create the table node
+						 TreeItem<String> tableNode = new TreeItem<String>( tname, new ImageView(new Image("/gui/view/img/tree-table.png")) );
+						 TreeItem<String> categoryNode = new TreeItem<String>( className, new ImageView(new Image("/gui/view/img/tree-category.png")) );
+						 
+						 // Add it to the root
+						 tableNode.getChildren().add( categoryNode );
+						 rootTypeTricky.getChildren().add( tableNode );
+				  }
+				  break;
+			
+		case 'V': // TRUE CASE
+			  
+				  // Look in the tree
+				  for( TreeItem<String> item : rootTypeTrue.getChildren() ) {
+					  // If this item has the name
+					  if( item.getValue().equals(tname) ) {
+						  // Add the category
+						  TreeItem<String> categoryNode = new TreeItem<String>( className, new ImageView(new Image("/gui/view/img/tree-category.png")) );
+						  item.getChildren().add(categoryNode);
+						  
+						  // Set to true
+						  added = true;
+						  break;
+					  }
+				  }
+				  
+				  // Check if it wasn't added
+				  if( !added ) {
+						 // Create the table node
+						 TreeItem<String> tableNode = new TreeItem<String>( tname, new ImageView(new Image("/gui/view/img/tree-table.png")) );
+						 TreeItem<String> categoryNode = new TreeItem<String>( className, new ImageView(new Image("/gui/view/img/tree-category.png")) );
+						 
+						 // Add it to the root
+						 tableNode.getChildren().add( categoryNode );
+						 rootTypeTrue.getChildren().add( tableNode );
+				  }
+				  break;
+			
+		case 'N': // NEUTRAL CASE
+			
+				  // Look in the tree
+				  for( TreeItem<String> item : rootTypeNeutral.getChildren() ) {
+					  // If this item has the name
+					  if( item.getValue().equals(tname) ) {
+						  // Add the category
+						  TreeItem<String> categoryNode = new TreeItem<String>( className, new ImageView(new Image("/gui/view/img/tree-category.png")) );
+						  item.getChildren().add(categoryNode);
+						  
+						  // Set to true
+						  added = true;
+						  break;
+					  }
+				  }
+				  
+				  // Check if it wasn't added
+				  if( !added ) {
+						 // Create the table node
+						 TreeItem<String> tableNode = new TreeItem<String>( tname, new ImageView(new Image("/gui/view/img/tree-table.png")) );
+						 TreeItem<String> categoryNode = new TreeItem<String>( className, new ImageView(new Image("/gui/view/img/tree-category.png")) );
+						 
+						 // Add it to the root
+						 tableNode.getChildren().add( categoryNode );
+						 rootTypeNeutral.getChildren().add( tableNode );
+				  }
+				  break;
+		}
+	}
+
+
+
+	/**
+	 * Generates the models for the barcharts of all the tables.
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+	public void generateBarCharts() throws SAXException, IOException, ParserConfigurationException {
+		// Reference the file
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		Document synDoc = dbFactory.newDocumentBuilder().parse( new File( CLASS_FILE ) );
+				 
+		// Normalize it
+		synDoc.getDocumentElement().normalize();
+				 
+		// Now get the nodes
+		NodeList nodes = synDoc.getElementsByTagName( CatTablesLabels.TABLE.getLabel() );
+				 
+		 // For all the nodes...
+		 for (int i = 0; i < nodes.getLength(); i++) {
+			 // Get the current one
+			 Node node = nodes.item(i);
+			 
+			 // If it is a node
+			 if ( node.getNodeType() == Node.ELEMENT_NODE ) {
+				// Get the element
+				Element element = (Element) node;
+				  
+				// Separate this name
+				String name = element.getAttribute( CatTablesLabels.TABLENAME.getLabel() );
+				
+				// Create a new model
+				BarChartModel newModel = new BarChartModel(name);
+				
+				// Get the column
+				NodeList catNodes = element.getElementsByTagName( CatTablesLabels.CLASS.getLabel() );
+				
+				// For all the nodes...
+				for(int j=0; j<catNodes.getLength(); j++) {
+					 // Get the current one
+					 Node cnode = catNodes.item(j);
+					 
+					 // If it is a node
+					 if ( cnode.getNodeType() == Node.ELEMENT_NODE ) {
+						 // Get the element
+						 Element celement = (Element) cnode;
+						 
+						 // Get the class name
+						 String className = celement.getAttribute( CatTablesLabels.CLASS_NAME.getLabel() );
+						 
+						 // Get the table classification
+						 Node tabNode = celement.getElementsByTagName( CatTablesLabels.TABLE_CLASS.getLabel() ).item(0);
+						 Element tabElement = (Element) tabNode;
+						 newModel.addInfoTableSeries(className, Double.valueOf( tabElement.getAttribute( CatTablesLabels.CLASS_PERCENT.getLabel())) );
+						 
+						 // Get the column classification
+						 Node colNode = celement.getElementsByTagName( CatTablesLabels.COLUMN_CLASS.getLabel() ).item(0);
+						 Element colElement = (Element) colNode;
+						 newModel.addInfoColumnSeries(className, Double.valueOf( colElement.getAttribute( CatTablesLabels.CLASS_PERCENT.getLabel() ) ));
+						 
+					 }
+				 }
+				
+				// Add the model
+				barchartInfo.add(newModel);
+			
+			 }
+		 }
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * A method to get the model for the barchart of an specific table.
+	 * @param table The table to search for.
+	 * @return The model to get.
+	 */
+	public static BarChartModel getModelFor(String table) {
+		// Go through the list
+		for( BarChartModel model : barchartInfo ) {
+			// Compare the name
+			if( table.equals( model.getTable() ) ) {
+				// Then return
+				return model;
+			}
+		}
+		
+		// Return nothing
+		return null;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Method that generates the tree views and already sets up the format, so that the panel will
+	 * only need to retrieve it and show it.
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+	public void generateTreeView() throws SAXException, IOException, ParserConfigurationException {
+		// Icons
+		javafx.scene.Node rootIcon = new ImageView(new Image("/gui/view/img/tree-root.png"));
+		
+		// Create the base for the tree
+		rootItem = new TreeItem<String> ("Tables", rootIcon);
+        rootItem.setExpanded(true);
+        
+        // Now get a list
+        LinkedList<TreeItem<String>> nodesList = getTreeNodes();
+        
+        // Now add it
+        for( TreeItem<String> node : nodesList ) {
+        	rootItem.getChildren().add(node);
+        	node.setExpanded(false);
+        }
+       
+	}
+	
+	
+	
+	
+	
+	/**
+	 * A method to get the tree nodes for the treeview on the view for the barchart.
+	 * @return The list of all the nodes to add to the root.
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+	private LinkedList<TreeItem<String>> getTreeNodes() throws SAXException, IOException, ParserConfigurationException {
+		// Create the list
+		LinkedList<TreeItem<String>> nodesList = new LinkedList<TreeItem<String>>();
+		
+		// Reference the file
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		Document synDoc = dbFactory.newDocumentBuilder().parse( new File( CLASS_FILE ) );
+						 
+		// Normalize it
+		synDoc.getDocumentElement().normalize();
+						 
+		// Now get the nodes
+		NodeList nodes = synDoc.getElementsByTagName( CatTablesLabels.TABLE.getLabel() );
+						 
+		 // For all the nodes...
+		 for (int i = 0; i < nodes.getLength(); i++) {
+			 // Get the current one
+			 Node node = nodes.item(i);
+			 
+			 // If it is a node
+			 if ( node.getNodeType() == Node.ELEMENT_NODE ) {
+				// Get the element
+				Element element = (Element) node;
+				
+				// Create the image
+				javafx.scene.Node tableIcon = new ImageView(new Image("/gui/view/img/tree-table.png"));
+				
+				// Create the tablenode
+				TreeItem<String> tableItem = new TreeItem<String>
+							( element.getAttribute( CatTablesLabels.TABLENAME.getLabel() ), tableIcon );
+				  
+				// Get the column
+				NodeList colNodes = element.getElementsByTagName( CatTablesLabels.COLUMN.getLabel() );
+
+				
+				// For all the nodes...
+				for(int j=0; j<colNodes.getLength(); j++) {
+					 // Get the current one
+					 Node cnode = colNodes.item(j);
+					 
+					 // If it is a node
+					 if ( cnode.getNodeType() == Node.ELEMENT_NODE ) {
+						 
+						// Get the element
+						Element celement = (Element) cnode;
+						
+						javafx.scene.Node columnIcon = new ImageView(new Image("/gui/view/img/tree-column.png"));
+										 
+						 // Create an item
+						 TreeItem<String> colItem = new TreeItem<String>
+						 	 	( celement.getAttribute( CatTablesLabels.COLUMN_NAME.getLabel() ), columnIcon );
+						 
+						 // Add it
+						 tableItem.getChildren().add(colItem);
+						 
+					 }
+				 }
+				
+				 // Add the table
+				 nodesList.add( tableItem );
+				 
+			 }
+		 }
+		
+				 
+		// Return the list
+		return nodesList;	
+		
+	}
+
+
+
+	/**
+	 * Method that generates the first mainpie with the information for
+	 * cateogrized vs uncategorized tables.
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+	@SuppressWarnings("unused")
+	public void generateMainPie() throws SAXException, IOException, ParserConfigurationException {
+		// Get the information
+		int uncatQty = getUncatTableInfo();
+		int catQty = getCatTableInfo();
+
+		// Get %
+		double percentUnQty = ( ((double)uncatQty) * 100) / ((double)totalTables);
+		
+		// Generate the data
+		infoMainPC = FXCollections.observableArrayList(
+                new PieChart.Data("Uncategorized", percentUnQty ),
+                new PieChart.Data("Categorized", (100 - percentUnQty) ) );
+	}
+	
+	
+	
+	
+
+	
+	
+	/**
+	 * A method to get the info on the categorized tables of the database.
+	 * @return the qty of categorized tables.
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+	public int getCatTableInfo() throws SAXException, IOException, ParserConfigurationException {
+		// Subtotal
+		int qty = 0;
+		
+		// Reference the file
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		Document synDoc = dbFactory.newDocumentBuilder().parse( new File( CLASS_FILE ) );
+				 
+		// Normalize it
+		synDoc.getDocumentElement().normalize();
+				 
+		// Now get the nodes
+		NodeList nodes = synDoc.getElementsByTagName( CatTablesLabels.TABLE.getLabel() );
+				 
+		 // For all the nodes...
+		 for (int i = 0; i < nodes.getLength(); i++) {
+			 // Get the current one
+			 Node node = nodes.item(i);
+			 
+			 // If it is a node
+			 if ( node.getNodeType() == Node.ELEMENT_NODE ) {
+				// Get the element
+				Element element = (Element) node;
+				  
+				// Separate this name
+				String word = element.getAttribute( CatTablesLabels.TABLENAME.getLabel() );
+				
+				// Add the info
+				catTables.add(  new NameTableModel(word) );
+				qty++;
+				totalTables++;
+			 }
+		 }
+		 
+		 // Gave results back
+		 return qty;
+	}
+
+	
+	
+	
+	
+	
+	
+	/**
+	 * A method to get the info on the uncategorized tables of the database.
+	 * @return the qty of uncategorized tables.
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+	public int getUncatTableInfo() throws SAXException, IOException, ParserConfigurationException {
+		// Subtotal
+		int qty = 0;
+		
+		// Reference the file
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		Document synDoc = dbFactory.newDocumentBuilder().parse( new File( UNCLASS_FILE ) );
+				 
+		// Normalize it
+		synDoc.getDocumentElement().normalize();
+				 
+		// Now get the nodes
+		NodeList nodes = synDoc.getElementsByTagName( UncatTablesLabels.TABLE.getLabel() );
+				 
+		 // For all the nodes...
+		 for (int i = 0; i < nodes.getLength(); i++) {
+			 // Get the current one
+			 Node node = nodes.item(i);
+			 
+			 // If it is a node
+			 if ( node.getNodeType() == Node.ELEMENT_NODE ) {
+				// Get the element
+				Element element = (Element) node;
+				  
+				// Separate this name
+				String word = element.getAttribute( UncatTablesLabels.TABLENAME.getLabel() );
+				
+				// Add the info
+				uncatTables.add( new NameTableModel(word) );
+				qty++;
+				totalTables++;
+			 }
+		 }
+		 
+		 // Gave results back
+		 return qty;
+	}
+
+
+
+	
+	
+	
+	
+	
+	
+	/**
+	 * A method to get the data for the main piechart.
+	 * @return the corresponding data.
+	 */
+	public static ObservableList<PieChart.Data> getInfoMainPC() {
+		return infoMainPC;
+	}
+
+
+	
+	
+
+	/**
+	 * Returns the correct list with the info, depending on the name received.
+	 * @param n The name of the list to be returned.
+	 * @return a list with the name of the tables in the n category.
+	 */
+	public static ObservableList<NameTableModel> getNamelist(String n) {
+		if( n.equals("Categorized") )
+			return catTables;
+		else
+			return uncatTables;
+	}
+
+
+	
+	
+	
+
+	
+	/**
+	 * A method to get the data for the treeview.
+	 * @return The root node for the treeview.
+	 */
+	public static TreeItem<String> getTreeRoot() {
+		return rootItem;
+	}
+
+
+
+
+	
+	
+	
+	/**
+	 * A method to get the data for the types piechart.
+	 * @return The series of the pie chart.
+	 */
+	public static ObservableList<Data> getTypesPie() {
+		return infoTypesPC;
+	}
+
+
+
+
+
+	/**
+	 * A method to get the root node for the tree on the
+	 * types tab.
+	 * @param t The type of the pie that was requested.
+	 * @return The root node of the tree.
+	 */
+	public static TreeItem<String> getTypesTreeRoot(String t) {
+		// If it is tricky...
+		if( t.equals("Tricky") )
+			return rootTypeTricky;
+		
+		// If it is true...
+		else if( t.equals("True") )
+			return rootTypeTrue;
+		
+		// If it is neutral...
+		else if( t.equals("Neutral") )
+			return rootTypeNeutral;
+		
+		// In other case, return null.
+		return null;
+	}
+
+	
+	
+	
+	/**
+	 * A method to get the final number of total classifications.
+	 * @return The total number of all classifications.
+	 */
+	public static int getTotalClassification() {
+		return totalClassification;
+	}
+	
+}

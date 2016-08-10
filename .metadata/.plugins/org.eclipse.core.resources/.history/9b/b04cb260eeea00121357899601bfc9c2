@@ -1,0 +1,74 @@
+package db.logic;
+
+
+
+/**
+ * Class that represents an instance of the Solver table
+ * on the nomenclature database. Used to instance concepts
+ * in object format.
+ * @author Ing. Melina C. Vidoni - 2013
+ *
+ */
+public class MSolver {
+	private int id;
+	private String name;
+	private String description;
+	private String code;
+	private boolean isDefault;
+	
+	
+	/**
+	 * Default constructor of the class.
+	 * @param i Reference to the id.
+	 */
+	public MSolver(int i) {
+		id = i;
+	}
+
+
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int i) {
+		id = i;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String n) {
+		name = n;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String d) {
+		description = d;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String c) {
+		code = c;
+	}
+
+
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
+
+}

@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root maxHeight="650.0" maxWidth="800.0" minHeight="650.0" minWidth="800.0" prefHeight="650.0" prefWidth="800.0" type="GridPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.ChartsPanelController">
+<rowConstraints>
+<RowConstraints maxHeight="650.0" minHeight="650.0" prefHeight="650.0" />
+</rowConstraints>
+<columnConstraints>
+<ColumnConstraints maxWidth="800.0" minWidth="800.0" prefWidth="800.0" />
+<ColumnConstraints />
+</columnConstraints>
+<children><TabPane focusTraversable="false" maxHeight="650.0" maxWidth="800.0" minHeight="650.0" minWidth="800.0" prefHeight="650.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+<tabs><Tab closable="false" text="Information Distribution">
+<graphic><ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/chart_information.png" />
+</image></ImageView>
+</graphic>
+<content><GridPane>
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0" prefWidth="250.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="550.0" prefWidth="550.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="200.0" minHeight="200.0" prefHeight="200.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+<children><TreeView fx:id="graphTreeView" focusTraversable="false" prefHeight="200.0" prefWidth="250.0" GridPane.rowSpan="2" /><AreaChart fx:id="areaChart" animated="false" title="Area Chart" GridPane.columnIndex="1">
+  <xAxis>
+    <CategoryAxis endMargin="0.0" label="ANSI/ISA-95 Categories" startMargin="0.0" tickLabelGap="2.0" tickLength="2.0" />
+  </xAxis>
+  <yAxis>
+    <NumberAxis autoRanging="false" label="Proportion" minorTickCount="2" side="LEFT" tickLength="5.0" tickUnit="0.1" upperBound="1.0">
+<opaqueInsets>
+<Insets left="10.0" />
+</opaqueInsets></NumberAxis>
+  </yAxis>
+<opaqueInsets>
+<Insets />
+</opaqueInsets>
+</AreaChart><GridPane style="-fx-background-color: FFFFFF;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+  <columnConstraints>
+<ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+<RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+<children><ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+<GridPane.margin>
+<Insets left="20.0" />
+</GridPane.margin>
+<image>
+<Image url="@img/tree-category.png" />
+</image></ImageView><Label fx:id="categoryName" text="Category Name" GridPane.columnSpan="3">
+<font>
+<Font name="System Bold" size="18.0" />
+</font>
+<GridPane.margin>
+<Insets left="50.0" />
+</GridPane.margin></Label><Label text="Flat Table Quantity:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+<GridPane.margin>
+<Insets right="10.0" />
+</GridPane.margin>
+<tooltip><Tooltip text="This number representes the quantity of tables that were classified into this category. &#10;GrACED doesn't count twice the tables that were originally identified as belonging to&#10;two or more categories. This is solved on the third step of the classification." />
+</tooltip></Label><Label text="Min Belonging %:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+<GridPane.margin>
+<Insets right="10.0" />
+</GridPane.margin>
+<tooltip><Tooltip text="This is the minimum belonging percent achieved for a table inside this category.&#10;" />
+</tooltip></Label><Label text="Max Belonging %:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+<GridPane.margin>
+<Insets right="10.0" />
+</GridPane.margin>
+<tooltip><Tooltip text="This is the maximum belonging percent obtained by a table&#10;in this category." />
+</tooltip></Label><Label text="Average Belonging %:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+<GridPane.margin>
+<Insets right="10.0" />
+</GridPane.margin>
+<tooltip><Tooltip text="This is the average of all the belonging percents obtained in the previous  steps. &#10;This is useful to have a glimpse to what the certainty of the classification can be." />
+</tooltip></Label><Label text="Total Table Proportion:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+<GridPane.margin>
+<Insets right="10.0" />
+</GridPane.margin>
+<tooltip><Tooltip text="This is the proportions of classified tbales that belong to this category.&#10;If the category is not a leaf in the categories graf, then the count may&#10;include the quantity on the children categories." />
+</tooltip></Label><Label fx:id="flatTableQty" text="[flat table qty]" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+<GridPane.margin>
+<Insets left="10.0" />
+</GridPane.margin></Label><Label fx:id="totalTableProportion" text="[total table prop]" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+<GridPane.margin>
+<Insets left="10.0" />
+</GridPane.margin></Label><Label fx:id="showMinPercent" text="[min %]" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+<GridPane.margin>
+<Insets left="10.0" />
+</GridPane.margin></Label><Label fx:id="showMaxPercent" text="[max %]" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+<GridPane.margin>
+<Insets left="10.0" />
+</GridPane.margin></Label><Label fx:id="showAveragePercent" text="[average %]" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+<GridPane.margin>
+<Insets left="10.0" />
+</GridPane.margin></Label>
+</children>
+</GridPane><Separator maxWidth="550.0" minWidth="550.0" prefWidth="550.0" valignment="BOTTOM" GridPane.columnIndex="1" GridPane.valignment="BOTTOM" />
+</children>
+</GridPane>
+</content>
+</Tab><Tab closable="false" text="Total Distribution">
+<graphic><ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/chart_pie.png" />
+</image></ImageView>
+</graphic>
+<content><GridPane>
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="550.0" minWidth="550.0" prefWidth="550.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="150.0" minHeight="150.0" prefHeight="150.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+<children><PieChart fx:id="mainPie" focusTraversable="true" title="Categorized vs Uncategorized" GridPane.columnIndex="1" /><TableView fx:id="tableMainPie" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowSpan="2147483647">
+  <columns>
+    <TableColumn fx:id="tableMPColumn" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Table Name" />
+  </columns>
+</TableView><Label fx:id="titleMainLabel" maxHeight="50.0" maxWidth="550.0" minHeight="50.0" minWidth="550.0" prefHeight="50.0" prefWidth="550.0" style="-fx-background-color: FFFFFF;" text="&lt; Click Pie &gt;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+<font>
+<Font name="System Bold" size="18.0" />
+</font></Label><Label fx:id="descMainLabel" alignment="TOP_LEFT" maxHeight="150.0" maxWidth="550.0" minHeight="150.0" minWidth="550.0" prefHeight="150.0" prefWidth="550.0" style="-fx-background-color: FFFFFF;" text="&lt; Click pie to see description of the type&gt;" textAlignment="JUSTIFY" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+<GridPane.margin>
+<Insets />
+</GridPane.margin>
+<padding>
+<Insets left="20.0" right="20.0" />
+</padding></Label><Separator focusTraversable="false" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+</children>
+</GridPane>
+</content>
+</Tab><Tab closable="false" text="Types Distribution">
+<graphic><ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/chart_pie.png" />
+</image></ImageView>
+</graphic>
+<content><GridPane>
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="550.0" minWidth="550.0" prefWidth="550.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="150.0" minHeight="150.0" prefHeight="150.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+<children><PieChart fx:id="typesPie" title="Types Distribution" GridPane.columnIndex="1" /><TreeView fx:id="typesTreeview" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowSpan="2147483647" /><Label fx:id="titleTypeLabel" maxHeight="50.0" maxWidth="550.0" minHeight="50.0" minWidth="550.0" prefHeight="50.0" prefWidth="550.0" style="-fx-background-color: FFFFFF;" text="&lt; Click Pie &gt;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+<font>
+<Font name="System Bold" size="18.0" />
+</font></Label><Label fx:id="descTypeLabel" alignment="TOP_LEFT" maxHeight="150.0" maxWidth="550.0" minHeight="150.0" minWidth="550.0" prefHeight="150.0" prefWidth="550.0" style="-fx-background-color: FFFFFF;" text="&lt; Click pie to see description &gt;" textAlignment="JUSTIFY" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+<GridPane.margin>
+<Insets />
+</GridPane.margin>
+<padding>
+<Insets left="20.0" right="20.0" />
+</padding></Label><Separator focusTraversable="false" prefWidth="200.0" valignment="TOP" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+</children>
+</GridPane>
+</content>
+</Tab><Tab closable="false" text="Belonging %">
+<graphic><ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/chart_bar.png" />
+</image></ImageView>
+</graphic>
+<content><GridPane>
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="550.0" minWidth="550.0" prefWidth="550.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="150.0" minHeight="150.0" prefHeight="150.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+<children><TreeView fx:id="treeview" focusTraversable="false" maxHeight="630.0" maxWidth="250.0" minHeight="630.0" minWidth="250.0" prefHeight="630.0" prefWidth="250.0" GridPane.rowSpan="2147483647" /><Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP" /><BarChart fx:id="categoryBC" animated="false" legendSide="RIGHT" title="Table: " GridPane.columnIndex="1">
+  <xAxis>
+    <CategoryAxis animated="false" label="Categories" side="BOTTOM" tickLabelGap="5.0" fx:id="xAxis" />
+  </xAxis>
+  <yAxis>
+    <NumberAxis fx:id="yAxis" animated="false" autoRanging="false" label="Belonging %" minorTickCount="10" side="LEFT" tickLabelGap="10.0" tickUnit="10.0" />
+  </yAxis>
+</BarChart>
+</children>
+</GridPane>
+</content>
+</Tab><Tab text="Hyphenation Info">
+<graphic><ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/chart_separation.png" />
+</image></ImageView>
+</graphic>
+<content><GridPane>
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="550.0" minWidth="550.0" prefWidth="550.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+<RowConstraints maxHeight="150.0" minHeight="150.0" prefHeight="150.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+<children><TableView fx:id="hyphenationTW" focusTraversable="false" prefHeight="277.0" prefWidth="250.0" GridPane.rowSpan="3">
+  <columns>
+    <TableColumn fx:id="wordHyphColumn" editable="false" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Words" /><TableColumn fx:id="countHyphColumn" editable="false" maxWidth="100.0" minWidth="80.0" prefWidth="100.0" text="Count" />
+  </columns>
+</TableView><BarChart fx:id="hyphenationBC" legendSide="RIGHT" GridPane.columnIndex="1">
+  <xAxis>
+    <CategoryAxis side="BOTTOM" />
+  </xAxis>
+  <yAxis>
+    <NumberAxis label="Number of Words" side="LEFT" />
+  </yAxis>
+</BarChart><Label fx:id="hyphenationTitle" maxHeight="50.0" maxWidth="550.0" minHeight="50.0" minWidth="550.0" prefHeight="50.0" prefWidth="550.0" style="-fx-background-color: #FFFFFF;" text="&lt; Title &gt;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+<font>
+<Font name="System Bold" size="18.0" />
+</font></Label><Label fx:id="hyphenationDescription" alignment="TOP_LEFT" maxHeight="150.0" maxWidth="550.0" minHeight="150.0" minWidth="550.0" prefHeight="150.0" prefWidth="550.0" style="-fx-background-color: #ffffff;" text="&lt; Hyphenation Description &gt;&#10;" textAlignment="JUSTIFY" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP">
+<padding>
+<Insets left="20.0" right="20.0" />
+</padding></Label><Separator focusTraversable="false" prefWidth="200.0" valignment="TOP" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+</children>
+</GridPane>
+</content>
+</Tab>
+</tabs>
+</TabPane>
+</children></fx:root>

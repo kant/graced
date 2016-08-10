@@ -1,0 +1,189 @@
+package gui.view.model;
+
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+
+
+public class Requirements {
+	private Actor actor;
+	private StringProperty reqId;
+	private StringProperty reqName;
+	private StringProperty reqDescription;
+	private BooleanProperty isFR;
+	
+	
+	
+	/**
+	 * Default constructor of the class.
+	 * @param a Reference to the actor that created this requirement.
+	 */
+	public Requirements(Actor a) {
+		// Start the properties
+		reqName = new SimpleStringProperty();
+		reqDescription = new SimpleStringProperty();
+		reqId = new SimpleStringProperty();
+		isFR = new SimpleBooleanProperty(true);
+		
+		// Config the actor
+		actor = a;
+	}
+
+
+	
+
+	/**
+	 * @return the reqDescription
+	 */
+	public String getReqDescription() {
+		return reqDescription.get();
+	}
+	
+	
+	/**
+	 * @return the reqDescription
+	 */
+	public StringProperty reqDescriptionProperty() {
+		return reqDescription;
+	}
+
+
+
+	/**
+	 * @param reqDescription the reqDescription to set
+	 */
+	public void setReqDescription(String rd) {
+		reqDescription.set(rd);
+	}
+
+
+
+
+	/**
+	 * @return the reqName
+	 */
+	public StringProperty reqNameProperty() {
+		return reqName;
+	}
+	
+	
+	/**
+	 * @return the reqName
+	 */
+	public String getReqName() {
+		return reqName.get();
+	}
+
+
+
+
+	/**
+	 * @param reqName the reqName to set
+	 */
+	public void setReqName(String rq) {
+		reqName.set(rq);
+	}
+
+
+
+
+	/**
+	 * @return the actor
+	 */
+	public Actor getActor() {
+		return actor;
+	}
+
+
+
+
+	/**
+	 * @param actor the actor to set
+	 */
+	public void setActor(Actor actor) {
+		this.actor = actor;
+	}
+
+
+
+	/**
+	 * @return the reqId
+	 */
+	public StringProperty reqIdProperty() {
+		return reqId;
+	}
+	
+	
+	
+	
+	/**
+	 * @return the reqId
+	 */
+	public String getReqId() {
+		return reqId.get();
+	}
+
+	
+
+
+
+	/**
+	 * @param reqId the reqId to set
+	 */
+	public void setReqId(String rid) {
+		reqId.set(rid);
+	}
+
+
+
+	/**
+	 * @return the isFR
+	 */
+	public BooleanProperty isFRProperty() {
+		return isFR;
+	}
+	
+	
+
+	/**
+	 * @return the isFR
+	 */
+	public boolean getIsFR() {
+		return isFR.get();
+	}
+
+
+	/**
+	 * @param isFR the isFR to set
+	 */
+	public void setIsFR(boolean f) {
+		isFR.set(f);
+	}
+
+
+
+
+	/**
+	 * Method that evaluates if there is missing information on the
+	 * current requirement, to allow or not, saving the information.
+	 * 
+	 * @return @true in case there is missing information, or @false
+	 * in the other case.
+	 * 
+	 */
+	public boolean hasMissingInfo() {
+		// Evaluate the information
+		boolean empty = actor==null || reqId.get().isEmpty() || reqName.get().isEmpty() || reqDescription.get().isEmpty();
+		
+		// Return the value
+		return empty;
+	}
+	
+	
+	
+	
+	
+
+}

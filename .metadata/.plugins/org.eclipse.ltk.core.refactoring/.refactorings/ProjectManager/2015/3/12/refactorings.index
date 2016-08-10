@@ -1,0 +1,38 @@
+1426600589249	Rename package 'application'
+1426601168429	Delete element
+1426601169737	Delete element
+1426602661265	Delete element
+1426602715477	Delete element
+1426605007839	Encapsulate field 'projectOpen'
+1426677346076	Delete element
+1426677349188	Delete element
+1426678424272	Delete element
+1426679226576	Delete element
+1426680020666	Delete element
+1426680023543	Delete element
+1426682766463	Rename resource 'modena.css'
+1426684320342	Rename field 'projectNameValidation'
+1426684338563	Rename field 'projectDirectoryValidation'
+1426685719718	Delete element
+1426687893321	Rename type 'CreateProject'
+1426687941655	Copy compilation unit
+1426687965909	Rename package 'gui.application.files'
+1426687970241	Move compilation units
+1426689225904	Copy compilation unit
+1426689329668	Delete element
+1426763783442	Rename type 'RootController'
+1426764210805	Rename type 'TypesNode'
+1426764680743	Rename type 'ProjectPanelModel'
+1426764759373	Encapsulate field 'projectName'
+1426764816375	Encapsulate field 'currentDirectory'
+1426765360141	Delete element
+1426766405878	Copy compilation unit
+1426766416944	Rename type 'FileLocation'
+1426770925060	Encapsulate field 'projectModel'
+1426779815391	Encapsulate field 'projectModel'
+1426849211454	Rename resource 'ProjectPanel.fxml'
+1426850798088	Delete element
+1426857198101	Rename resource 'StakeholderTypes.txt'
+1426858992557	Copy file
+1426861690842	Delete element
+1426862705473	Copy file

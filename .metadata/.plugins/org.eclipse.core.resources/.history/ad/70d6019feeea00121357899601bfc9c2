@@ -1,0 +1,121 @@
+package db.logic;
+
+import java.util.LinkedList;
+
+
+/**
+ * Class that represents an instance of the model table
+ * on the nomenclature database. Used to instance concepts
+ * in object format.
+ * @author Ing. Melina C. Vidoni - 2013
+ *
+ */
+public class Model {
+	private int id;
+	private String name;
+	private String description;
+	private boolean isDefault;
+	private LinkedList<MObjectiveFunction> functionsList;
+	private LinkedList<MFile> filesList;
+	private LinkedList<MSolver> solversList;
+	
+	
+	
+	
+	/**
+	 * Default constructor of the class.
+	 * @param i Reference to the ID.
+	 */
+	public Model(int i) {
+		id = i;
+	}
+
+
+
+
+	public int getId() {
+		return id;
+	}
+
+
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+
+	public String getName() {
+		return name;
+	}
+
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+
+
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
+
+
+
+
+	public LinkedList<MObjectiveFunction> getFunctionsList() {
+		return functionsList;
+	}
+
+
+
+
+	public void setFunctionsList(LinkedList<MObjectiveFunction> functionsList) {
+		this.functionsList = functionsList;
+	}
+
+
+
+
+	public LinkedList<MFile> getFilesList() {
+		return filesList;
+	}
+
+
+
+
+	public void setFilesList(LinkedList<MFile> filesList) {
+		this.filesList = filesList;
+	}
+
+	
+	
+	
+	
+}

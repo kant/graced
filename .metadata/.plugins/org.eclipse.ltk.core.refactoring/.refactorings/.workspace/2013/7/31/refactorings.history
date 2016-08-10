@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 0 elements to &apos;E2OLConfigurer/src/db&apos;&#x0D;&#x0A;- Destination element: &apos;E2OLConfigurer/src/db&apos;" description="Copy compilation units" destination="=E2OLConfigurer/src&lt;db" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1375196786099" units="0" version="1.0"/>
+</session>

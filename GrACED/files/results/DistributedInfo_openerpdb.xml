@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<tns:root xmlns:tns="http://www.example.org/DistributedInfoSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/DistributedInfoSchema ../results/DistributedInfoSchema.xsd ">
+<tns:ansiClass tns:averagePercent="21.106590909090905" tns:className="Manufacturing Information" tns:defaultProportion="0.14041" tns:maxPercent="56.34" tns:minPercent="8.18" tns:tableQty="44"/>
+<tns:ansiClass tns:averagePercent="24.57166666666667" tns:className="Production Rules" tns:defaultProportion="0.053501" tns:maxPercent="37.05" tns:minPercent="11.11" tns:tableQty="6">
+<tns:table tns:tableName="process_transition_action" tns:tpercent="11.11"/>
+<tns:table tns:tableName="wkf_activity" tns:tpercent="37.05"/>
+<tns:table tns:tableName="wkf_instance" tns:tpercent="26.11"/>
+<tns:table tns:tableName="wkf_logs" tns:tpercent="18.665"/>
+<tns:table tns:tableName="wkf_transition" tns:tpercent="24.384999999999998"/>
+<tns:table tns:tableName="wkf_workitem" tns:tpercent="30.11"/>
+</tns:ansiClass>
+<tns:ansiClass tns:averagePercent="21.106590909090905" tns:className="Product Definition" tns:defaultProportion="0.14041" tns:maxPercent="56.34" tns:minPercent="8.18" tns:tableQty="44"/>
+<tns:ansiClass tns:averagePercent="20.559473684210527" tns:className="Bill Of Resources" tns:defaultProportion="0.086909" tns:maxPercent="56.34" tns:minPercent="8.18" tns:tableQty="38">
+<tns:table tns:tableName="employee_category_rel" tns:tpercent="13.56"/>
+<tns:table tns:tableName="hr_department" tns:tpercent="10.92"/>
+<tns:table tns:tableName="hr_employee" tns:tpercent="30.265"/>
+<tns:table tns:tableName="hr_job" tns:tpercent="18.779999999999994"/>
+<tns:table tns:tableName="mrp_routing_workcenter" tns:tpercent="15.979999999999999"/>
+<tns:table tns:tableName="mrp_workcenter" tns:tpercent="21.155000000000005"/>
+<tns:table tns:tableName="product_category" tns:tpercent="15.540000000000001"/>
+<tns:table tns:tableName="product_pricelist" tns:tpercent="12.92"/>
+<tns:table tns:tableName="product_pricelist_version" tns:tpercent="12.98"/>
+<tns:table tns:tableName="report_workcenter_load" tns:tpercent="8.18"/>
+<tns:table tns:tableName="resource_calendar" tns:tpercent="12.8"/>
+<tns:table tns:tableName="resource_calendar_leaves" tns:tpercent="17.86"/>
+<tns:table tns:tableName="resource_resource" tns:tpercent="28.04"/>
+</tns:ansiClass>
+<tns:ansiClass tns:averagePercent="22.491200000000003" tns:className="Bill Of Materials" tns:defaultProportion="0.051805" tns:maxPercent="56.34" tns:minPercent="10.35" tns:tableQty="25">
+<tns:table tns:tableName="mrp_bom" tns:tpercent="56.34"/>
+<tns:table tns:tableName="mrp_bom_property_rel" tns:tpercent="31.57"/>
+<tns:table tns:tableName="mrp_config_settings" tns:tpercent="19.71"/>
+<tns:table tns:tableName="mrp_product_price" tns:tpercent="24.14"/>
+<tns:table tns:tableName="mrp_product_produce" tns:tpercent="27.64"/>
+<tns:table tns:tableName="mrp_production" tns:tpercent="39.480000000000004"/>
+<tns:table tns:tableName="mrp_production_product_line" tns:tpercent="39.71"/>
+<tns:table tns:tableName="mrp_production_workcenter_line" tns:tpercent="17.78"/>
+<tns:table tns:tableName="mrp_property" tns:tpercent="16.78"/>
+<tns:table tns:tableName="mrp_property_group" tns:tpercent="16.78"/>
+<tns:table tns:tableName="mrp_routing" tns:tpercent="16.85"/>
+<tns:table tns:tableName="mrp_workcenter_load" tns:tpercent="20.21"/>
+<tns:table tns:tableName="product_packaging" tns:tpercent="19.990000000000002"/>
+<tns:table tns:tableName="product_price_list" tns:tpercent="12.64"/>
+<tns:table tns:tableName="product_price_type" tns:tpercent="11.21"/>
+<tns:table tns:tableName="product_pricelist_item" tns:tpercent="31.99"/>
+<tns:table tns:tableName="product_pricelist_type" tns:tpercent="11.21"/>
+<tns:table tns:tableName="product_product" tns:tpercent="29.26"/>
+<tns:table tns:tableName="product_supplierinfo" tns:tpercent="21.060000000000002"/>
+<tns:table tns:tableName="product_template" tns:tpercent="31.53000000000001"/>
+<tns:table tns:tableName="product_ul" tns:tpercent="10.780000000000001"/>
+<tns:table tns:tableName="product_uom" tns:tpercent="15.350000000000001"/>
+<tns:table tns:tableName="product_uom_categ" tns:tpercent="12.21"/>
+<tns:table tns:tableName="stock_change_product_qty" tns:tpercent="17.71"/>
+<tns:table tns:tableName="stock_location_product" tns:tpercent="10.35"/>
+</tns:ansiClass>
+</tns:root>

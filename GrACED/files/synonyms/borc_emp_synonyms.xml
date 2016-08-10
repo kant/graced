@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:synonym xmlns:tns="http://www.example.org/SynonymsSchema"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.example.org/SynonymsSchema SynonymsSchema.xsd"
+             tns:mainWord="emp">
+
+
+<!-- SYNONYMS -->
+
+<tns:word tns:originalWord="employee"></tns:word>
+<tns:word tns:originalWord="employees"></tns:word>
+<tns:word tns:originalWord="coach"></tns:word>
+<tns:word tns:originalWord="gender"></tns:word>
+<tns:word tns:originalWord="emp"></tns:word>
+
+
+</tns:synonym>

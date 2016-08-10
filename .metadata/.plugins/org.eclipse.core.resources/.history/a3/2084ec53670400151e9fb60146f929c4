@@ -1,0 +1,81 @@
+package logic.filemanager.enums;
+
+
+
+/**
+ * Enumerated class for the default names of the files for each project.
+ * @author Ing. Melina C. Vidoni - 2014
+ *
+ */
+public enum ProjectFileNames {
+	MAIN_FILE("MainProjectFile.csv"),
+	SH_TYPES_DIMENSION_FILE("StakeholderTypesDimension.csv"),
+	SH_TYPES_CRITERION_FILE("StakeholderTypesCriterion.csv"),
+	ROLES_FILE("StakeholderRoles.csv"),
+	ACTORS_FILE("StakeholderActors.csv"),
+	REQS_FILE("RequirementsList.csv"),
+	DIMDIST_FILE("DimensionDistribution.csv"),
+	CRITDIST_FILE("CriterionDistribution.csv"),
+	ROLDIST_FILE("RoleDistribution.csv"),
+	IICHART_FILE("RelevanceQuadrant.csv"),
+	ARBARCHART_FILE("ProportionBarChart.csv");
+	
+
+	
+	private String route;
+
+	
+	
+	
+	/**
+	 * Default constructor of the class.
+	 * @param l A name.
+	 */
+	ProjectFileNames(String l) {
+		route = l;
+	}
+	
+	
+	
+	
+	/**
+	 * Method that allows the system to get a enum that matches with the received label.
+	 * @param n The label to be compared with.
+	 * @return The enum object if it exists, or a null object.
+	 */
+	public static ProjectFileNames getLabel(String n){
+		if(MAIN_FILE.toString().equals(n))
+			return MAIN_FILE;
+		else if(SH_TYPES_DIMENSION_FILE.toString().equals(n))
+			return SH_TYPES_DIMENSION_FILE;
+		else if(SH_TYPES_CRITERION_FILE.toString().equals(n))
+			return SH_TYPES_CRITERION_FILE;
+		else if(ROLES_FILE.toString().equals(n))
+			return ROLES_FILE;
+		else if(ACTORS_FILE.toString().equals(n))
+			return ACTORS_FILE;
+		else if(REQS_FILE.toString().equals(n))
+			return REQS_FILE;
+		else if(DIMDIST_FILE.toString().equals(n))
+			return DIMDIST_FILE;
+		else if(CRITDIST_FILE.toString().equals(n))
+			return CRITDIST_FILE;
+		else if(ROLDIST_FILE.toString().equals(n))
+			return ROLDIST_FILE;
+		else if(IICHART_FILE.toString().equals(n))
+			return IICHART_FILE;
+		else if(ARBARCHART_FILE.toString().equals(n))
+			return ARBARCHART_FILE;
+		return null;
+	}
+	
+	
+	
+	/**
+	 * Method that converts the current enum on a string.
+	 */
+	public String toString() {
+		return route;
+	}
+	
+}

@@ -1,0 +1,244 @@
+package gui.view.model;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
+
+
+
+
+/**
+ * Class that contains the model for the actors batchart named
+ * proportion model. It contains the list of actors, and the quantity
+ * of functional and non functional requirements they listed.
+ * 
+ * @author Ing. Melina C. Vidoni - 2015.
+ *
+ */
+public class ARProportionModel {
+	private ObservableList<String> actors;
+	private ObservableList<Integer> frReqs;
+	private ObservableList<Integer> nfrReqs;
+	
+	private ObservableList<XYChart.Series<String, Integer>> bcSeries;
+	private ObservableList<PieChart.Data> pieData;
+	
+	public static final String FR_TEXT = "Functional Requirements";
+	public static final String NFR_TEXT = "Non Functional Requirements";
+	
+	
+	
+	/**
+	 * Public constructor of the class
+	 */
+	public ARProportionModel() {
+		// Create empty lists
+		actors = FXCollections.<String>observableArrayList();
+		frReqs = FXCollections.<Integer>observableArrayList();
+		nfrReqs = FXCollections.<Integer>observableArrayList();
+		
+		// Create model lists
+		bcSeries = FXCollections.<XYChart.Series<String, Integer>>observableArrayList();
+		pieData = FXCollections.<PieChart.Data>observableArrayList();
+	}
+	
+	
+	
+	/**
+	 * Method to initialize the data of the model with the name of
+	 * the actors and all values set to zero.
+	 */
+	public void initData() {
+		// Add the actors
+		actors.addAll( ProjectModel.getInstance().getActorsCombo() );
+		
+		// For the size of actors...
+		for(int i=0; i<actors.size(); i++) {
+			// Set values to zero
+			frReqs.add(0);
+			nfrReqs.add(0);
+		}
+	}
+
+	
+	
+	/**
+	 * This method should load all the data about the requirements
+	 * into the model.
+	 */
+	public void loadData() {
+		// For each requirement on the project model
+		for(Requirement r : ProjectModel.getInstance().getReqsTableModel() ) {
+			// Prepare an index
+			int index = -1;
+			
+			// Fin the actor for this requirement
+			for(String a : actors) {
+				// Get the name splitted
+				String id = a.split(": ")[0];
+				
+				// If this is the actor
+				if( id.equals( r.getActor().getId() ) ) {
+					// Save the index
+					index = actors.indexOf(a);
+					break;
+				}
+			}
+			
+			// Now if the requirement is FR
+			if( r.getIsFR() ) {
+				// Increase value in FR
+				frReqs.set(index, frReqs.get(index)+1 );
+			}
+			// If not, then it is NFR
+			else {
+				// Increase the value in NFR
+				nfrReqs.set(index, nfrReqs.get(index)+1 );
+			}	
+		}
+	}
+	
+	
+	
+	/**
+	 * Method to check if the model is empty
+	 * @return @true if the model is empty, @false in the other case
+	 */
+	public boolean isEmpty() {
+		// Go through the counting
+		for(int i=0; i<actors.size(); i++) {
+			// If either FR or NFR is differet than zero
+			if( frReqs.get(i)!=0 || nfrReqs.get(i)!=0 ) {
+				// Return false and cut the loop
+				return false;
+			}
+		}
+		
+		// If we reached it here, then return true
+		return true;
+	}
+	
+	
+	
+	
+	/**
+	 * Method to get the information of the model converted into the format
+	 * required to be used in the barchart.
+	 * @return An observable list of the two series of the chart.
+	 */
+	public ObservableList<XYChart.Series<String, Integer>> calculateBarchartSeries() {		
+		// Create FR series
+		XYChart.Series<String, Integer> frSeries = new XYChart.Series<String, Integer>();
+		frSeries.setName(FR_TEXT);
+		
+		// Create NFR series
+		XYChart.Series<String, Integer> nfrSeries = new XYChart.Series<String, Integer>();
+		nfrSeries.setName(NFR_TEXT);
+		
+		// Add items to series
+		for(int i=0; i<actors.size(); i++) {
+			// Add to the FR series
+			frSeries.getData().add( new XYChart.Data<String, Integer>(actors.get(i), frReqs.get(i)) );
+			
+			// Add to the NFR series
+			nfrSeries.getData().add( new XYChart.Data<String, Integer>(actors.get(i), nfrReqs.get(i)) );
+		}
+		
+		// Add the series to the list
+		bcSeries.add(frSeries);
+		bcSeries.add(nfrSeries);
+		
+		// Return the data
+		return bcSeries;
+	}
+	
+	
+	
+	/**
+	 * Getter to obtain the barchart series of the model.
+	 * @return The series in an observable list format.
+	 */
+	public ObservableList<XYChart.Series<String, Integer>> getBarchartSeries() {
+		return bcSeries;
+	}
+
+
+	
+	
+	/**
+	 * Method to get a list of data for a piechart, considering each
+	 * type of requirements and the quantity they have.
+	 * @return An observable list, of piechart data.
+	 */
+	public ObservableList<PieChart.Data> calculatePieData() {
+		// Create to ints
+		int frQty = 0;
+		int nfrQty = 0;
+		
+		// Now go counting...
+		for(int i=0; i<actors.size(); i++) {
+			// Add to each counting
+			frQty += frReqs.get(i);
+			nfrQty += nfrReqs.get(i);
+		}
+			
+		// Add the data
+		pieData.add( new PieChart.Data(FR_TEXT, frQty) );
+		pieData.add( new PieChart.Data(NFR_TEXT, nfrQty) );
+        
+        // Return the list
+        return pieData;
+	}
+	
+	
+	
+	/**
+	 * Getter to obtain the pie data.
+	 * @return the pie data in an observable list format.
+	 */
+	public ObservableList<PieChart.Data> getPieData() {
+		return pieData;
+	}
+
+	
+
+
+	/**
+	 * Add an actor to the list of actors
+	 * @param a The actor to be added to the list.
+	 */
+	public void addActor(String a) {
+		// If the actor is not added...
+		if( !actors.contains(a) ) {
+			// Add it!
+			actors.add(a);
+		}
+	}
+
+	
+	
+	/**
+	 * Method to add a specific requirement count to a given actor.
+	 * @param count The count to add.
+	 * @param actor The specific actor.
+	 * @param isFR The type of requirement to be added.
+	 */
+	public void addRequirementCount(Integer count, String actor, boolean isFR) {
+		// Get the index of the actor
+		int actorIndex = actors.indexOf(actor);
+		
+		// Add to the corresponding list
+		if(isFR) 
+			frReqs.add(actorIndex, count);
+		else 
+			nfrReqs.add(actorIndex, count);
+	}
+
+
+
+	public int getActors() {
+		return actors;
+	}
+	
+}

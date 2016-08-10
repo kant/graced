@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:root xmlns:tns="http://www.example.org/RelationSchema" 
+		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		  xsi:schemaLocation="http://www.example.org/RelationSchema RelationSchema.xsd ">
+		  
+  <!-- CHILD: BILL OF MATERIALS -->
+  <tns:childNode tns:nodeName="Bill Of Materials" tns:propX="0.051805">
+  
+  	<!-- PARENT: BILL OF RESOURCES -->
+  	<tns:parentNode tns:nodeName="Bill Of Resources" tns:propX="0.086909" tns:propYgivenX="0.596"></tns:parentNode>
+  </tns:childNode>
+  
+  
+  <!-- CHILD: BILL OF RESOURCES -->
+  <tns:childNode tns:nodeName="Bill Of Resources" tns:propX="0.086909">
+  
+  	<!-- PARENT: PRODUCT DEFINITION -->
+  	<tns:parentNode tns:nodeName="Product Definition" tns:propX="0.140410" tns:propYgivenX="0.619"></tns:parentNode>
+  </tns:childNode>
+  
+  
+  <!-- CHILD: PRODUCTION RULES -->
+  <tns:childNode tns:nodeName="Production Rules" tns:propX="0.053501">
+  
+  	<!-- PARENT: PRODUCT DEFINITION -->
+  	<tns:parentNode tns:nodeName="Product Definition" tns:propX="0.140410" tns:propYgivenX="0.381"></tns:parentNode>
+  </tns:childNode>
+  
+  
+  <!-- CHILD: PRODUCT DEFINITION -->
+  <tns:childNode tns:nodeName="Product Definition" tns:propX="0.140410">
+  
+  	<!-- PARENT: MANUFACTURING INFORMATION -->
+  	<tns:parentNode tns:nodeName="Manufacturing Information" tns:propX="0.140410" tns:propYgivenX="0.99"></tns:parentNode>
+  </tns:childNode>
+  
+</tns:root>

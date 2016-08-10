@@ -1,0 +1,36 @@
+package gui.view.model;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+
+
+/**
+ * Model for each TreeTableView item on the tab table, as the project saves it. 
+ * Represents a single criterion of stakeholder that is available on the system.
+ * 
+ * @author Ing. Melina C. Vidoni - 2015
+ *
+ */
+public class TypeCriterion extends Type {
+	
+	
+	/**
+	 * Default constructor of the class.
+	 * @param l Level of the criterion node.
+	 * @param n Name of the criterion node.
+	 * @param d Description of the criterion node.
+	 */
+	public TypeCriterion(int l, String n, String d) {
+		// Call parent constructor
+		super(l, n, d, "");
+
+		// Set the usable property
+		String u = (l == 0) ? "No" : "Yes";
+		this.setUsable(u);
+	}
+
+
+}

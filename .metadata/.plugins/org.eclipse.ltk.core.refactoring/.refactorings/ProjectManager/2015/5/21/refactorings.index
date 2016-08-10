@@ -1,0 +1,9 @@
+1432119933704	Encapsulate field 'openARChartTab'
+1432119940766	Encapsulate field 'archartTab'
+1432123342654	Rename type 'ARModel'
+1432125291712	Rename method 'setArchartTab'
+1432130157478	Encapsulate field 'proportionExists'
+1432134815088	Delete element
+1432300985756	Rename method 'configBarchart'
+1432301986245	Rename method 'getDataSeries'
+1432304426117	Rename field 'colPiechart'

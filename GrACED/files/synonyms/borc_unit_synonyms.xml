@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:synonym xmlns:tns="http://www.example.org/SynonymsSchema"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.example.org/SynonymsSchema SynonymsSchema.xsd"
+             tns:mainWord="unit">
+
+
+<!-- SYNONYMS -->
+
+<tns:word tns:originalWord="uid"></tns:word>
+<tns:word tns:originalWord="ul"></tns:word>
+<tns:word tns:originalWord="units"></tns:word>
+<tns:word tns:originalWord="uom"></tns:word>
+<tns:word tns:originalWord="ute"></tns:word>
+<tns:word tns:originalWord="uso"></tns:word>
+<tns:word tns:originalWord="unitcharges"></tns:word>
+<tns:word tns:originalWord="unitprice"></tns:word>
+<tns:word tns:originalWord="unit"></tns:word>
+
+
+</tns:synonym>

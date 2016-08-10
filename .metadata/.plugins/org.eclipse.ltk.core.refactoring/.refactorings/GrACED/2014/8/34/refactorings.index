@@ -1,0 +1,37 @@
+1408447824716	Rename type 'Propagator'
+1408447829601	Move compilation unit
+1408451750087	Encapsulate field 'bayesProp'
+1408452812740	Move compilation unit
+1408452833527	Move compilation unit
+1408452837279	Delete element
+1408453159119	Encapsulate field 'name'
+1408453162720	Encapsulate field 'propX'
+1408453166590	Encapsulate field 'propYgivenX'
+1408453258266	Encapsulate field 'propXgivenY'
+1408453880274	Encapsulate field 'name'
+1408453891463	Encapsulate field 'propX'
+1408453998037	Encapsulate field 'parentList'
+1408454420306	Move compilation units
+1408454666341	Rename type 'XMLWriter'
+1408460426381	Delete element
+1408537665619	Rename local variable 'unclassFile'
+1408537684102	Rename local variable 'table'
+1408540189646	Delete elements
+1408540214816	Delete element
+1408540312372	Delete element
+1408551654804	Rename local variable 'i'
+1408620651676	Rename resource 'Style.css'
+1408620658724	Rename resource 'JMetroDarkTheme.css'
+1408620763369	Delete element
+1408620771507	Rename resource 'StyleOriginal.css'
+1408621113666	Encapsulate field 'propXgivenYforTable'
+1408632021980	Delete elements
+1408635634929	Delete elements
+1408637147603	Delete elements
+1408638417775	Delete elements
+1408640266610	Delete element
+1408707640445	Delete elements
+1408710239686	Delete elements
+1408712123543	Delete elements
+1408716317466	Delete elements
+1408717538484	Delete elements

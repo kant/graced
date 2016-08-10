@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:bow xmlns:tns="http://www.example.org/BagOfWordsSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/BagOfWordsSchema BagOfWordsSchema.xsd "
+	tns:bowName="Production Rules">
+	
+	
+<!--Word: activity-->
+<tns:word tns:word="activity" tns:hasSynonyms="true" tns:synonymsFile="rulest_activity_synonyms.xml" tns:wordWeight="10"></tns:word>
+
+<!--Word: ad-->
+<tns:word tns:word="ad" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: condition-->
+<tns:word tns:word="condition" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: config-->
+<tns:word tns:word="config" tns:hasSynonyms="true" tns:synonymsFile="rulest_config_synonyms.xml" tns:wordWeight="3"></tns:word>
+
+<!--Word: detail-->
+<tns:word tns:word="detail" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: group-->
+<tns:word tns:word="group" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: instance-->
+<tns:word tns:word="instance" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: item-->
+<tns:word tns:word="item" tns:hasSynonyms="true" tns:synonymsFile="rulest_item_synonyms.xml" tns:wordWeight="5"></tns:word>
+
+<!--Word: logs-->
+<tns:word tns:word="logs" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: maintenance-->
+<tns:word tns:word="maintenance" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="2"></tns:word>
+
+<!--Word: move-->
+<tns:word tns:word="move" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: mrp-->
+<tns:word tns:word="mrp" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="5"></tns:word>
+
+<!--Word: next-->
+<tns:word tns:word="next" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: node-->
+<tns:word tns:word="node" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: order-->
+<tns:word tns:word="order" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: plan-->
+<tns:word tns:word="plan" tns:hasSynonyms="true" tns:synonymsFile="rulest_plan_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: process-->
+<tns:word tns:word="process" tns:hasSynonyms="true" tns:synonymsFile="rulest_process_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: procurement-->
+<tns:word tns:word="procurement" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: product-->
+<tns:word tns:word="product" tns:hasSynonyms="true" tns:synonymsFile="rulest_product_synonyms.xml" tns:wordWeight="10"></tns:word>
+
+<!--Word: production-->
+<tns:word tns:word="production" tns:hasSynonyms="true" tns:synonymsFile="rulest_production_synonyms.xml" tns:wordWeight="6"></tns:word>
+
+<!--Word: purchase-->
+<tns:word tns:word="purchase" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: schedule-->
+<tns:word tns:word="schedule" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="5"></tns:word>
+
+<!--Word: state-->
+<tns:word tns:word="state" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="3"></tns:word>
+
+<!--Word: supplierinfo-->
+<tns:word tns:word="supplierinfo" tns:hasSynonyms="true" tns:synonymsFile="rulest_supplierinfo_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: taxes-->
+<tns:word tns:word="taxes" tns:hasSynonyms="true" tns:synonymsFile="rulest_taxes_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: transition-->
+<tns:word tns:word="transition" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="5"></tns:word>
+
+<!--Word: wf-->
+<tns:word tns:word="wf" tns:hasSynonyms="true" tns:synonymsFile="rulest_wf_synonyms.xml" tns:wordWeight="30"></tns:word>
+
+</tns:bow>

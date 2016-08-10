@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root maxHeight="650.0" maxWidth="800.0" minHeight="650.0" minWidth="800.0" prefHeight="650.0" prefWidth="800.0" type="GridPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.BaseInfoPanelController">
+  <columnConstraints>
+<ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" prefWidth="200.0" />
+<ColumnConstraints hgrow="SOMETIMES" minWidth="300.0" prefWidth="300.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" prefWidth="150.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" prefWidth="150.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="110.0" minHeight="10.0" prefHeight="110.0" vgrow="SOMETIMES" />
+<RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+<RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+<RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+<RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+<RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+<RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+<RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+<RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+<children><Label text="Database Type:    " GridPane.halignment="RIGHT" GridPane.rowIndex="2" /><Label text="Database Name:    " GridPane.halignment="RIGHT" GridPane.rowIndex="3" /><Label text="Location (IP or DNS):    " GridPane.halignment="RIGHT" GridPane.rowIndex="4" /><Label text="Location Port:    " GridPane.halignment="RIGHT" GridPane.rowIndex="5" /><Label text="Login Username:    " GridPane.halignment="RIGHT" GridPane.rowIndex="6" /><Label text="Login Password:    " GridPane.halignment="RIGHT" GridPane.rowIndex="7" /><TextField fx:id="dbName" GridPane.columnIndex="1" GridPane.rowIndex="3">
+<GridPane.margin>
+<Insets />
+</GridPane.margin></TextField><TextField fx:id="ipLocation" GridPane.columnIndex="1" GridPane.rowIndex="4">
+<GridPane.margin>
+<Insets right="100.0" />
+</GridPane.margin></TextField><TextField fx:id="ipPort" GridPane.columnIndex="1" GridPane.rowIndex="5">
+<GridPane.margin>
+<Insets right="200.0" />
+</GridPane.margin></TextField><TextField fx:id="loginName" GridPane.columnIndex="1" GridPane.rowIndex="6">
+<GridPane.margin>
+<Insets />
+</GridPane.margin></TextField><PasswordField fx:id="loginPass" GridPane.columnIndex="1" GridPane.rowIndex="7">
+<GridPane.margin>
+<Insets />
+</GridPane.margin></PasswordField><ComboBox fx:id="dbType" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+<GridPane.margin>
+<Insets />
+</GridPane.margin></ComboBox><Button fx:id="exitButton" mnemonicParsing="false" onAction="#exitSystem" text="Cancel" GridPane.columnIndex="3" GridPane.rowIndex="9" GridPane.valignment="TOP">
+<graphic><ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/button_cancel.png" />
+</image></ImageView>
+</graphic></Button><Button fx:id="nextButton" mnemonicParsing="false" onAction="#actionNext" text="Next &gt;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="TOP">
+<graphic><ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/button_next.png" />
+</image></ImageView>
+</graphic></Button><Label contentDisplay="GRAPHIC_ONLY" text="Label" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+<graphic><ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/question_tooltip.png" />
+</image></ImageView>
+</graphic>
+<tooltip><Tooltip text="Select the DBMS where the database is." />
+</tooltip></Label><Label contentDisplay="GRAPHIC_ONLY" text="Label" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+<graphic>
+<ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/question_tooltip.png" />
+</image>
+</ImageView>
+</graphic>
+<tooltip>
+<Tooltip text="Write the name of the database exactly as it will be used." />
+</tooltip>
+</Label><Label contentDisplay="GRAPHIC_ONLY" text="Label" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+<graphic>
+<ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/question_tooltip.png" />
+</image>
+</ImageView>
+</graphic>
+<tooltip>
+<Tooltip text="Write the IP or DNS where the database server is located." />
+</tooltip>
+</Label><Label contentDisplay="GRAPHIC_ONLY" text="Label" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+<graphic>
+<ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/question_tooltip.png" />
+</image>
+</ImageView>
+</graphic>
+<tooltip>
+<Tooltip text="Write the port to connect to the database server." />
+</tooltip>
+</Label><Label contentDisplay="GRAPHIC_ONLY" text="Label" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+<graphic>
+<ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/question_tooltip.png" />
+</image>
+</ImageView>
+</graphic>
+<tooltip>
+<Tooltip text="Write the username that will be used to log on the database." />
+</tooltip>
+</Label><Label contentDisplay="GRAPHIC_ONLY" text="Label" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+<graphic>
+<ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/question_tooltip.png" />
+</image>
+</ImageView>
+</graphic>
+<tooltip>
+<Tooltip text="Write the password that will be used to log on the database." />
+</tooltip>
+</Label><GridPane style="-fx-background-color: FFFFFF;" GridPane.columnSpan="2147483647">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="620.0" prefWidth="620.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+<children><Label text="Add Database Information" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+<GridPane.margin>
+<Insets left="80.0" />
+</GridPane.margin>
+<font>
+<Font name="System Bold" size="14.0" />
+</font></Label><Label text="Please, fill the fields with the database connection information." GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+<GridPane.margin>
+<Insets left="80.0" top="10.0" />
+</GridPane.margin></Label><ImageView pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowSpan="2147483647" GridPane.valignment="CENTER">
+<image>
+<Image url="@img/icon_Database.png" />
+</image></ImageView>
+</children>
+</GridPane>
+</children>
+</fx:root>

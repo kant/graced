@@ -1,0 +1,942 @@
+package logic.filemanager;
+
+import gui.application.MainApp;
+import gui.application.paths.ImageLocation;
+import gui.view.model.Actor;
+import gui.view.model.IIActor;
+import gui.view.model.ProjectModel;
+import gui.view.model.Requirement;
+import gui.view.model.Role;
+import gui.view.model.RolesType;
+import gui.view.model.SHRelevanceModel;
+import gui.view.model.TypeCriterion;
+import gui.view.model.TypeDimension;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.TreeItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import logic.filemanager.enums.LabelsMainFile;
+import logic.filemanager.enums.ProjectFileNames;
+
+import com.opencsv.CSVReader;
+
+
+
+
+/**
+ * Main class to open an existing project and read all the files that such
+ * project contains. Reads in a CSV format, and translate it to the in-memory
+ * format used to process information.
+ * 
+ * @author Ing. Melina C. Vidoni - 2015
+ *
+ */
+public class OpenExistingProject {
+	private static OpenExistingProject instance = null;
+	
+	private ProjectModel project;
+	private static File directory;
+	
+	private boolean dimensionExists;
+	private boolean criterionExists;
+	private boolean rolesExists;
+	private boolean actorsExists;
+	private boolean dimDistExists;
+	private boolean critDistExists;
+	private boolean roleDistExists;
+	private boolean relevanceExists;
+	private boolean requirementsExists;
+	private boolean proportionExists;
+	
+	
+
+	/**
+	 * Method to get the instance of the Opener
+	 * @return the current instance.
+	 */
+	public static OpenExistingProject getInstance() {
+		// If the isntance is null
+		if( instance == null) {
+			// Call the constructor
+			instance = new OpenExistingProject();
+		}
+		
+		// Return the instance
+		return instance;
+	}
+	
+	
+	
+	
+	/**
+	 * Method that clears the opener, getting the instance back to
+	 * the first time it was used.
+	 */
+	public void clearOpener() {
+		instance = new OpenExistingProject();
+	}
+	
+	
+	
+	
+	/**
+	 * Default constructor of the class.
+	 * @param d Main directory of the project.
+	 */
+	private OpenExistingProject() {
+		// Create the new project
+		project = ProjectModel.getInstance();
+		
+		// Save the directory at hand
+		directory = null;
+		
+		// Set exists to false
+		dimensionExists = false;
+		criterionExists = false;
+		rolesExists = false;
+		actorsExists = false;
+		requirementsExists = false;
+		
+		// Distribution charts flags
+		dimDistExists = false;
+		critDistExists = false;
+		roleDistExists = false;
+		
+		// Relevance chart
+		relevanceExists = false;
+		proportionExists = false;
+	}
+
+	
+
+	/**
+	 * Main opener class with the logic related to check if something
+	 * needs to be opened, and call the mandatory method.
+	 */
+	public void open() {
+		// First of all, read main file and load model
+		readMainFile();
+		
+		// Read types
+		if(dimensionExists) readDimension();
+		if(criterionExists) readCriterion();
+		
+		// Read roles
+		if(rolesExists) readRoles(true, "");
+		
+		// Read actors
+		if(actorsExists) readActors();
+		
+		// Read requirements
+		if(requirementsExists) readRequirements();
+		
+		// Read distribution charts
+		if(dimDistExists) readDistributionCharts('D');
+		if(critDistExists) readDistributionCharts('C');
+		if(roleDistExists) readDistributionCharts('R');
+		
+		// Read relevance quadrants
+		if(relevanceExists) readRelevanceChart();
+		
+		// Read proportion quadrants
+		if(proportionExists) readProportionChart();
+		
+		
+		// TODO READ OTHER FILES
+		
+		// Add to main app
+		MainApp.getMainApp().setProjectModel();
+	}
+
+
+	
+
+
+	private void readProportionChart() {
+		try {
+			// File and parser
+			File arFile = new File( directory + File.separator + ProjectFileNames.ARCHART_FILE.toString() );
+			
+			// Create the reader
+		  	CSVReader reader = new CSVReader(new FileReader( arFile ), ',' , '"' , 2);
+
+		  	// Create variables
+		  	String[] nextLine;
+  
+		  	// Get the current root
+		  	SHRelevanceModel model = new SHRelevanceModel();
+  
+		  	//Read CSV line by line and use the string array as you want
+		  	while ((nextLine = reader.readNext()) != null) {
+		  		if (nextLine != null) {   
+		  			// Get the actor
+		  			Actor a = project.getActorByID( nextLine[0] );
+		  			
+		  			// Create a new IIActor
+		  			IIActor iia = new IIActor(a, Integer.valueOf(nextLine[1]));
+		  			iia.setX( Integer.valueOf(nextLine[2]) );
+		  			iia.setY( Integer.valueOf(nextLine[3]) );
+		  			iia.setInitials( nextLine[4] );
+		  						        	
+		  			// Add it to the list
+		  			model.addToList(iia);
+		  		}
+		  	}
+		  	
+		  	// Close the reader
+		  	reader.close();
+	
+		  	// Remove extra positions
+		  	model.removeUsedCoords();
+		  	
+		  	// Add to the project
+			project.setRelevanceModel(model);
+		}
+		catch(IOException e) {
+			// TODO stack trace
+			e.printStackTrace();
+		}
+	}
+
+
+	
+
+
+	/**
+	 * Main method to read the relevance chart and add it to
+	 * a project that is opening.
+	 */
+	private void readRelevanceChart() {
+		try {
+			// File and parser
+			File iiFile = new File( directory + File.separator + ProjectFileNames.IICHART_FILE.toString() );
+			
+			// Create the reader
+		  	CSVReader reader = new CSVReader(new FileReader( iiFile ), ',' , '"' , 2);
+
+		  	// Create variables
+		  	String[] nextLine;
+  
+		  	// Get the current root
+		  	SHRelevanceModel model = new SHRelevanceModel();
+  
+		  	//Read CSV line by line and use the string array as you want
+		  	while ((nextLine = reader.readNext()) != null) {
+		  		if (nextLine != null) {   
+		  			// Get the actor
+		  			Actor a = project.getActorByID( nextLine[0] );
+		  			
+		  			// Create a new IIActor
+		  			IIActor iia = new IIActor(a, Integer.valueOf(nextLine[1]));
+		  			iia.setX( Integer.valueOf(nextLine[2]) );
+		  			iia.setY( Integer.valueOf(nextLine[3]) );
+		  			iia.setInitials( nextLine[4] );
+		  						        	
+		  			// Add it to the list
+		  			model.addToList(iia);
+		  		}
+		  	}
+		  	
+		  	// Close the reader
+		  	reader.close();
+	
+		  	// Remove extra positions
+		  	model.removeUsedCoords();
+		  	
+		  	// Add to the project
+			project.setRelevanceModel(model);
+		}
+		catch(IOException e) {
+			// TODO stack trace
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+	/**
+	 * Main method to read the distribution charts and add them
+	 * to a project that is opening.
+	 * @param type A charactert with the type of chart to read open.
+	 */
+	private void readDistributionCharts(char type) {
+		try {
+			// File and parser
+		  	  File chartFile = null;
+			
+			// First create the file
+			switch(type) {
+				case 'D': // DIMENSION DISTRIBUTION CHART 
+						  chartFile = new File( directory + File.separator + ProjectFileNames.DIMDIST_FILE.toString() );
+						  break;
+						  
+				case 'C': // CRITERION DISTRIBUTION CHART
+							chartFile = new File( directory + File.separator + ProjectFileNames.CRITDIST_FILE.toString() );
+							break;
+							
+				case 'R': // CRITERION DISTRIBUTION CHART
+						  chartFile = new File( directory + File.separator + ProjectFileNames.ROLDIST_FILE.toString() );
+						  break;
+			}
+			
+			// Create the reader
+		  	CSVReader reader = new CSVReader(new FileReader( chartFile ), ',' , '"' , 2);
+
+		  	// Create variables
+		  	String[] nextLine;
+  
+		  	// Get the current root
+		  	ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
+  
+		  	//Read CSV line by line and use the string array as you want
+		  	while ((nextLine = reader.readNext()) != null) {
+		  		if (nextLine != null) {      
+		  			// Save the information
+		  			PieChart.Data newData = new PieChart.Data(nextLine[0], 
+		  					Integer.valueOf(nextLine[1].replace(".0", "")));
+		  					  			        	
+		  			// Add it to the list
+		  			pieData.add(newData);
+		  		}
+		  	}
+	
+		  	
+			// Set the info on the pie information
+			switch(type) {
+				case 'D': // DIMENSION DISTRIBUTION CHART 
+						  project.setDimensionPieData(pieData);
+						  break;
+						  
+				case 'C': // CRITERION DISTRIBUTION CHART
+						  project.setCriterionPieData(pieData);
+						  break;
+							
+				case 'R': // CRITERION DISTRIBUTION CHART
+						  project.setRolesPieData(pieData);
+						  break;
+			}
+		  	
+  
+		  	// Done, now close the reader
+		  	reader.close(); 
+		}
+		catch(IOException e) {
+			// TODO correct error handling
+			e.printStackTrace();
+		}
+	}
+
+
+	
+	
+	/**
+	 * Main method to read the requirements list and add it to
+	 * a project that is opening.
+	 */
+	private void readRequirements() {
+		try {
+			// File and parser
+			File rFile = new File( directory + File.separator + ProjectFileNames.REQS_FILE.toString() );
+			
+			// Create the reader
+		  	CSVReader reader = new CSVReader(new FileReader( rFile ), ',' , '"' , 2);
+
+		  	// Create variables
+		  	String[] nextLine;
+  
+		  	// Get the current root
+		  	ObservableList<Requirement> reqsList = FXCollections.<Requirement>observableArrayList();
+  
+		  	//Read CSV line by line and use the string array as you want
+		  	while ((nextLine = reader.readNext()) != null) {
+		  		if (nextLine != null) {   
+		  			// Create a new requirement
+		  			Requirement req = new Requirement( project.getActorByID( nextLine[0] ) );
+		  			req.setReqId( nextLine[1] );
+		  			req.setReqName( nextLine[2] );
+		  			req.setReqDescription( nextLine[3].replace(';', ',') );
+		  			req.setIsFR( Boolean.valueOf(nextLine[4]) );
+		  			
+		  			// Add it to the list
+		  			reqsList.add(req);
+		  		}
+		  	}
+		  	
+		  	// Close the reader
+		  	reader.close();
+		  	
+		  	// Add to the project
+			project.setReqsTableModel(reqsList);
+		}
+		catch(IOException e) {
+			// TODO stack trace
+			e.printStackTrace();
+		}
+	}
+
+	
+
+
+	/**
+	 * Method that reads the actors loaded into a project, from the current
+	 * location of the project, and loads them into the in-memory object.
+	 */
+	private void readActors() {
+		try {
+			// Find the file
+			File actorsFile = new File( directory + File.separator + ProjectFileNames.ACTORS_FILE.toString() );
+			
+			// Create parser
+			CSVReader reader = new CSVReader(new FileReader( actorsFile ), ',' , '"' , 2);
+			
+		    // Create variables
+		    String[] nextLine;
+		    
+		    // Get the current root
+		    ObservableList<Actor> actorsList = FXCollections.observableArrayList();
+		    
+		    //Read CSV line by line and use the string array as you want
+		    while ((nextLine = reader.readNext()) != null) {
+		        if (nextLine != null) {      
+		        	// Save the information
+		        	Actor newActor = new Actor(nextLine[0], nextLine[1], nextLine[2], 
+		        			nextLine[3], nextLine[4], nextLine[5], nextLine[6], nextLine[7]);
+		        	
+		        	// Add it to the list
+		        	actorsList.add(newActor);
+		        }
+		    }
+			
+		    // Set the roles on the table model
+		    project.setActorsTableModel(actorsList);
+		    
+		    // Done, now close the reader
+		    reader.close();
+		}
+		catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+	
+	
+	/**
+	 * Method that reads the roles from a particular location.
+	 * It allows to read roles that are already saved into the project
+	 * and those that are from an external location.
+	 * @param saved @true if they are saved in the project, or @false in
+	 * the other case.
+	 * @param location route where to read the roles. Must be empty if the
+	 * boolean parameter is true.
+	 */
+	public void readRoles(boolean saved, String location) {
+		// If the roles are saved inside the project
+		if(saved) {
+			// Then get the default inside location
+			File rolesFile = new File(directory.getAbsolutePath() + File.separator 
+					+ ProjectFileNames.ROLES_FILE.toString());
+			
+			// And call the method
+			readRolesAt(rolesFile);
+		}
+		
+		// Else, if the roles are not saved inside the project
+		else {
+			// Create the location
+			File rolesOutside = new File(location);
+			
+			// Call the method
+			readRolesAt(rolesOutside);
+		}
+		
+		// Set roles saved or not
+		project.setRolesSaved(saved);
+	}
+	
+	
+	
+	
+	/**
+	 * Method that read the roles and adds them to the list on the system.
+	 */
+	private void readRolesAt(File rolesFile) {
+		try {
+			// Create parser
+			CSVReader reader = new CSVReader(new FileReader( rolesFile ), ',' , '"' , 2);
+			
+		    // Create variables
+		    String[] nextLine;
+		    
+		    // Get the current root
+		    ObservableList<Role> rolesList = FXCollections.observableArrayList();
+		    
+		    //Read CSV line by line and use the string array as you want
+		    while ((nextLine = reader.readNext()) != null) {
+		        if (nextLine != null) {      
+		        	// Save the information
+		        	Role newRole = new Role(nextLine[0], nextLine[1], nextLine[2], nextLine[3]);
+		        	
+		        	// Add it to the list
+		        	rolesList.add(newRole);
+		        }
+		    }
+			
+		    // Set the roles on the table model
+		    project.setRolesTableModel(rolesList);
+		    
+		    // Done, now close the reader
+		    reader.close();
+		}
+		catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+	
+
+
+	
+
+	/**
+	 * Method to read the criterion type of stakeholder.
+	 */
+	private void readCriterion() {
+		try {
+			// Create a new list
+			ObservableList<TypeCriterion> criterionList = FXCollections.observableArrayList();
+			
+			// Get the location of the file
+			File typesFile = new File(directory.getAbsolutePath() + File.separator 
+					+ ProjectFileNames.SH_TYPES_CRITERION_FILE.toString());
+			
+			// Create parser
+			CSVReader reader = new CSVReader(new FileReader( typesFile ), ',' , '"' , 2);
+			
+		    // Create variables
+		    String[] nextLine;
+		    
+		    // Get the current root
+		    TreeItem<TypeCriterion> currentRoot = new TreeItem<>();
+		    
+		    //Read CSV line by line and use the string array as you want
+		    while ((nextLine = reader.readNext()) != null) {
+		        if (nextLine != null) {      
+		        	// Save level
+		        	int level = Integer.parseInt(nextLine[0]);
+		        	
+		        	// Create a new type
+		        	TypeCriterion newType = new TypeCriterion( level, nextLine[1], nextLine[2].replace(";", ",") );
+		        	
+		        	// Add it to the plain list
+		        	criterionList.add(newType);
+		        	
+		        	// If the level is 0
+		        	if(level == 0) {
+		        		// Replace the root
+		        		currentRoot = new TreeItem<TypeCriterion>(newType);
+		        		currentRoot.setExpanded(true);
+		        		currentRoot.setGraphic(new ImageView (
+		        					new Image(getClass().getResourceAsStream(ImageLocation.CRITERION_TREE_ICON.toString())))
+		        		);
+		        	}
+		        	// If level is 1
+		        	else if(level == 1) {
+		        		// Save it
+		        		TreeItem<TypeCriterion> auxParent = new TreeItem<TypeCriterion>(newType);
+		        		auxParent.setGraphic(new ImageView (
+	        					new Image(getClass().getResourceAsStream(ImageLocation.CRITERION_TREE_ICON.toString())))
+		        		);
+		        		
+		        		// Add to the root
+		        		currentRoot.getChildren().add( auxParent );
+		        		auxParent.setExpanded(true);
+		        	}
+		        	
+		        	
+		        }
+		    }
+			
+		    project.setCriterionRoot(currentRoot);
+		    project.setCriterionList(criterionList);
+		    
+		    // Done, now close the reader
+		    reader.close();
+		}
+		catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+	/**
+	 * Method to read the stakeholder types and add it to the project model.
+	 */
+	private void readDimension() {
+		try {
+			// Create a list
+			ObservableList<TypeDimension> dimensionList = FXCollections.observableArrayList();
+			
+			// Get the location of the file
+			File typesFile = new File(directory.getAbsolutePath() + File.separator 
+					+ ProjectFileNames.SH_TYPES_DIMENSION_FILE.toString());
+			
+			// Create parser
+			CSVReader reader = new CSVReader(new FileReader( typesFile ), ',' , '"' , 2);
+			
+		    // Create variables
+		    String[] nextLine;
+		    
+		    // Get the current root
+		    TreeItem<TypeDimension> currentRoot = new TreeItem<>();
+		    TreeItem<TypeDimension> auxParent = new TreeItem<>();
+		    
+		    //Read CSV line by line and use the string array as you want
+		    while ((nextLine = reader.readNext()) != null) {
+		        if (nextLine != null) {      
+		        	// Save level
+		        	int level = Integer.parseInt(nextLine[0]);
+		        	
+		        	// Create a new type
+		        	TypeDimension newType = new TypeDimension( 
+		        			Integer.valueOf( nextLine[0] ), nextLine[1], Boolean.valueOf(nextLine[2]), nextLine[3].replace(";", ",") );
+		        	
+		        	// Add it to the plain list
+		        	dimensionList.add(newType);
+		        	
+		        	// If the level is 0
+		        	if(level == 0) {
+		        		// Replace the root
+		        		currentRoot = new TreeItem<TypeDimension>(newType);
+		        		currentRoot.setExpanded(true);
+		        		currentRoot.setGraphic(new ImageView (
+		        					new Image(getClass().getResourceAsStream(ImageLocation.DIMENSION_TREE_ICON.toString())))
+		        		);
+		        	}
+		        	// If level is 1
+		        	else if(level == 1) {
+		        		// Save it
+		        		auxParent = new TreeItem<TypeDimension>(newType);
+		        		auxParent.setGraphic(new ImageView (
+	        					new Image(getClass().getResourceAsStream(ImageLocation.DIMENSION_TREE_ICON.toString())))
+		        		);
+		        		
+		        		// Add to the root
+		        		currentRoot.getChildren().add( auxParent );
+		        		auxParent.setExpanded(true);
+		        	}
+		        	// If level is 2
+		        	else {
+		        		TreeItem<TypeDimension> children = new TreeItem<TypeDimension>(newType);
+		        		children.setGraphic(new ImageView (
+	        					new Image(getClass().getResourceAsStream(ImageLocation.DIMENSION_TREE_ICON.toString())))
+		        		);
+		        		
+		        		// Add it to the parent
+		        		auxParent.getChildren().add( children );
+		        	}
+		        	
+		        	
+		        }
+		    }
+			
+		    project.setDimensionRoot(currentRoot);
+		    project.setDimensionList(dimensionList);
+		    
+		    // Done, now close the reader
+		    reader.close();
+		}
+		catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+
+	/**
+	 * Project getters
+	 * @return the project
+	 */
+	public ProjectModel getProject() {
+		return project;
+	}
+
+
+	
+	
+
+	/**
+	 * Method to read the main file of a project.
+	 */
+	private void readMainFile() {
+		try {
+			// Get the location of the main file
+			File mainFile = new File(directory.getAbsolutePath() + File.separator + ProjectFileNames.MAIN_FILE.toString());
+			
+			// Create parser
+			CSVReader reader = new CSVReader(new FileReader( mainFile ), ',' , '"' , 1);
+			
+		    // Create variables
+		    String[] nextLine;
+		    
+		    //Read CSV line by line and use the string array as you want
+		    while ((nextLine = reader.readNext()) != null) {
+		        if (nextLine != null) {
+
+		        	// If it is the name
+		        	if(nextLine[0].equals( LabelsMainFile.NAME.toString()) ) {
+		        		// Save the name!
+		        		project.setProjectName( nextLine[1] );
+		        		
+		        		System.out.println("Name: " + nextLine[1]);
+		        	}
+		        	/*
+		        	 * DIMENSION TYPES
+		        	 */
+		        	else if(nextLine[0].equals( LabelsMainFile.DIMENSION.toString()) ) {
+		        		dimensionExists = true;
+		        	}
+		        	/*
+		        	 * CRITERION TYPES
+		        	 */
+		        	else if(nextLine[0].equals( LabelsMainFile.CRITERION.toString() )) {
+		        		criterionExists = true;
+		        	}
+		        	/*
+		        	 * CUSTOM ROLES
+		        	 */
+		        	else if(nextLine[0].equals( LabelsMainFile.CUSTOM_ROLES.toString() )) {
+		        		rolesExists = true;
+		        		project.setRolesType( RolesType.CUSTOM );
+		        	}
+		        	/*
+		        	 * DEFAULT ROLES
+		        	 */
+		        	else if(nextLine[0].equals( LabelsMainFile.DEFAULT_ROLES.toString() )) {
+		        		rolesExists = true;
+		        		project.setRolesType( RolesType.DEFAULT );
+		        	}
+		        	/*
+		        	 * ACTORS
+		        	 */
+		        	else if(nextLine[0].equals( LabelsMainFile.ACTORS.toString() )) {
+		        		actorsExists = true;
+		        	}
+		        	/*
+		        	 * REQUIREMENTS
+		        	 */
+		        	else if(nextLine[0].equals( LabelsMainFile.REQS_LIST.toString() )) {
+		        		requirementsExists = true;
+		        	}
+		        	/*
+		        	 * DIMENSION DISTRIBUTION
+		        	 */
+		        	else if(nextLine[0].equals( LabelsMainFile.DIST_DIM.toString() )) {
+		        		dimDistExists = true;
+		        	}
+		        	/*
+		        	 * CRITERION DISTRIBUTION
+		        	 */
+		        	else if(nextLine[0].equals( LabelsMainFile.DIST_CRIT.toString() )) {
+		        		critDistExists = true;
+		        	}
+		        	/*
+		        	 * ROLES DISTRIBUTION
+		        	 */
+		        	else if(nextLine[0].equals( LabelsMainFile.DIST_ROLE.toString() )) {
+		        		roleDistExists = true;
+		        	}
+		        	/*
+		        	 * RELEVANCE CHART
+		        	 */
+		        	else if(nextLine[0].equals( LabelsMainFile.II_CHART.toString() )) {
+		        		relevanceExists = true;
+		        	}
+		        	/*
+		        	 * PROPORTION CHART
+		        	 */
+		        	else if(nextLine[0].equals(LabelsMainFile.AR_CHART.toString()) ) {
+		        		proportionExists = true;
+		        	}
+		        	
+		        	// TODO ADD MORE FILES OPENINGS
+		        	
+		        }
+		    }
+		    
+		    // Close reader?
+		    reader.close();    
+		} 
+		catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+
+
+
+	/**
+	 * @return the rolesExists
+	 */
+	public boolean rolesExists() {
+		return rolesExists;
+	}
+
+
+
+
+	/**
+	 * @param rolesExists the rolesExists to set
+	 */
+	public void setRolesExists(boolean re) {
+		rolesExists = re;
+	}
+
+	
+	/**
+	 * @return the actorsExists
+	 */
+	public boolean actorsExists() {
+		return actorsExists;
+	}
+
+
+	/**
+	 * @param actorsExists the actorsExists to set
+	 */
+	public void setActorsExists(boolean ae) {
+		actorsExists = ae;
+	}
+
+
+
+
+	/**
+	 * @return the dimDistExists
+	 */
+	public boolean isDimDistExists() {
+		return dimDistExists;
+	}
+
+
+
+
+	/**
+	 * @param dimDistExists the dimDistExists to set
+	 */
+	public void setDimDistExists(boolean dd) {
+		dimDistExists = dd;
+	}
+
+
+
+
+	/**
+	 * @return the critDistExists
+	 */
+	public boolean isCritDistExists() {
+		return critDistExists;
+	}
+
+
+
+
+	/**
+	 * @param critDistExists the critDistExists to set
+	 */
+	public void setCritDistExists(boolean cd) {
+		critDistExists = cd;
+	}
+
+
+
+
+	/**
+	 * @return the roleDistExists
+	 */
+	public boolean isRoleDistExists() {
+		return roleDistExists;
+	}
+
+
+
+
+	/**
+	 * @param roleDistExists the roleDistExists to set
+	 */
+	public void setRoleDistExists(boolean rd) {
+		roleDistExists = rd;
+	}
+
+
+
+
+	/**
+	 * Method to set the current directory of the opener.
+	 * @param d The current directory in File format.
+	 */
+	public void setDirectory(File d) {
+		project.setCurrentDirectory( d.getAbsolutePath() );
+		directory = d;
+	}
+
+
+
+
+	/**
+	 * @return the proportionExists
+	 */
+	public boolean proportionExists() {
+		return proportionExists;
+	}
+
+
+
+
+	/**
+	 * @param proportionExists the proportionExists to set
+	 */
+	public void setProportionExists(boolean pe) {
+		proportionExists = pe;
+	}
+	
+	
+
+}

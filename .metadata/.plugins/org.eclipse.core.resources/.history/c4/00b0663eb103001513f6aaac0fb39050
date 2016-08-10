@@ -1,0 +1,340 @@
+package gui.controller;
+
+import gui.application.MainApp;
+import gui.application.paths.FileLocation;
+import gui.application.paths.ImageLocation;
+import gui.controller.component.ScatterQuadrantChart;
+import gui.view.model.Actor;
+import gui.view.model.IIActors;
+import gui.view.model.ProjectModel;
+import gui.view.model.SHRelevanceModel;
+
+import java.util.Optional;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Tab;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
+
+
+
+public class IIChartTabController {
+	private ProjectModel project;
+	
+	@FXML private Tab chartTab;
+	@FXML private ScatterQuadrantChart<Number, Number> iichart;
+	
+	
+	
+	
+	/**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
+    @FXML
+    private void initialize() {
+    	// Get the reference to the project
+    	project = ProjectModel.getInstance();
+    	
+    	// Update the name
+    	correctTabName();
+
+    	// Set the quadrant dividers
+        iichart.setXQuadrantDivider(0);
+        iichart.setYQuadrantDivider(0);
+        
+        // Set style
+	    String css = MainApp.getMainApp().getClass().getResource(FileLocation.SCATTER_STYLE.toString()).toExternalForm();
+	    iichart.getStylesheets().add(css);
+    	
+        // Now load the date
+        loadData();
+    }
+
+
+
+    /**
+     * Method to load the information from the model to the chart. It separates the actors
+     * on one of four series depending their quadrants, it adds the tooltip with name and
+     * description, and adds the initials on top of the person icon.
+     */
+	private void loadData() {
+		// Create the new series
+		XYChart.Series<Number, Number> q1 = new XYChart.Series<Number, Number>();
+		q1.setName("Manage Closely");
+		
+		// Create the new series
+		XYChart.Series<Number, Number> q2 = new XYChart.Series<Number, Number>();
+		q2.setName("Keep Satisfied");
+		
+		// Create the new series
+		XYChart.Series<Number, Number> q3 = new XYChart.Series<Number, Number>();
+		q3.setName("Min Effor");
+		
+		// Create the new series
+		XYChart.Series<Number, Number> q4 = new XYChart.Series<Number, Number>();
+		q4.setName("Keep Informed");
+		
+		
+		// For each actor on the list
+		for(IIActors iia : project.getRelevanceModel().getActorsList()) {
+			// Create a new data
+			XYChart.Data<Number, Number> data = new XYChart.Data<Number, Number>(iia.getX(), iia.getY());
+			data.setExtraValue(iia.getActor());
+			
+			data.nodeProperty().addListener(new ChangeListener<Node>() {
+		        @Override public void changed(ObservableValue<? extends Node> ov, Node oldNode, final Node node) {
+		          if (node != null) {
+					displayLabelForData(data, iia.getInitials());
+		          } 
+		        }
+		    });
+
+
+			// Evaluate on which list add it			
+			switch(iia.getQuadrant()) {
+				case 1: // Case high high
+						q1.getData().add(data);
+						break;
+				
+				case 2: // Case low high
+						q2.getData().add(data);
+						break;
+						
+				case 3: // Case low low
+						q3.getData().add(data);
+						break;
+						
+				case 4: // Case high low
+						q4.getData().add(data);
+						break;
+			}
+		}
+		
+		// Clear current data
+		iichart.getData().clear();
+		
+		// Add new series
+		iichart.getData().add(q1);
+		iichart.getData().add(q2);
+		iichart.getData().add(q3);
+		iichart.getData().add(q4);
+		
+		
+		// TOOLTIPS QUADRANT 1
+		for( XYChart.Data<Number, Number> d : q1.getData() ) {
+			// Get the extra info
+			Actor a = (Actor) d.getExtraValue();
+
+			// Create a tooltip
+			Tooltip tt = new Tooltip(a.getStakeholder() + "\n" + a.getDescription());
+			tt.setWrapText(true);
+			tt.setMaxWidth(200.0);
+			
+			// Create a tooltip
+			Tooltip.install(d.getNode(), tt );
+		}
+		
+		// TOOLTIPS QUADRANT 2
+		for( XYChart.Data<Number, Number> d : q2.getData() ) {
+			// Get the extra info
+			Actor a = (Actor) d.getExtraValue();
+
+			// Create a tooltip
+			Tooltip tt = new Tooltip(a.getStakeholder() + "\n" + a.getDescription());
+			tt.setWrapText(true);
+			tt.setMaxWidth(200.0);
+			
+			// Create a tooltip
+			Tooltip.install(d.getNode(), tt );
+		}
+		
+		// TOOLTIPS QUADRANT 3
+		for( XYChart.Data<Number, Number> d : q3.getData() ) {
+			// Get the extra info
+			Actor a = (Actor) d.getExtraValue();
+
+			// Create a tooltip
+			Tooltip tt = new Tooltip(a.getStakeholder() + "\n" + a.getDescription());
+			tt.setWrapText(true);
+			tt.setMaxWidth(200.0);
+			
+			// Create a tooltip
+			Tooltip.install(d.getNode(), tt );
+		}
+		
+		// TOOLTIPS QUADRANT 4
+		for( XYChart.Data<Number, Number> d : q4.getData() ) {	
+			// Get the extra info
+			Actor a = (Actor) d.getExtraValue();
+
+			// Create a tooltip
+			Tooltip tt = new Tooltip(a.getStakeholder() + "\n" + a.getDescription());
+			tt.setWrapText(true);
+			tt.setMaxWidth(200.0);
+			
+			// Create a tooltip
+			Tooltip.install(d.getNode(), tt );
+		}
+	}
+
+
+	
+	/**
+	 * Method to display a text on top of the datapoint node.
+	 * @param data The datapoint in focus.
+	 * @param s The string to be displayed.
+	 */
+	private void displayLabelForData(XYChart.Data<Number, Number> data, String s) {
+		// Obtain the node from the datapoint
+		final Node node = data.getNode();
+		 
+		// Set the text to show
+		final Text dataText = new Text(s);
+		  
+		// Add a change listener to the parent property
+		node.parentProperty().addListener(new ChangeListener<Parent>() {
+			@Override 
+			public void changed(ObservableValue<? extends Parent> ov, Parent oldParent, Parent parent) {
+				// Get the parent group
+				Group parentGroup = (Group) parent;
+				parentGroup.getChildren().add(dataText);
+		    }
+		});
+
+		// Add a listener to the parent property
+		node.boundsInParentProperty().addListener(new ChangeListener<Bounds>() {
+			@Override 
+			public void changed(ObservableValue<? extends Bounds> ov, Bounds oldBounds, Bounds bounds) {
+				// Set layout on X
+				dataText.setLayoutX( 
+						Math.round( bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2) );
+		      
+				// Set layout on Y
+				dataText.setLayoutY( Math.round(bounds.getMinY() - dataText.prefHeight(-1) * 0.5) );
+			}
+		});
+	}
+
+	
+	
+	
+	
+	/**
+     * Method to set the correct name of the tab, depending if its content
+     * is saved or not.
+     */
+    public void correctTabName() {
+    	chartTab.setText( (project.isIIChartSaved()) ? "Interest vs Influence" : "*Interest vs Influence" );
+    }
+	
+    
+    
+    
+	/**
+	 * Event handler for the case where the tab is requested to be closed
+	 * and this studies the content and decides what to do.
+	 * @param e The event, so it can consume it if neccesary.
+	 */
+	@FXML
+    private void onCloseTabRequest(Event e) {
+		/*
+		 * SAVED CHANGES
+		 */
+		if( project.isIIChartSaved() ) {
+			//If chart is saved, closing them will remove them from the project
+				
+			// Prepare the basic alert thing
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.initOwner( MainApp.getMainApp().getPrimaryStage() );
+			
+			// Set the image
+			alert.setGraphic(new ImageView(this.getClass().getResource(
+					ImageLocation.ALERT_WARNING.toString()).toString()));
+			
+			// Set the text of the message
+			alert.setTitle("Removing Existing I&i Chart");
+			alert.setHeaderText("Closing this tab will clear the Relevance Chart.");
+			alert.setContentText("By closing this tab the current I&I (Relevance) Chart will be "
+					+ "cleared from the project. Are you sure you want to remove it?");
+
+
+			// Show alert and wait
+			Optional<ButtonType> result = alert.showAndWait();
+				
+			// CLOSE TAB AND REMOVE CHART
+			if (result.get() == ButtonType.OK) {
+				// Clear model
+				project.setRelevanceModel(new SHRelevanceModel());
+				project.setIIChartSaved(false);	
+				
+				// Set tab closed
+				MainApp.getMainApp().setOpenIIChartTab(false);
+			} 
+			// DO NOTHING
+			else {
+				// ... user chose CANCEL or closed the dialog. Don't save and don't close the tab.
+				e.consume();
+			}
+		}
+
+		/*
+		 * UNSAVED CHANGES
+		 */
+		else {
+			// Prepare the basic alert thing
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.initOwner( MainApp.getMainApp().getPrimaryStage() );
+				
+			// Set the image
+			alert.setGraphic(new ImageView(this.getClass().getResource(ImageLocation.ALERT_WARNING.toString()).toString()));
+				
+			// Set the text of the message
+			alert.setTitle("Unsaved Changes");
+			alert.setHeaderText("There are unsaved changes on the Distribution Charts of the project.");
+			alert.setContentText("There are changes not saved that will be lost if you close the tab."
+						+ "Are you sure you want to close the tab?");
+
+
+			// Show alert and wait
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			
+			/*
+			 *  CLOSE TAB AND DON'T SAVE
+			 */
+			if (result.get() == ButtonType.OK) {
+				// Clear model
+				project.setRelevanceModel(new SHRelevanceModel());
+				project.setIIChartSaved(true);	
+				
+				// Set tab closed
+				MainApp.getMainApp().setOpenIIChartTab(false);
+			} 
+			/*
+			 *  DO NOTHINGS
+			 */
+			else {
+			    // ... user chose CANCEL or closed the dialog
+				// Don't save and don't close the tab
+				e.consume();
+			}
+		}
+	
+
+    }
+
+	
+}

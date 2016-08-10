@@ -1,0 +1,769 @@
+package gui.view.model;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.TreeItem;
+
+
+
+
+/**
+ * Model for each TreeTableView item on the tab table, as the project saves it. 
+ * Represents a single type of stakeholder that is available on the system.
+ * 
+ * @author Ing. Melina C. Vidoni - 2015
+ *
+ */
+public class ProjectModel {
+	private static ProjectModel instance = null;
+	
+	private StringProperty projectName;
+	private StringProperty currentDirectory;
+	
+	private TreeItem<TypesDimension> typesDimensionRoot;
+	private TreeItem<TypesCriterion> typesCriterionRoot;
+	private ObservableList<TypesDimension> typesDimensionList;
+	private ObservableList<TypesCriterion> typesCriterionList;	
+	
+	private ObservableList<Roles> rolesTableModel;
+	private ObservableList<Actor> actorsTableModel;
+	private ObservableList<Requirement> reqsTableModel;
+	
+	private ObservableList<PieChart.Data> dimensionPieData;
+	private ObservableList<PieChart.Data> criterionPieData;
+	private ObservableList<PieChart.Data> rolesPieData;
+	private SHRelevanceModel relevanceModel;
+	private ARProportionModel proportionModel;
+
+	
+	private RolesType rolesType;
+	
+	private boolean rolesSaved;
+	private boolean actorsSaved;
+	private boolean reqsSaved;
+	private boolean piesSaved;
+	private boolean iiChartSaved;
+	private boolean arChartSaved;
+
+	
+	
+	
+	
+	
+	/**
+	 * Method to get the instance of the Project Model
+	 * @return the current instance.
+	 */
+	public static ProjectModel getInstance() {
+		// If the isntance is null
+		if( instance == null) {
+			// Call the constructor
+			instance = new ProjectModel();
+		}
+		
+		// Return the instance
+		return instance;
+	}
+	
+	
+	/**
+	 * Default constructor with no parameters.
+	 */
+	protected ProjectModel() {
+		// Main information lists
+		typesDimensionRoot = new TreeItem<TypesDimension>();
+		typesCriterionRoot = new TreeItem<TypesCriterion>();
+		
+		rolesTableModel = FXCollections.<Roles>observableArrayList();
+		actorsTableModel = FXCollections.<Actor>observableArrayList();
+		reqsTableModel = FXCollections.<Requirement>observableArrayList();
+		
+		typesDimensionList = FXCollections.<TypesDimension>observableArrayList();
+		typesCriterionList = FXCollections.<TypesCriterion>observableArrayList();
+		
+		
+		// Graphics List
+		dimensionPieData = FXCollections.<PieChart.Data>observableArrayList();
+		criterionPieData = FXCollections.<PieChart.Data>observableArrayList();
+		rolesPieData = FXCollections.<PieChart.Data>observableArrayList();
+		relevanceModel = new SHRelevanceModel();
+		proportionModel = new ARProportionModel();
+		
+		
+		// Other variables
+		currentDirectory = new SimpleStringProperty("");
+		projectName = new SimpleStringProperty("");
+		
+		
+		// Saving flags
+		rolesSaved = true;
+		actorsSaved = true;
+		reqsSaved = true;
+		piesSaved = true;
+		iiChartSaved = true;
+		arChartSaved = true;
+		
+		
+		// Other falgs
+		rolesType = RolesType.INIT;
+	}
+	
+	
+	
+	/**
+	 * Clear the project and re-sets it to the blank-slate state.
+	 */
+	public void clearProject() {
+		instance = new ProjectModel();
+	}
+	
+	
+	
+	/**
+	 * Method to get information on possible unsaved changes for this project.
+	 * @return @true in case there are unsaved changes, @false in the other hand.
+	 */
+	public boolean hasUnsavedChanges() {
+		// TODO Add more saves checks
+		return ( !rolesSaved || !actorsSaved || !piesSaved || !iiChartSaved );
+	}
+	
+	
+	
+	
+	
+	/**
+	 * @return the root of the types tree
+	 */
+	public TreeItem<TypesDimension> getDimensionRoot() {
+		return typesDimensionRoot;
+	}
+	
+	
+	public void setDimensionRoot(TreeItem<TypesDimension> root) {
+		typesDimensionRoot = root;
+	}
+	
+	
+	/**
+	 * @return the root of the criterion tree
+	 */
+	public TreeItem<TypesCriterion> getCriterionRoot() {
+		return typesCriterionRoot;
+	}
+	
+	
+	public void setCriterionRoot(TreeItem<TypesCriterion> root) {
+		typesCriterionRoot = root;
+	}
+
+
+	/**
+	 * @return the projectName
+	 */
+	public String getProjectName() {
+		return projectName.get();
+	}
+
+
+	/**
+	 * @param projectName the projectName to set
+	 */
+	public void setProjectName(String projectName) {
+		this.projectName.set(projectName);
+	}
+
+
+	/**
+	 * @return the currentDirectory
+	 */
+	public String getCurrentDirectory() {
+		return currentDirectory.get();
+	}
+
+
+
+	/**
+	 * @param currentDirectory the currentDirectory to set
+	 */
+	public void setCurrentDirectory(String currentDirectory) {
+		this.currentDirectory.set(currentDirectory);
+	}
+
+
+
+	/**
+	 * @return the rolesTableModel
+	 */
+	public ObservableList<Roles> getRolesTableModel() {
+		return rolesTableModel;
+	}
+
+
+
+	/**
+	 * Adds a single role to the list of roles.
+	 * @param rolesTableModel the rolesTableModel to set
+	 */
+	public void addRolesTableModel(Roles r) {
+		rolesTableModel.add(r);
+	}
+	
+	
+	
+	/**
+	 * Sets a whole list of roles, as the default roles list.
+	 * @param rlist the list to be set.
+	 */
+	public void setRolesTableModel(ObservableList<Roles> rlist) {
+		rolesTableModel = rlist;
+	}
+
+
+	
+
+	/**
+	 * @return the actorsTableModel
+	 */
+	public ObservableList<Actor> getActorsTableModel() {
+		return actorsTableModel;
+	}
+	
+	
+	/**
+	 * Adds a single actor to the list of actors.
+	 * @param a the actor to add to the list
+	 */
+	public void addActorsTableModel(Actor a) {
+		actorsTableModel.add(a);
+	}
+
+
+	/**
+	 * @param actorsTableModel the actorsTableModel to set
+	 */
+	public void setActorsTableModel(ObservableList<Actor> atm) {
+		actorsTableModel = atm;
+	}
+
+
+	/**
+	 * @return the rolesSaved
+	 */
+	public boolean isRolesSaved() {
+		return rolesSaved;
+	}
+
+
+
+	/**
+	 * @param rolesSaved the rolesSaved to set
+	 */
+	public void setRolesSaved(boolean rs) {
+		rolesSaved = rs;
+	}
+
+	
+
+	/**
+	 * @return the actorsSaved
+	 */
+	public boolean isActorsSaved() {
+		return actorsSaved;
+	}
+
+
+	/**
+	 * @param actorsSaved the actorsSaved to set
+	 */
+	public void setActorsSaved(boolean actorsSaved) {
+		this.actorsSaved = actorsSaved;
+	}
+
+	
+	
+
+	/**
+	 * @return the rolesType
+	 */
+	public RolesType getRolesType() {
+		return rolesType;
+	}
+
+
+	/**
+	 * @param rolesType the rolesType to set
+	 */
+	public void setRolesType(RolesType rt) {
+		rolesType = rt;
+	}
+
+
+	
+	/**
+	 * Method that evaluates that all the roles must have at least name and description
+	 * completed, in order to be usefull.
+	 * @return false if there is at least one incomplete role, and true in the other hand.
+	 */
+	public boolean rolesCompleteInfo() {
+		// Go for each role
+		for(Roles r : rolesTableModel) {
+			// if or the name or the description are empty
+			if( r.getName().isEmpty() || r.getDescription().isEmpty() ) {
+				// Return false and cut the loop
+				return false;
+			}
+		}
+		
+		// If we did it to here, return true
+		return true;
+	}
+	
+	
+	/**
+	 * Method that evaluates that all the actors must have their information complete.
+	 * @return false if there is at least one incomplete actor, and true in the other hand.
+	 */
+	public boolean actorsCompleteInfo() {
+		// Go through each actor
+		for(Actor a : actorsTableModel) {
+			// If it has missing info
+			if( a.hasMissingInfo() ) {
+				// Return false, and cut the loop
+				return false;
+			}
+		}
+		
+		// If we make it to here, return true
+		return true;
+	}
+	
+
+	
+	/**
+	 * Method that evaluates that all the requirements must have their information complete.
+	 * @return false if there is at least one incomplete requirement, and true in the other hand.
+	 */
+	public boolean reqsCompleteInfo() {
+		// Go through each requirement
+		for(Requirement r : reqsTableModel) {
+			// If this has missing info
+			if( r.hasMissingInfo() ) {
+				// Return false and cut the loop
+				return false;
+			}
+		}
+		
+		// If we made it to here, return true
+		return true;
+	}
+	
+	
+
+	
+	
+	/**
+	 * Method that creates a simple observable list with the names
+	 * of the roles, in order to be used as a combo box in the table
+	 * that allows adding actors to a project.
+	 * @return an ObservableArrayList of Strings, with the names of the roles.
+	 */
+	public ObservableList<String> getRolesCombo() {
+		// Create a list
+		ObservableList<String> list = FXCollections.<String>observableArrayList();
+		
+		// Go around the dimensions
+		for(Roles r : rolesTableModel) {
+			list.add( r.getName() );
+		}
+		
+		// Return the list
+		return list;
+	}
+
+
+
+
+	/**
+	 * Method that creates a simple observable list with the names
+	 * of the dimensions that are usable, in order to be used as a 
+	 * combo box in the table that allows adding actors to a project.
+	 * @return an ObservableArrayList of Strings, with the names of the dimensions.
+	 */
+	public ObservableList<String> getDimensionCombo() {
+		// Create a list
+		ObservableList<String> list = FXCollections.<String>observableArrayList();
+		
+		// Iterate through the list
+		for(TypesDimension td : typesDimensionList) {
+			// If this is usable
+			if( td.getUsable().equals("Yes") ) {
+				// Add it to the list
+				list.add( td.getName() );
+			}
+		}
+		
+		// Return the list
+		return list;
+	}
+
+
+
+	
+	
+	
+	
+	/**
+	 * Method that creates a simple observable list with the names
+	 * of the criterion that are usable, in order to be used as a 
+	 * combo box in the table that allows adding actors to a project.
+	 * @return an ObservableArrayList of Strings, with the names of the criterion.
+	 */
+	public ObservableList<String> getCriterionCombo() {
+		// Create a list
+		ObservableList<String> list = FXCollections.<String>observableArrayList();
+		
+		// Iterate through the plain list
+		for(TypesCriterion tc : this.typesCriterionList) {
+			// If this is usable
+			if( tc.getUsable().equals("Yes") ) {
+				// Add it to the list
+				list.add( tc.getName() );
+			}
+		}
+
+		// Return the list
+		return list;
+	}
+
+
+	
+	/**
+	 * Method that creates a simple observable list with the names of
+	 * the available stakeholders, in order to be used as a combobox;
+	 * @return an ObservableArrayList of Strings, with the actors' name.
+	 */
+	public ObservableList<String> getActorsCombo() {
+		// Create a list
+		ObservableList<String> list = FXCollections.<String>observableArrayList();
+		
+		// Iterate through the list
+		for(Actor a: actorsTableModel) {
+			// Add the name
+			list.add( a.getId() + ": " + a.getStakeholder() );
+		}
+		
+		// Return the list
+		return list;
+	}
+	
+
+	
+	
+	/**
+	 * @return the dimensionPieData
+	 */
+	public ObservableList<PieChart.Data> getDimensionPieData() {
+		return dimensionPieData;
+	}
+
+	
+	
+
+	/**
+	 * @param dimensionPieData the dimensionPieData to set
+	 */
+	public void setDimensionPieData(ObservableList<PieChart.Data> d) {
+		dimensionPieData = d;
+	}
+
+	
+	
+
+	/**
+	 * @return the criterionPieData
+	 */
+	public ObservableList<PieChart.Data> getCriterionPieData() {
+		return criterionPieData;
+	}
+
+	
+
+	/**
+	 * @param criterionPieData the criterionPieData to set
+	 */
+	public void setCriterionPieData(ObservableList<PieChart.Data> c) {
+		criterionPieData = c;
+	}
+
+	
+
+	/**
+	 * @return the rolesPieData
+	 */
+	public ObservableList<PieChart.Data> getRolesPieData() {
+		return rolesPieData;
+	}
+
+
+	
+	/**
+	 * @param rolesPieData the rolesPieData to set
+	 */
+	public void setRolesPieData(ObservableList<PieChart.Data> r) {
+		rolesPieData = r;
+	}
+
+
+	
+	/**
+	 * @return the piesSaved
+	 */
+	public boolean isPiesSaved() {
+		return piesSaved;
+	}
+
+
+	
+	/**
+	 * @param piesSaved the piesSaved to set
+	 */
+	public void setPiesSaved(boolean ps) {
+		piesSaved = ps;
+	}
+
+
+	
+	
+	/**
+	 * Method that returns true if there is at least one distribution pie
+	 * to be showcased on the project panel.
+	 * 
+	 * @return true if there is at least a pie, or false if there is none.
+	 */
+	public boolean hasDistributionPies() {
+		// Return!
+		return ( !rolesPieData.isEmpty() || !dimensionPieData.isEmpty() || !criterionPieData.isEmpty() );
+	}
+
+
+	/**
+	 * @return the iiChartSaved
+	 */
+	public boolean isIIChartSaved() {
+		return iiChartSaved;
+	}
+
+
+	/**
+	 * @param iiChartSaved the iiChartSaved to set
+	 */
+	public void setIIChartSaved(boolean i) {
+		iiChartSaved = i;
+	}
+
+
+	
+	/**
+	 * @return the reqsSaved
+	 */
+	public boolean isReqsSaved() {
+		return reqsSaved;
+	}
+
+
+	/**
+	 * @param reqsSaved the reqsSaved to set
+	 */
+	public void setReqsSaved(boolean rs) {
+		reqsSaved = rs;
+	}
+
+
+	/**
+	 * @return the reqsTableModel
+	 */
+	public ObservableList<Requirement> getReqsTableModel() {
+		return reqsTableModel;
+	}
+
+
+	/**
+	 * @param reqsTableModel the reqsTableModel to set
+	 */
+	public void setReqsTableModel(ObservableList<Requirement> rqt) {
+		reqsTableModel = rqt;
+	}
+
+
+	/**
+	 * @return the relevanceModel
+	 */
+	public SHRelevanceModel getRelevanceModel() {
+		return relevanceModel;
+	}
+
+
+	/**
+	 * @param relevanceModel the relevanceModel to set
+	 */
+	public void setRelevanceModel(SHRelevanceModel rm) {
+		relevanceModel = rm;
+	}
+
+	
+	/**
+	 * @return the proportionModel
+	 */
+	public ARProportionModel getProportionModel() {
+		return proportionModel;
+	}
+
+
+	/**
+	 * @param proportionModel the proportionModel to set
+	 */
+	public void setProportionModel(ARProportionModel pm) {
+		proportionModel = pm;
+	}
+
+	
+
+	/**
+	 * @return the arChartSaved
+	 */
+	public boolean isArChartSaved() {
+		return arChartSaved;
+	}
+
+	
+	/**
+	 * @param arChartSaved the arChartSaved to set
+	 */
+	public void setArChartSaved(boolean ac) {
+		arChartSaved = ac;
+	}
+	
+
+
+	
+	
+	/**
+	 * Getter to obtain a specific actor of the table model
+	 * through the ID it has.
+	 * @param id The actor's ID to search for.
+	 * @return The actor found, or null if not found.
+	 */
+	public Actor getActorByID(String id) {
+		// Go through the list of actors
+		for( Actor a : actorsTableModel ) {
+			// If this has the id
+			if( a.getId().equals(id) ) {
+				// Return this actor
+				return a;
+			}
+		}
+		
+		// Return null if not found
+		return null;
+	}
+
+
+	/**
+	 * @return the typesDimensionList
+	 */
+	public ObservableList<TypesDimension> getDimensionList() {
+		return typesDimensionList;
+	}
+
+
+	/**
+	 * @param typesDimensionList the typesDimensionList to set
+	 */
+	public void setDimensionList(ObservableList<TypesDimension> tdl) {
+		typesDimensionList = tdl;
+	}
+
+
+	/**
+	 * @return the typesCriterionList
+	 */
+	public ObservableList<TypesCriterion> getCriterionList() {
+		return typesCriterionList;
+	}
+
+
+	/**
+	 * @param typesCriterionList the typesCriterionList to set
+	 */
+	public void setCriterionList(ObservableList<TypesCriterion> tcl) {
+		typesCriterionList = tcl;
+	}
+
+	
+	
+
+	/**
+	 * Used to get the index on the list of this current criterion.
+	 * @param criterion The name of the criterion to search for.
+	 * @return The index if found, -1 if not found.
+	 */
+	public int getIndexOfCriterion(String criterion) {
+		// Go through each criterion
+		for(TypesCriterion tc : typesCriterionList) {
+			// If this is it
+			if( tc.getName().equals(criterion) )
+				// Return the index
+				return typesCriterionList.indexOf(tc);
+		}
+		
+		// Return index
+		return -1;
+	}
+
+	
+
+	/**
+	 * Used to get the index on the plain list of a current dimension.
+	 * @param dimension The name of the dimension to search for.
+	 * @return The index if found, -1 if not found.
+	 */
+	public int getIndexOfDimension(String dimension) {
+		// Go through each dimension
+		for(TypesDimension td : typesDimensionList) {
+			// If this is it
+			if( td.getName().equals(dimension) )
+				// Return the index
+				return typesDimensionList.indexOf(td);
+		}
+		
+		// Return fail index
+		return -1;
+	}
+
+
+	
+	/**
+	 * Used to get the index on the list of available roles
+	 * @param role The name of the role to search for.
+	 * @return The index if found, 1 if not found.
+	 */
+	public int getIndexOfRoles(String role) {
+		// Go through each role
+		for(Roles r : this.rolesTableModel) {
+			// If this is it
+			if( r.getName().equals(role) )
+				// Return the index
+				return rolesTableModel.indexOf(r);
+		}
+		
+		// Return fail index
+		return -1;
+	}
+
+
+	
+}

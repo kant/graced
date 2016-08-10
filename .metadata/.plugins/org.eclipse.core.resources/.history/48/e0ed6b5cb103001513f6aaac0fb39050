@@ -1,0 +1,101 @@
+package gui.view.model;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+
+
+/**
+ * Model for each TreeTableView item on the tab table, as the project saves it. 
+ * Represents a single criterion of stakeholder that is available on the system.
+ * 
+ * @author Ing. Melina C. Vidoni - 2015
+ *
+ */
+public class TypeCriterion extends Type {
+	private IntegerProperty level;
+	private StringProperty name;
+	private StringProperty usable;
+	private StringProperty description;	
+	
+	
+	/**
+	 * Default constructor of the class.
+	 * @param l Level of the criterion node.
+	 * @param n Name of the criterion node.
+	 * @param d Description of the criterion node.
+	 */
+	public TypeCriterion(int l, String n, String d) {
+		level = new SimpleIntegerProperty(l);
+		name = new SimpleStringProperty(n);
+		description = new SimpleStringProperty(d);
+		usable = (l == 0) ? new SimpleStringProperty("No") : new SimpleStringProperty("Yes");
+	}
+
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name.get();
+	}
+
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String n) {
+		name.set(n);
+	}
+
+
+	/**
+	 * @return the usable
+	 */
+	public String getUsable() {
+		return usable.get();
+	}
+
+
+	/**
+	 * @param usable the usable to set
+	 */
+	public void setUsable(String u) {
+		usable.set(u);
+	}
+
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description.get();
+	}
+
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String d) {
+		description.set(d);
+	}
+
+
+	/**
+	 * @return the level
+	 */
+	public int getLevel() {
+		return level.get();
+	}
+
+
+	/**
+	 * @param level the level to set
+	 */
+	public void setLevel(int l) {
+		level.set(l);
+	}
+
+}

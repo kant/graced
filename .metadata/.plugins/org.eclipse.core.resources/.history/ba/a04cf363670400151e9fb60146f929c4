@@ -1,0 +1,89 @@
+package logic.filemanager.enums;
+
+
+
+/**
+ * Enumerated class for the labels on the main file.
+ * @author Ing. Melina C. Vidoni - 2015
+ *
+ */
+public enum LabelsMainFile {
+	NAME("Name"),
+	PATH("Path"),
+	DIMENSION("Dimension"),
+	CRITERION("Criterion"),
+	CUSTOM_ROLES("Custom Roles"),
+	DEFAULT_ROLES("Default Roles"),
+	ACTORS("Actors"),
+	REQS_LIST("Requirements List"),
+	DIST_DIM("Dimension Distribution"),
+	DIST_CRIT("Criterion Distribution"),
+	DIST_ROLE("Roles Distribution"),
+	II_CHART("Relevance Quadrants"),
+	AR_CHART("Proportion Charts");
+
+	
+	
+
+	
+	private String route;
+
+	
+	
+	
+	/**
+	 * Default constructor of the class.
+	 * @param l A name.
+	 */
+	LabelsMainFile(String l) {
+		route = l;
+	}
+	
+	
+	
+	
+	/**
+	 * Method that allows the system to get a enum that matches with the received label.
+	 * @param n The label to be compared with.
+	 * @return The enum object if it exists, or a null object.
+	 */
+	public static LabelsMainFile getLabel(String n){
+		if(NAME.toString().equals(n))
+			return NAME;
+		else if(PATH.toString().equals(n))
+			return PATH;
+		else if(DIMENSION.toString().equals(n))
+			return DIMENSION;
+		else if(CRITERION.toString().equals(n))
+			return CRITERION;
+		else if(CUSTOM_ROLES.toString().equals(n))
+			return CUSTOM_ROLES;
+		else if(DEFAULT_ROLES.toString().equals(n))
+			return DEFAULT_ROLES;
+		else if(ACTORS.toString().equals(n))
+			return ACTORS;
+		else if(REQS_LIST.toString().equals(n))
+			return REQS_LIST;
+		else if(DIST_DIM.toString().equals(n))
+			return DIST_DIM;
+		else if(DIST_CRIT.toString().equals(n))
+			return DIST_CRIT;
+		else if(DIST_ROLE.toString().equals(n))
+			return DIST_ROLE;
+		else if(II_CHART.toString().equals(n))
+			return II_CHART;
+		else if(AR_CHART.toString().equals(n))
+			return AR_CHART;
+		return null;
+	}
+	
+	
+	
+	/**
+	 * Method that converts the current enum on a string.
+	 */
+	public String toString() {
+		return route;
+	}
+	
+}

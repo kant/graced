@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root fx:id="IntroPanelController" maxHeight="650.0" maxWidth="800.0" minHeight="650.0" minWidth="800.0" prefHeight="650.0" prefWidth="800.0" type="GridPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.IntroPanelController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="250.0" prefWidth="250.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="350.0" prefWidth="350.0" />
+<ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" prefWidth="200.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="150.0" prefHeight="150.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="400.0" prefHeight="400.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+<children><ImageView fitHeight="650.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" GridPane.rowSpan="2147483647">
+<image>
+<Image url="@img/dotsbg.jpg" />
+</image></ImageView><Button fx:id="nextButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#nextPanel" text="Next &gt;" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+<graphic><ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/button_next.png" />
+</image></ImageView>
+</graphic></Button><Button fx:id="exitButton" mnemonicParsing="false" onAction="#exitSystem" text="Exit" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+<graphic><ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+<image>
+<Image url="@img/button_exit.png" />
+</image></ImageView>
+</graphic></Button><Label alignment="TOP_LEFT" text="Welcome to Gr.A.C.E.D." GridPane.columnIndex="1" GridPane.columnSpan="2147483647">
+<font>
+<Font name="System Bold" size="28.0" />
+</font>
+<GridPane.margin>
+<Insets left="30.0" />
+</GridPane.margin></Label><Label alignment="TOP_CENTER" contentDisplay="TOP" text="Gr.A.C.E.D. states for Grammar Agent (for) Classifying ERP's Databases.&#10;&#10;With this Intelligent Agent you will be able to classify the tables of a database in the categories of Manufacturing Information proposed in the ANSI/ISA-95 Standard.&#10;&#10;Gr.A.C.E.D. will also give you a proportion on how much does the analized database adjust to the standard. Also, all the results will be saved on XML files, that could be opened without the assistance of this agent.&#10;&#10;Finally, Gr.A.C.E.D. was developed at INGAR, Institute of Development and Design, part of UTN-CONICET." textAlignment="JUSTIFY" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="TOP">
+<GridPane.margin>
+<Insets left="50.0" right="50.0" />
+</GridPane.margin>
+<font>
+<Font size="12.0" />
+</font></Label>
+</children>
+</fx:root>

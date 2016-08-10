@@ -1,0 +1,50 @@
+1396349267531	Rename package 'application'
+1396349275189	Rename package 'controller'
+1396349290345	Rename package 'view'
+1396349299698	Rename package 'view.img'
+1396349561892	Rename type 'BowLabels'
+1396349628506	Rename field 'label'
+1396353217270	Delete element
+1396370489699	Rename type 'WordSeparationPanelController'
+1396525395300	Move file
+1396525404956	Rename resource 'style.css'
+1396525638419	Delete element
+1396525642220	Delete element
+1396525649487	Delete element
+1396527442202	Delete elements
+1396528776998	Rename resource 'style.css'
+1396528789748	Rename resource 'ProgressStyle'
+1396530002232	Delete element
+1396530003810	Delete element
+1396530007999	Delete element
+1396530020539	Rename resource 'global.css'
+1396530048902	Delete element
+1396530052443	Delete element
+1396530369093	Delete element
+1396530802857	Delete element
+1396530807250	Delete element
+1396532370716	Delete element
+1396532375004	Delete element
+1396532427612	Delete element
+1396539629386	Delete element
+1396539633984	Delete element
+1396539640373	Delete element
+1396539644871	Delete element
+1396539715321	Rename package 'gui.threads'
+1396539726047	Delete element
+1396540483058	Infer generic type arguments
+1396545987429	Delete element
+1396612751435	Delete elements
+1396612761771	Delete elements
+1396612818345	Delete elements
+1396615771412	Delete elements
+1396620182257	Infer generic type arguments
+1396620553102	Encapsulate field 'stepNumber'
+1396621989127	Delete elements
+1396622397266	Delete elements
+1396626735817	Delete elements
+1396626745422	Delete elements
+1396627154946	Delete elements
+1396627851884	Delete elements
+1396630760354	Delete element
+1396631365719	Move file

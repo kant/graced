@@ -1,0 +1,13 @@
+1376052106250	Encapsulate field 'file'
+1376052235027	Rename local variable 'modelsDirectoryLabel'
+1376052282968	Rename local variable 'getDirectoryButton'
+1376052457561	Rename local variable 'fc'
+1376056532092	Copy compilation unit
+1376056554275	Rename type 'AddFileModelAL'
+1376056634354	Copy compilation unit
+1376059300220	Rename type 'ObjectiveFunctionFrame'
+1376059343987	Copy compilation unit
+1376061041070	Copy compilation unit
+1376062091596	Move compilation units
+1376065212256	Move compilation units
+1376069386894	Encapsulate field 'isDefault'

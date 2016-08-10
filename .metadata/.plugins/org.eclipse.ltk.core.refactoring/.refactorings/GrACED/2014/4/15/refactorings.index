@@ -1,0 +1,26 @@
+1396871213340	Move file
+1396871380818	Move file
+1396871385288	Delete element
+1396871780885	Delete element
+1396871786962	Delete element
+1397042729055	Rename type 'UnclassifiedTablesLabels'
+1397042740300	Rename type 'ClassifiedTablesLabels'
+1397043196663	Rename type 'XMLReader'
+1397043532714	Encapsulate field 'totalTables'
+1397045865637	Delete elements
+1397045882056	Delete element
+1397046986715	Delete element
+1397048964122	Encapsulate field 'infoMainPC'
+1397056569341	Encapsulate field 'name'
+1397057863487	Rename field 'tableColumn'
+1397059363863	Rename field 'name'
+1397059557596	Rename type 'TablenameTModel'
+1397062173845	Delete element
+1397128759923	Rename type 'NameTable'
+1397134293545	Delete elements
+1397134887513	Rename local variable 'tableNode'
+1397138160418	Infer generic type arguments
+1397139722405	Encapsulate field 'tablename'
+1397139741369	Infer generic type arguments
+1397140811231	Rename local variable 'colNodes'
+1397214726591	Delete element

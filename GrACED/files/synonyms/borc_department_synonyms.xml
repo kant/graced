@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:synonym xmlns:tns="http://www.example.org/SynonymsSchema"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.example.org/SynonymsSchema SynonymsSchema.xsd"
+             tns:mainWord="department">
+
+
+<!-- SYNONYMS -->
+
+<tns:word tns:originalWord="dep"></tns:word>
+<tns:word tns:originalWord="departement"></tns:word>
+<tns:word tns:originalWord="department"></tns:word>
+
+
+</tns:synonym>

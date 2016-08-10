@@ -1,0 +1,252 @@
+package gui.view.model;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.util.Pair;
+
+
+
+/**
+ * Class that contains the model for the actors on the scatter chart named
+ * relevance model. It contains the list of actors, and all the available
+ * coordinates for each quadrant that currently do not have an actor on it.
+ * 
+ * @author Ing. Melina C. Vidoni - 2015.
+ *
+ */
+public class SHRelevanceModel {
+	private ObservableList<IIActors> actorsList;
+	
+	private ObservableList<Pair<Integer, Integer>> availableCoords1;
+	private ObservableList<Pair<Integer, Integer>> availableCoords2;
+	private ObservableList<Pair<Integer, Integer>> availableCoords3;
+	private ObservableList<Pair<Integer, Integer>> availableCoords4;
+	
+	
+	
+	/**
+	 * Default costructor of the class
+	 */
+	public SHRelevanceModel() {
+		// Initialize the lists
+		actorsList = FXCollections.observableArrayList();
+		
+		// Initialize quandrants positions
+		initAvailableCoordinates();
+	}
+	
+	
+	
+	
+	/**
+	 * Method that loads the corresponding coordinates lists
+	 * with all the available coordinates for each quadrant.
+	 * Only considers integer positions.
+	 */
+	private void initAvailableCoordinates() {
+		// Initialize coords list
+		availableCoords1 = FXCollections.observableArrayList();
+		availableCoords2 = FXCollections.observableArrayList();
+		availableCoords3 = FXCollections.observableArrayList();
+		availableCoords4 = FXCollections.observableArrayList();
+		
+		// Go with quadrant 1
+		for(int x1=1; x1<10; x1++) {
+			for(int y1=1; y1<10; y1++) {
+				// Create a new pair and add it
+				availableCoords1.add( new Pair<Integer, Integer>(x1, y1) );
+			}
+		}
+	
+		// Now go with quadrant 2
+		for(int x2=-9; x2<0; x2++) {
+			for(int y2=1; y2<10; y2++) {
+				// Create a new pair and add it
+				availableCoords2.add( new Pair<Integer, Integer>(x2, y2) );
+			}
+		}
+		
+		// Now go with quadrant 3
+		for(int x3=-9; x3<0; x3++) {
+			for(int y3=-9; y3<0; y3++) {
+				// Create a new pair and add it
+				availableCoords3.add( new Pair<Integer, Integer>(x3, y3) );
+			}
+		}
+		
+		// Now go with quadrant 4
+		for(int x4=1; x4<10; x4++) {
+			for(int y4=-9; y4<0; y4++) {
+				// Create a new pair and add it
+				availableCoords4.add( new Pair<Integer, Integer>(x4, y4) );
+			}
+		}
+	}
+
+
+
+	
+	
+	/**
+	 * Method that obtains a coordinate from each list of available coordinates
+	 * until all the actors have positions.
+	 */
+	public void calculateCoords() {
+		// Go through the list of actors
+		for(IIActors iia : actorsList) {
+			// Create a pair of coords
+			Pair<Integer, Integer> coords = new Pair<Integer, Integer>(0,0);
+			
+			// Now depending the quadrant...
+			switch(iia.getQuadrant()) {
+				case 1: // Quadrant 1, high high
+						int pos1 = randomCoord(0, availableCoords1.size()-1);
+						coords = availableCoords1.remove(pos1);
+						break;
+						
+				case 2: // Quadrant 2, low high
+						int pos2 = randomCoord(0, availableCoords2.size()-1);
+						coords = availableCoords2.remove(pos2);
+						break;
+						
+				case 3: // Quadrant 3, low low
+						int pos3 = randomCoord(0, availableCoords3.size()-1);
+						coords = availableCoords3.remove(pos3);
+						break;
+						
+				case 4: // Quadrant 4, high low
+						int pos4 = randomCoord(0, availableCoords4.size()-1);
+						coords = availableCoords4.remove(pos4);
+						break;
+			}
+			
+			// Now the coordinate we have is exactly what we need
+			iia.setX( coords.getKey() );
+			iia.setY( coords.getValue() );
+		}
+	}
+	
+	
+	
+	/**
+	 * Method to obtain a new random number between the specified parameters.
+	 * @param min Minimum number to obtain.
+	 * @param max Maximum number to obtain.
+	 * @return Random number between min and max.
+	 */
+	private int randomCoord(int min, int max) {
+		return ( min + (int)(Math.random() * max) ); 
+	}
+
+	
+	
+	
+	/**
+	 * Method to determine if the model is empty or not.
+	 * @return @true in case it is empty, or @false in the other case.
+	 */
+	public boolean isEmpty() {
+		return actorsList.isEmpty();
+	}
+	
+	
+	
+	/**
+	 * Getter to obtain the list of actors
+	 * @return The lis of actors converted to actors with coordinates.
+	 */
+	public ObservableList<IIActors> getActorsList() {
+		return actorsList;
+	}
+	
+
+	/**
+	 * Method to add an actor of an specific quadrant, to the list.
+	 * @param a The actor to be added.
+	 * @param q The quadrant were the actor is.
+	 */
+	public void addToList(Actor a, int q) {
+		actorsList.add(new IIActors(a,q));
+	}
+	
+	
+	/**
+	 * Method to add an actor of an specific quadrant, to the list.
+	 * @param a The actor to be added.
+	 */
+	public void addToList(IIActors a) {
+		actorsList.add(a);
+	}
+
+
+
+
+	/**
+	 * Method to remove the unused coords when loading the information
+	 * from a file. Evaluates all the quadrants.
+	 */
+	public void removeUsedCoords() {
+		// Get the lists for each quadrant
+		ObservableList<Pair<Integer, Integer>> remove1 = FXCollections.observableArrayList();
+		ObservableList<Pair<Integer, Integer>> remove2 = FXCollections.observableArrayList();
+		ObservableList<Pair<Integer, Integer>> remove3 = FXCollections.observableArrayList();
+		ObservableList<Pair<Integer, Integer>> remove4 = FXCollections.observableArrayList();
+		
+		// Go through each actor of the list
+		for(IIActors a : actorsList) {
+			// Evaluate the quadrant
+			switch( a.getQuadrant() ) {
+				case 1: // Quadrant 1
+						for(Pair<Integer, Integer> pair1 : availableCoords1 ) {
+							// If this is it
+							if( pair1.getKey()==a.getX() && pair1.getValue()==a.getY() ) {
+								// Put on the remove list
+								remove1.add(pair1);
+							}
+						}
+						break;
+					
+				case 2: // Quadrant 2
+						for(Pair<Integer, Integer> pair2 : availableCoords2 ) {
+							// If this is it
+							if( pair2.getKey()==a.getX() && pair2.getValue()==a.getY() ) {
+								// Put on the remove list
+								remove2.add(pair2);
+							}
+						}
+						break;
+					
+				case 3: // Quadrant 3
+						for(Pair<Integer, Integer> pair3 : availableCoords3 ) {
+							// If this is it
+							if( pair3.getKey()==a.getX() && pair3.getValue()==a.getY() ) {
+								// Put on the remove list
+								remove3.add(pair3);
+							}
+						}
+						break;
+					
+				case 4: // Quadrant 4
+						for(Pair<Integer, Integer> pair4 : availableCoords4 ) {
+							// If this is it
+							if( pair4.getKey()==a.getX() && pair4.getValue()==a.getY() ) {
+								// Put on the remove list
+								remove4.add(pair4);
+							}
+						}
+						break;
+			}
+		}
+		
+		// Remove from each list
+		availableCoords1.removeAll(remove1);
+		availableCoords2.removeAll(remove2);
+		availableCoords3.removeAll(remove3);
+		availableCoords4.removeAll(remove4);
+	}
+	
+	
+	
+	
+
+}

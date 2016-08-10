@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:synonym xmlns:tns="http://www.example.org/SynonymsSchema"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.example.org/SynonymsSchema SynonymsSchema.xsd"
+             tns:mainWord="min">
+
+
+<!-- SYNONYMS -->
+
+<tns:word tns:originalWord="minimum"></tns:word>
+<tns:word tns:originalWord="min"></tns:word>
+
+
+</tns:synonym>

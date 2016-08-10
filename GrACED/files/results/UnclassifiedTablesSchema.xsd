@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/UnclassifiedTablesSchema" xmlns:tns="http://www.example.org/UnclassifiedTablesSchema" elementFormDefault="qualified">
+
+    <element name="root" type="tns:RootType"></element>
+    
+    <complexType name="RootType">
+    	<sequence>
+    		<element ref="tns:table" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+    
+    <element name="table" type="tns:TableType"></element>
+    
+    <attribute name="tableName" type="string"></attribute>
+
+    <complexType name="TableType">
+    	<attribute ref="tns:tableName"></attribute>
+    </complexType>
+</schema>

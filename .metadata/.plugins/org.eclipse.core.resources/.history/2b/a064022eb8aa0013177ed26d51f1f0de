@@ -1,0 +1,280 @@
+package core;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedList;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import xmlfiles.BowLabels;
+import xmlfiles.GraphLabels;
+import xmlfiles.SynonymLabel;
+import database.objects.TableName;
+import frsf.cidisi.faia.agent.reactive.ReactiveAction;
+import frsf.cidisi.faia.state.AgentState;
+import frsf.cidisi.faia.state.EnvironmentState;
+
+
+
+/**
+ * Action for classifying that contains all the steps of the
+ * reason algorythm used to come up with a classification.
+ * Implements @see ReactiveAction from FAIA framework.
+ * @author Ing. Melina C. Vidoni - 2014
+ *
+ */
+public class ClassifyAction extends ReactiveAction {
+	
+	
+	
+	/**
+	 * Default constructor of the class.
+	 */
+	public ClassifyAction() { }
+
+	
+	
+	/**
+     * The string representation of the action is used by some components of
+     * the framework, like LatexOutput.
+     * It's very important to set a correct representation of the actions,
+     * particularly when using knowledge based agent. Look at the
+     * CalculusAction.toLogicName() method. The result of this one is lower
+     * cased, and it's supposed you are using this one in your prolog file
+     * (.pl file).
+     */
+	@Override
+	public String toString() {
+		return "Classify Action";
+	}
+	
+	
+	
+    /**
+     * This method updates the real state of the agent and the environment.
+     * 
+     * @param ast This is the agent's state to be updated.-
+     * @param est This is the agent's environment to be updated.-
+     */
+	@Override
+	public EnvironmentState execute(AgentState ast, EnvironmentState est) {
+		try {
+			// First, lets classify the tablename
+			classifyTablename( (GracedAgentState) ast );
+			
+			
+			
+			
+			
+		} 
+		catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		// TODO ALGORITMO LÓGICO DE LA CLASIFICACIÓN
+		return null;
+	}
+
+	
+	
+	
+	
+	/**
+	 * Method that controls the classification of the tablenames in all of the allowed
+	 * table-bows on the ansi standard representation.
+	 * @param gas The state of the agent.
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+    private void classifyTablename(GracedAgentState gas) throws SAXException, IOException, ParserConfigurationException {
+		// Get the files of bow_tabs
+    	LinkedList<String> tablesBows = getTableBows( gas.getAnsiStandard() );
+    	
+    	// Now for each bow
+    	for( String bow : tablesBows ) {
+    		// Evaluate current table
+    		evaluateTablename( bow, gas.getCurrentTablename() );
+    	}
+    	
+	}
+
+
+
+
+    
+    
+    
+    private void evaluateTablename(String bow, TableName currentTablename) throws SAXException, IOException, ParserConfigurationException {
+		// For this bag of words, get with all the synonyms files
+    	LinkedList<String> synonymList = getTableSynonyms(bow);
+    	
+    	// Replace the words...
+    	LinkedList<String> replacedWordList = replaceWords( synonymList, currentTablename.getSplittedName() );
+	}
+
+
+    
+    
+    
+
+	private LinkedList<String> replaceWords(LinkedList<String> synonyms, LinkedList<String> splittedName) {
+		// First of all, for each synonym item
+		for(String s : synonyms) {
+			// Reference the file
+			File synFile = new File( s );		 
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			Document synDoc = dbFactory.newDocumentBuilder().parse( synFile );
+			 
+			 // Normalize it
+			 synDoc.getDocumentElement().normalize();
+			 
+			 System.out.println( synDoc.getDocumentElement().getAttribute(SynonymLabel.MAINWORD.getLabel()) );
+
+			 // Now get the nodes
+			 NodeList nodes = synDoc.getElementsByTagName(SynonymLabel.WORDNAME.getLabel());
+			 
+			 System.out.println("Nodes qty: " + nodes.getLength());
+
+			 
+			 // For all the nodes...
+			 for (int i = 0; i < nodes.getLength(); i++) {
+				 // Get the current one
+				 Node node = nodes.item(i);
+				 
+				 // If it is a node
+				 if ( node.getNodeType() == Node.ELEMENT_NODE ) {
+					 // Get the element
+					 Element element = (Element) node;
+					  
+					// Print it to check
+					System.out.println( element.getAttribute(SynonymLabel.ORIGINAL.getLabel()) );
+				 }
+			 }
+		}
+	}
+
+
+			 
+			 
+			 
+	/**
+	 * Method that gets all of the synonyms files that are linked to a certain
+	 * tablename bow file.
+	 * @param bow The bow file to inspect.
+	 * @return A list with the name/location of each synonym file linked to the bow.
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+	private LinkedList<String> getTableSynonyms(String bow) throws SAXException, IOException, ParserConfigurationException {
+		 // Reference the file
+		 File graphFile = new File(bow);		 
+		 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		 Document bowDoc = dbFactory.newDocumentBuilder().parse( graphFile );
+		 
+		 // Normalize it
+		 bowDoc.getDocumentElement().normalize();
+
+		 // Now get the nodes
+		 NodeList nodes = bowDoc.getElementsByTagName(BowLabels.WORD.getLabel());
+
+		 // Prepare a list
+		 LinkedList<String> synonymFiles = new LinkedList<String>();
+		 
+		 // For all the nodes...
+		 for (int i = 0; i < nodes.getLength(); i++) {
+			 // Get the current one
+			 Node node = nodes.item(i);
+			 
+			 // If it is a node
+			 if ( node.getNodeType() == Node.ELEMENT_NODE ) {
+				// Get the element
+				Element element = (Element) node;
+				  
+				// Add the file to the list
+				synonymFiles.addLast( "files/synonyms/" + element.getAttribute(BowLabels.SYNONYMS.getLabel()) );
+				 
+				// Print it to check
+				System.out.println( synonymFiles.getLast() );
+
+			 }
+		 }
+		 
+		 // Return the list
+		 return synonymFiles;
+	}
+
+
+
+	/**
+     * Method that get the tablename bows that can be used to classify tablenames, from the
+     * ansi standard, on the agent state.
+     * @param ansiStandard
+     * @return
+     * @throws SAXException
+     * @throws IOException
+     * @throws ParserConfigurationException
+     */
+	private LinkedList<String> getTableBows(String ansiStandard) throws SAXException, IOException, ParserConfigurationException {
+		 // Reference the file
+		 File graphFile = new File( ansiStandard );		 
+		 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		 Document graph = dbFactory.newDocumentBuilder().parse( graphFile );
+		 
+		 // Normalize it
+		 graph.getDocumentElement().normalize();
+
+		 // Now get the nodes
+		 NodeList nodes = graph.getElementsByTagName(GraphLabels.NODE.getLabel());
+
+		 // Prepare a list
+		 LinkedList<String> bowList = new LinkedList<String>();
+		 
+		 // For all the nodes...
+		 for (int i = 0; i < nodes.getLength(); i++) {
+			 // Get the current one
+			 Node node = nodes.item(i);
+			 
+			 // If it is a node
+			 if ( node.getNodeType() == Node.ELEMENT_NODE ) {
+				 // Get the element
+				 Element element = (Element) node;
+				 
+				 // If this is usable...
+				 if( element.getAttribute("tns:usable").equals("true") ) {				 
+					 // Add the tablename to the list
+					 bowList.addLast( "files/bow/" + element.getAttribute("tns:tablenameBow") );
+					 
+					 // Print it to check
+					 System.out.println(bowList.getLast());
+				 }
+			 }
+		 }
+		 
+		 // Return the list
+		 return bowList;
+	}
+
+
+
+
+}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tns:bow xmlns:tns="http://www.example.org/BagOfWordsSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/BagOfWordsSchema BagOfWordsSchema.xsd "
+	tns:bowName="Bill Of Resources">
+	
+	
+<!--Word: category-->
+<tns:word tns:word="category" tns:hasSynonyms="true" tns:synonymsFile="bort_category_synonyms.xml" tns:wordWeight="5"></tns:word>
+
+<!--Word: employee-->
+<tns:word tns:word="employee" tns:hasSynonyms="true" tns:synonymsFile="bort_employee_synonyms.xml" tns:wordWeight="16"></tns:word>
+
+<!--Word: history-->
+<tns:word tns:word="history" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: internal-->
+<tns:word tns:word="internal" tns:hasSynonyms="true" tns:synonymsFile="bort_internal_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: job-->
+<tns:word tns:word="job" tns:hasSynonyms="true" tns:synonymsFile="bort_job_synonyms.xml" tns:wordWeight="10"></tns:word>
+
+<!--Word: line-->
+<tns:word tns:word="line" tns:hasSynonyms="true" tns:synonymsFile="bort_line_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: load-->
+<tns:word tns:word="load" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: lot-->
+<tns:word tns:word="lot" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: mrp-->
+<tns:word tns:word="mrp" tns:hasSynonyms="true" tns:synonymsFile="bort_mrp_synonyms.xml" tns:wordWeight="5"></tns:word>
+
+<!--Word: package-->
+<tns:word tns:word="package" tns:hasSynonyms="true" tns:synonymsFile="bort_package_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: product-->
+<tns:word tns:word="product" tns:hasSynonyms="true" tns:synonymsFile="bort_product_synonyms.xml" tns:wordWeight="20"></tns:word>
+
+<!--Word: production-->
+<tns:word tns:word="production" tns:hasSynonyms="true" tns:synonymsFile="bort_production_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: rel-->
+<tns:word tns:word="rel" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: resource-->
+<tns:word tns:word="resource" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="20"></tns:word>
+
+<!--Word: routing-->
+<tns:word tns:word="routing" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: stock-->
+<tns:word tns:word="stock" tns:hasSynonyms="true" tns:synonymsFile="bort_stock_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: supplierinfo-->
+<tns:word tns:word="supplierinfo" tns:hasSynonyms="true" tns:synonymsFile="bort_supplierinfo_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: trl-->
+<tns:word tns:word="trl" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: type-->
+<tns:word tns:word="type" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: window-->
+<tns:word tns:word="window" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: workbench-->
+<tns:word tns:word="workbench" tns:hasSynonyms="true" tns:synonymsFile="bort_workbench_synonyms.xml" tns:wordWeight="10"></tns:word>
+
+</tns:bow>

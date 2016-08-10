@@ -1,0 +1,615 @@
+package gui.controller;
+
+import gui.application.MainApp;
+import gui.application.paths.ImageLocation;
+import gui.view.model.ProjectModel;
+import gui.view.model.Requirements;
+
+import java.util.Optional;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
+import javafx.util.Callback;
+
+import com.sun.javafx.scene.control.skin.TextAreaSkin;
+
+
+
+
+
+
+/**
+ * Controller class for the RequirementsTab. It configs the editable table, with
+ * text fields and text areas, and also the buttons and their actions.
+ *
+ * @author Ing. Melina C. Vidoni ~ 2015
+ *
+ */
+@SuppressWarnings("restriction")
+public class RequirementsTabController {
+	private ProjectModel project;
+	private int currentEditRow;
+	
+	private final String NO_BORDER_STYLE = "-fx-border-color: null;";
+	private final String RED_BORDER_STYLE = "-fx-text-box-border: red;";
+
+	@FXML private Tab reqsTab;
+	
+	@FXML private TableView<Requirements> reqsTable;
+	@FXML private TableColumn<Requirements, String> actorColumn;
+	@FXML private TableColumn<Requirements, String> idColumn;
+	@FXML private TableColumn<Requirements, String> nameColumn;
+	@FXML private TableColumn<Requirements, String> descriptionColumn;
+	@FXML private TableColumn<Requirements, Boolean> isFunctionalColumn;
+	
+	@FXML private ComboBox<String> actorsCombo;
+	@FXML private TextField reqsName;
+	@FXML private TextArea reqsDescription;
+	@FXML private CheckBox reqFunctional;	
+	@FXML private Button commitRequirement;
+	@FXML private Button editRequirement;
+	
+	@FXML private Label actorErrorLabel;
+	@FXML private ImageView actorErrorImage;
+	@FXML private Label reqErrorLabel;
+	@FXML private ImageView reqErrorImage;
+	@FXML private Label descErrorLabel;
+	@FXML private ImageView descErrorImage;
+	
+	
+	
+	/**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
+    @FXML
+    private void initialize() {
+    	// Get the project
+    	project = ProjectModel.getInstance();
+
+    	// Correct the name
+    	correctTabName();
+    	reqsTab.setClosable(true);
+    	
+    	// Configurate the table
+    	configTableView();
+    	
+    	// Hide edit button
+    	editCommitReqsButtons(false);
+    	
+    	// Add items to the combobox
+    	actorsCombo.getItems().addAll( project.getActorsCombo() );
+    	
+    	// Set current editing row
+    	currentEditRow = -1;
+    }
+    
+    
+    
+ 
+    
+    /**
+     * Private method to configurate the TableView, with the model, selection type,
+     * editable properties, and value factory on each of the columns.
+     */
+	private void configTableView() {
+    	// Set the model to the table
+    	reqsTable.setItems( project.getReqsTableModel() );
+    	reqsTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    	reqsTable.setEditable(false);
+    	
+    	// Add the model to the columns
+    	actorColumn.setCellValueFactory(cellData -> cellData.getValue().getActor().stakeholderProperty() );
+    	idColumn.setCellValueFactory(cellData -> cellData.getValue().reqIdProperty());
+    	nameColumn.setCellValueFactory(cellData -> cellData.getValue().reqNameProperty());
+    	descriptionColumn.setCellValueFactory(cellData -> cellData.getValue().reqDescriptionProperty());
+    	isFunctionalColumn.setCellValueFactory(cellData -> cellData.getValue().isFRProperty());
+    	
+    	// Set wrappable column
+    	// TODO this wrapping is not completely adaptable
+    	descriptionColumn.setCellFactory(new Callback<TableColumn<Requirements, String>, TableCell<Requirements, String>>() {
+            @Override
+            public TableCell<Requirements, String> call(TableColumn<Requirements, String> param) {
+                TableCell<Requirements, String> cell = new TableCell<>();
+                Text text = new Text( cell.getText() );
+                cell.setGraphic(text);
+                text.wrappingWidthProperty().bind(cell.widthProperty().subtract(10));
+                text.textProperty().bind(cell.itemProperty());
+                return cell ;
+            }
+
+        });
+    	
+    	// Center text on ID
+    	idColumn.setCellFactory(new Callback<TableColumn<Requirements, String>, TableCell<Requirements, String>>() {
+	        @Override
+	        public TableCell<Requirements, String> call(TableColumn<Requirements, String> param) {
+	        	
+	        	TableCell<Requirements, String> cell = new TableCell<Requirements, String>() {
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText(empty ? null : getString());
+                        setGraphic(null);
+                    }
+
+                    private String getString() {
+                        return getItem() == null ? "" : getItem().toString();
+                    }
+                };
+
+                cell.setAlignment(Pos.TOP_CENTER);
+                
+                return cell;
+	        }
+	        
+	    });
+    	
+    	
+    	// Checkbox on column
+    	isFunctionalColumn.setCellFactory(new Callback<TableColumn<Requirements,Boolean>,TableCell<Requirements,Boolean>>() {
+	        @Override 
+	        public TableCell<Requirements,Boolean> call( TableColumn<Requirements,Boolean> p ) {
+	           return new CheckBoxTableCell<>(); 
+	        }
+    	});
+    	
+    	
+    	/*
+    	 * Double click on row
+    	 */
+    	reqsTable.setRowFactory( tv -> {
+    		// Get the row
+    	    TableRow<Requirements> row = new TableRow<>();
+    	    
+    	    // Set event for mouse clicked
+    	    row.setOnMouseClicked(event -> {
+    	    	// If there are two clicks on a not empty row
+    	        if ( event.getClickCount() == 2 && !row.isEmpty() ) {
+    	        	// Get the row
+    	            Requirements rowData = row.getItem();
+    	            
+    	            // Set the index
+    	            currentEditRow = project.getReqsTableModel().indexOf( rowData );
+    	            
+    	            // Hide add button
+    	            editCommitReqsButtons(true);
+    	            
+    	            // Load the requirement
+    	            reqsName.setText( rowData.getReqName() );
+    	            reqsDescription.setText( rowData.getReqDescription() );
+    	            actorsCombo.getSelectionModel().select( rowData.getActor().getId() + ": " 
+    	            				+ rowData.getActor().getStakeholder() );
+    	            reqFunctional.setSelected( rowData.getIsFR() );
+
+    	        }
+    	    });
+    	    
+    	    return row ;
+    	});
+	}
+
+
+
+
+
+	/**
+     * Method to set the correct name of the tab, depending if its content
+     * is saved or not.
+     */
+    public void correctTabName() {
+    	reqsTab.setText( (project.isReqsSaved()) ? "Requirements" : "*Requirements" );
+    }
+    
+   
+    
+    
+    
+    /**
+     * Action listener to handle the edit requirement button
+     * pressing action.
+     */
+    @FXML
+    private void handleEditRequirement() {   	
+    	// Evaluate if data is correctly added
+    	ObservableList<Boolean> correct = evaluateCorrectness();
+    	
+    	/*
+    	 * NOW CHECK IF EVERYTHING IS RIGHT
+    	 */
+    	if( correct.get(0) && correct.get(1) && correct.get(2) ) {
+    		// Get the ID of the actor
+    		String id = actorsCombo.getSelectionModel().getSelectedItem().split(": ")[0];
+    		
+    		// Get the current requirement from the table model
+    		Requirements editedReq = project.getReqsTableModel().get( currentEditRow );
+    		
+    		// Set the name
+    		editedReq.setReqName( reqsName.getText() );
+    		editedReq.setReqDescription( reqsDescription.getText() );
+    		editedReq.setActor( project.getActorByID(id) );
+    		editedReq.setIsFR( reqFunctional.isSelected() );
+    		
+    		// Restart the index
+    		currentEditRow = -1;
+    		
+    		// Set as not saved
+    		project.setReqsSaved(false);
+    		correctTabName();
+    		
+    		// Clear values
+    		clearInputValues();
+    		
+    		// Change button
+    		editCommitReqsButtons(false);
+            
+    	}
+    }
+
+
+    
+    
+    
+    /**
+     * Method to handle the pressing of the commit requirement button,
+     * and add a new requirement to the table.
+     */
+    @FXML
+    private void handleCommitRequirement() {    	
+    	// Evaluate if data is correctly added
+    	ObservableList<Boolean> correct = evaluateCorrectness();
+
+    	/*
+    	 * NOW CHECK IF EVERYTHING IS RIGHT
+    	 */
+    	if( correct.get(0) && correct.get(1) && correct.get(2) ) {
+    		// Get the ID of the actor
+    		String id = actorsCombo.getSelectionModel().getSelectedItem().split(": ")[0];
+    		
+    		// Create the requirement
+    		Requirements newReq = new Requirements( project.getActorByID(id) );
+    		newReq.setReqName( reqsName.getText() );
+    		newReq.setReqDescription( reqsDescription.getText() );
+    		newReq.setIsFR( reqFunctional.isSelected() );
+	
+    		// Now add to the model
+    		project.getReqsTableModel().add(newReq);
+    		
+    		// Get the index
+    		int index = project.getReqsTableModel().indexOf(newReq) + 1;
+    		newReq.setReqId("R" + index);
+    		
+    		// Set as not saved
+    		project.setReqsSaved(false);
+    		correctTabName();
+    		
+    		// Clear values
+    		clearInputValues();
+    	}
+    }
+    
+    
+    
+    
+    /**
+     * Method that evaluates if all the input data is correct.
+     * @param correctActor @true if it is selected 1 actor, @false in the other case.
+     * @param correctName @true if the name is not empty.
+     * @param correctDescr @true if description is not empty
+     */
+    private ObservableList<Boolean> evaluateCorrectness() {
+    	// Create values for correct
+    	boolean correctActor = false;
+    	boolean correctName = false;
+    	boolean correctDescr = false;
+    	
+    	// Clear images
+    	actorErrorImage.setImage(null);
+    	reqErrorImage.setImage(null);
+    	descErrorImage.setImage(null);
+    	
+    	// Clear error labels
+    	actorErrorLabel.setText("");
+    	reqErrorLabel.setText("");
+    	descErrorLabel.setText("");
+    	
+    	// Clear red borders
+    	actorsCombo.setStyle(NO_BORDER_STYLE);
+    	reqsName.setStyle(NO_BORDER_STYLE);
+    	reqsDescription.setStyle(NO_BORDER_STYLE);
+    	
+
+    	/*
+    	 * Check if requirement name is empty
+    	 */
+    	if( reqsName.getText().isEmpty() || reqsName.getText().equals("") ) {
+    		// Set incorrect name
+    		correctName = false;
+    		
+    		// Change images
+    		reqErrorLabel.setText("The requirement name cannot be empty");
+    		reqErrorImage.setImage(new Image( ImageLocation.FIELD_ERROR_IMAGE.toString() ));
+        	reqsName.setStyle(RED_BORDER_STYLE);
+    	}
+    	else {
+    		// Correct case
+    		correctName = true;
+    	}
+    	
+    	/*
+    	 * Check if requirement description is empty
+    	 */
+    	if( reqsDescription.getText().isEmpty() || reqsDescription.getText().equals("") ) {
+    		// Set incorrect description
+    		correctDescr = false;
+    		
+    		// Change images
+    		descErrorLabel.setText("The requirement name cannot be empty");
+    		descErrorImage.setImage(new Image( ImageLocation.FIELD_ERROR_IMAGE.toString() ));
+    		reqsDescription.setStyle(RED_BORDER_STYLE);
+    	}
+    	else {
+    		// Correct case
+    		correctDescr = true;
+    	}
+    	
+    	/*
+    	 * Check the combo
+    	 */
+    	if( actorsCombo.getValue() == null ) {
+    		// Set incorrect actor
+    		correctActor = false;
+    		
+    		// Change images
+    		actorErrorLabel.setText("The requirement name cannot be empty");
+    		actorErrorImage.setImage(new Image( ImageLocation.FIELD_ERROR_IMAGE.toString() ));
+    		actorsCombo.setStyle("-fx-border-color: red;");
+    	}
+    	else {
+    		// Correct case
+    		correctActor = true;
+    	}
+    	
+    	// Create a list
+    	ObservableList<Boolean> list = FXCollections.<Boolean>observableArrayList();
+    	list.addAll(correctActor, correctName, correctDescr);
+    	
+    	// Return
+    	return list;
+	}
+
+    
+
+
+	/**
+     * Method to handle the pressing of the ENTER key when the
+     * commitRequirement button is focused. It will directly call
+     * the action listener of the class.
+     * @param ke The produced key event.
+     */
+    @FXML
+    private void handleCommitKeyPressed(KeyEvent ke) {
+    	// If the pressed key is Enter
+    	if( ke.getCode().equals( KeyCode.ENTER ) )
+    		// Call to the function that handles the button behaviour
+    		handleCommitRequirement();
+    }
+    
+    
+    
+    
+    
+    /**
+     * Method to change the functioning of the TAB and SHIFT+TAB keys on the text
+     * area, to allow the classic behaviour of traverse forward and previous.
+     * @param ke The produced key event.
+     */
+	@FXML
+    private void handleTabKeyPressed(KeyEvent ke) {
+    	// If the key pressed is tab
+    	if (ke.getCode().equals( KeyCode.TAB )) {
+    		// Get the node
+    		TextAreaSkin skin = (TextAreaSkin) ((TextArea) ke.getSource() ).getSkin();
+            
+    		// Move forward or backward
+            if (ke.isShiftDown()) skin.getBehavior().traversePrevious();
+            else skin.getBehavior().traverseNext();
+
+		}
+    	// If the pressed key is backspace
+    	if( ke.getCode().equals( KeyCode.BACK_SPACE ) ) {
+    		// Delete the last letter
+    		reqsDescription.deletePreviousChar();
+    	}
+    	
+		// Consume event
+		ke.consume();
+    }
+    
+    
+    
+    
+    
+    /**
+     * Method that adds funcionality for the button "Remove Requirements" in the
+     * requirements tab. Multiple requirements can be selected, and then deleted
+     * without previous warning. Their IDs will be updated to the new amount
+     * of requirements.
+     */
+    @FXML
+    private void handleRemoveRequirements() {
+    	// Get selected items
+    	ObservableList<Requirements> selected = reqsTable.getSelectionModel().getSelectedItems();
+    	
+    	// Delete the selected items
+    	project.getReqsTableModel().removeAll(selected);
+    	 	
+    	// Update indexes
+    	for(Requirements r : project.getReqsTableModel()) {
+    		// Get the new index
+    		String id = "R" + Integer.toString(project.getReqsTableModel().indexOf(r) + 1);
+    		
+    		// Replace it
+    		r.setReqId(id);
+    	}
+
+		// Set as not saved
+		project.setReqsSaved(false);
+		correctTabName();
+    }
+    
+    
+    
+    
+    
+    
+    
+	/**
+	 * Event handler for the case where the tab is requested to be closed
+	 * and this studies the content and decides what to do.
+	 * @param e The event, so it can consume it if neccesary.
+	 */
+	@FXML
+    private void onCloseTabRequest(Event e) {
+		/*
+		 * SAVED CHANGES
+		 */
+		if( project.isReqsSaved() ) {
+			//If requirements are saved, closing them will remove them from the project
+				
+			// Prepare the basic alert thing
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.initOwner( MainApp.getMainApp().getPrimaryStage() );
+			
+			// Set the image
+			alert.setGraphic(new ImageView(this.getClass().getResource(
+					ImageLocation.ALERT_WARNING.toString()).toString()));
+			
+			// Set the text of the message
+			alert.setTitle("Removing Existing Requirements");
+			alert.setHeaderText("Closing this tab will clear the current requirements");
+			alert.setContentText("By closing this tab the current requirements will be cleared from the project."
+					+ " Are you sure you want to remove the requirements?");
+
+			// Show alert and wait
+			Optional<ButtonType> result = alert.showAndWait();
+				
+			// CLOSE TAB AND REMOVE REQUIREMENTS
+			if (result.get() == ButtonType.OK) {
+				// Clear roles
+				project.setReqsTableModel( FXCollections.observableArrayList() );			
+				project.setReqsSaved(false);	
+				
+				// Set tab closed
+				MainApp.getMainApp().setOpenReqsTab(false);
+			} 
+			// DO NOTHING
+			else {
+				// ... user chose CANCEL or closed the dialog. Don't save and don't close the tab.
+				e.consume();
+			}
+		}
+
+		/*
+		 * UNSAVED CHANGES
+		 */
+		else {
+			// Prepare the basic alert thing
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.initOwner( MainApp.getMainApp().getPrimaryStage() );
+				
+			// Set the image
+			alert.setGraphic(new ImageView(this.getClass().getResource(ImageLocation.ALERT_WARNING.toString()).toString()));
+				
+			// Set the text of the message
+			alert.setTitle("Unsaved Changes");
+			alert.setHeaderText("There are unsaved changes on the Requirements of the project.");
+			alert.setContentText("There are changes not saved that will be lost if you close the tab."
+						+ "Are you sure you want to close the tab?");
+
+
+			// Show alert and wait
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			/*
+			 *  CLOSE TAB AND DON'T SAVE
+			 */
+			if (result.get() == ButtonType.OK) {
+			    // Clear roles
+				project.setReqsTableModel( FXCollections.observableArrayList() );			
+				project.setReqsSaved(true);		
+				
+				MainApp.getMainApp().setOpenReqsTab(false);
+			} 
+			/*
+			 *  DO NOTHINGS
+			 */
+			else {
+			    // ... user chose CANCEL or closed the dialog
+				// Don't save and don't close the tab
+				e.consume();
+			}
+		}
+	
+
+    }
+
+    
+
+    
+    
+	/**
+     * Change the value to the components to be clear again
+     */
+    private void clearInputValues() {
+    	// Clear elements
+		reqsName.clear();
+		reqsDescription.clear();
+		actorsCombo.getSelectionModel().clearSelection();
+		reqFunctional.setSelected(false);
+		
+		// And the editing row
+		currentEditRow = -1;
+	}
+    
+    
+    
+    
+    /**
+     * Method to allow switching between edit and commit button on
+     * the adding/editing requirement panels.
+     * @param m @true to set Edit visible, @false to set Add visible.
+     */
+    private void editCommitReqsButtons(boolean m) {
+        commitRequirement.setVisible(!m);
+        //commitRequirement.setDisable(m);
+        editRequirement.setVisible(m);
+        //editRequirement.setDisable(!m);
+    }
+    
+    
+}

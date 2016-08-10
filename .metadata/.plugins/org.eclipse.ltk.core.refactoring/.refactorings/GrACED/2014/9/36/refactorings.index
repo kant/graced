@@ -1,0 +1,44 @@
+1409569356409	Delete elements
+1409572809216	Delete elements
+1409574717858	Delete elements
+1409576697140	Delete elements
+1409579544618	Delete elements
+1409581293193	Delete elements
+1409585349637	Delete elements
+1409588426245	Delete elements
+1409590226594	Delete elements
+1409840819271	Copy compilation unit
+1409840833331	Rename type 'DistInfoLabels'
+1409840842746	Rename type 'WordSeparationLabels'
+1409840862609	Rename enum constant 'BOW'
+1409840909793	Rename enum constant 'BOWNAME'
+1409840926976	Rename enum constant 'WORD'
+1409840973593	Rename enum constant 'WORDNAME'
+1409840989088	Rename enum constant 'SYNONYMS'
+1409841008068	Rename enum constant 'FILE'
+1409841039895	Rename enum constant 'WORD'
+1409841056631	Rename enum constant 'WEIGHT'
+1409841095597	Rename enum constant 'BOWNAME'
+1409841101961	Rename enum constant 'WORDNAME'
+1409841113623	Rename enum constant 'TABLENAME'
+1409841129882	Rename enum constant 'NODENAME'
+1409841136100	Rename enum constant 'COLUMNBOW'
+1409841142371	Rename enum constant 'TABLEBOW'
+1409841155979	Rename enum constant 'NODENAME'
+1409841169604	Rename enum constant 'MAINWORD'
+1409841174870	Rename enum constant 'WORDNAME'
+1409841184157	Rename enum constant 'TABLENAME'
+1409922995787	Delete elements
+1409923620959	Rename type 'WordSepLabels'
+1409923629742	Rename enum constant 'BAD_SEPARTION'
+1409923893774	Delete elements
+1409923982055	Rename resource 'WordSeparationSchema.xsd'
+1409924013814	Delete elements
+1409924126438	Delete element
+1409924130856	Delete elements
+1409927445359	Delete elements
+1409932471163	Rename local variable 'unclassFile'
+1409933408413	Rename local variable 'tgelem'
+1409933424367	Rename local variable 'tbelem'
+1409934134452	Delete elements
+1409934643536	Delete elements

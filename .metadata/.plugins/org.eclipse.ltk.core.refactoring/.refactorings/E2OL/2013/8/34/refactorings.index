@@ -1,0 +1,19 @@
+1377007076825	Delete element
+1377007956347	Copy compilation unit
+1377008053014	Rename type 'ModelInfoAL'
+1377088304528	Encapsulate field 'ofList'
+1377172781572	Encapsulate field 'selectedModel'
+1377172786226	Encapsulate field 'selectedFunction'
+1377172790701	Encapsulate field 'selectedSolver'
+1377180689590	Encapsulate field 'solverList'
+1377290371614	Delete element
+1377290501697	Rename type 'VentanaParametros'
+1377291340116	Rename local variable 'contenedor'
+1377291347111	Rename local variable 'contenedorLayout'
+1377291489884	Rename field 'cantParametros'
+1377291726019	Rename type 'PanelParametroLabelCampo'
+1377291729142	Move compilation unit
+1377291732736	Move compilation unit
+1377291741742	Rename type 'PanelParametroBoton'
+1377292073359	Rename method 'setTextoLabel'
+1377292281397	Rename field 'campo'

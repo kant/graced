@@ -1,0 +1,36 @@
+package gui.view.model;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
+
+
+/**
+ * Model for each TreeTableView item on the tab table, as the project saves it. 
+ * Represents a single type of stakeholder that is available on the system.
+ * 
+ * @author Ing. Melina C. Vidoni - 2015
+ *
+ */
+public class TypeDimension extends Type {
+	private IntegerProperty level;
+	private StringProperty name;
+	private StringProperty usable;
+	private StringProperty description;	
+	
+	
+	/**
+	 * Default constructor of the class.
+	 * @param u If the type is usable
+	 * @param n Name of the type node.
+	 * @param d Description of the type node.
+	 */
+	public TypeDimension(int l, String n, String u, String d) {
+		// Call parent constructor
+		super(l, n, u, d);
+	}
+
+
+}

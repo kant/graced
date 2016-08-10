@@ -1,0 +1,30 @@
+1410174192172	Encapsulate field 'estimatedHyphenationPercent'
+1410175621735	Encapsulate field 'goodTableWords'
+1410175627973	Encapsulate field 'goodColumnWords'
+1410175632291	Encapsulate field 'badTableWords'
+1410175636927	Encapsulate field 'badColumnWords'
+1410175855320	Encapsulate field 'word'
+1410175859873	Encapsulate field 'count'
+1410175942064	Encapsulate field 'word'
+1410175946194	Encapsulate field 'count'
+1410176762531	Encapsulate field 'goodTableWords'
+1410176766449	Encapsulate field 'goodColumnWords'
+1410176771502	Encapsulate field 'badTableWords'
+1410176776241	Encapsulate field 'badColumnWords'
+1410179226406	Rename method 'addCount'
+1410179232977	Rename method 'set3Coun'
+1410181514203	Delete elements
+1410183367824	Delete elements
+1410183724917	Delete elements
+1410184052668	Delete elements
+1410184396964	Delete elements
+1410184774878	Delete elements
+1410185243373	Delete elements
+1410185413141	Delete elements
+1410185579268	Delete elements
+1410185744376	Delete elements
+1410185922241	Delete elements
+1410186333400	Delete elements
+1410187968663	Delete elements
+1410189295909	Delete elements
+1410193248308	Delete elements

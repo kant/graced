@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--ROOT NODE-->
+<tns:root tns:nodeName="Manufacturing Information" 
+		  tns:usable="false" 
+		  xmlns:tns="http://www.example.org/GraphSchema" 
+		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		  xsi:schemaLocation="http://www.example.org/GraphSchema GraphSchema.xsd ">
+		  
+  <!--PRODUCT DEFINITION NODE-->
+  <tns:node tns:columnameBow="prodDef_col.xml" tns:nodeName="Product Definition" tns:tablenameBow="prodDef_tab.xml" tns:usable="false">
+    
+    <!--PRODUCTION RULES NODE-->
+    <tns:node tns:nodeName="Production Rules" tns:columnameBow="rules_col.xml" tns:tablenameBow="rules_tab.xml" tns:usable="true">
+    </tns:node>
+    	
+    <!--BILL OF RESOURCES NODE-->
+    <tns:node tns:nodeName="Bill Of Resources" tns:columnameBow="bor_col.xml" tns:tablenameBow="bor_tab.xml" tns:usable="true">
+    	
+    	<!--BILL OF MATERIALS NODE-->
+    	<tns:node tns:nodeName="Bill Of Materials" tns:columnameBow="bom_col.xml" tns:tablenameBow="bom_tab.xml" tns:usable="true">
+    	</tns:node>
+    
+    </tns:node>
+  
+  </tns:node>
+  
+
+</tns:root>

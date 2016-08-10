@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:bow xmlns:tns="http://www.example.org/BagOfWordsSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/BagOfWordsSchema BagOfWordsSchema.xsd "
+	tns:bowName="Bill Of Materials">
+	<tns:word tns:synonymsFile="" tns:wordWeight="0.1"></tns:word>
+	<tns:word tns:synonymsFile="" /><tns:word tns:synonymsFile="" />
+</tns:bow>

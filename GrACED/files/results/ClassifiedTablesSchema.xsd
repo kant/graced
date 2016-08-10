@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/ClassifiedTablesSchema" xmlns:tns="http://www.example.org/ClassifiedTablesSchema" elementFormDefault="qualified">
+
+
+    <element name="root" type="tns:RootType"></element>
+    
+
+    <complexType name="RootType">
+    	<sequence>
+    		<element name="tables" type="tns:TableType" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="TableType">
+    	<sequence>
+    		<element ref="tns:class" maxOccurs="unbounded"
+    			minOccurs="1">
+    		</element>
+    		<element ref="tns:column" minOccurs="1" maxOccurs="unbounded"></element>
+    	</sequence>
+    	<attribute ref="tns:tableName"></attribute>
+    </complexType>
+
+    <complexType name="InfoType">
+    	<attribute ref="tns:classPercent"></attribute>
+    </complexType>
+
+
+
+    <attribute name="tableName" type="string"></attribute>
+
+    <attribute name="className" type="string"></attribute>
+
+    <attribute name="classPercent" type="double"></attribute>
+
+    <element name="class" type="tns:ClassType"></element>
+
+    <complexType name="ClassType">
+    	<sequence>
+    		<element ref="tns:tableClassification" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element ref="tns:columnClassification" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    	</sequence>
+    	<attribute ref="tns:className"></attribute>
+    	<attribute ref="tns:classPercent"></attribute>
+    </complexType>
+
+    <element name="tableClassification" type="tns:InfoType"></element>
+    
+    <element name="columnClassification" type="tns:InfoType"></element>
+
+    <attribute name="columnName" type="string"></attribute>
+
+    <element name="column" type="tns:ColumnType"></element>
+    
+    <complexType name="ColumnType">
+    	<attribute ref="tns:columnName"></attribute>
+    </complexType>
+</schema>

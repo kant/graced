@@ -1,0 +1,7 @@
+1428578950372	Rename field 'editMenu'
+1428587624818	Encapsulate field 'actorsTab'
+1428590082460	Rename type 'OpenRolesProject'
+1428590779463	Encapsulate field 'actorsSaved'
+1428590804732	Encapsulate field 'actorsTableModel'
+1428669538701	Copy compilation unit
+1428683864668	Rename method 'configComboBoxes'

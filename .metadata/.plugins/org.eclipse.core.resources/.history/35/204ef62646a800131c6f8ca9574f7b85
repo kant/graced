@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/BagOfWordsSchema" xmlns:tns="http://www.example.org/BagOfWordsSchema" elementFormDefault="qualified">
+
+
+
+    <element name="bow" type="tns:bowType"></element>
+    
+    <element name="word" type="tns:wordType"></element>
+    
+    <attribute name="bowName" type="string"></attribute>
+    
+    <attribute name="wordWeight" type="double"></attribute>
+
+
+    <complexType name="wordType">
+    	<attribute ref="tns:wordWeight" use="optional" default="0.1"></attribute>
+    	<attribute ref="tns:synonymsFile" use="required"></attribute>
+    </complexType>
+
+
+    <complexType name="bowType">
+    	<sequence>
+    		<element ref="tns:word" minOccurs="1" maxOccurs="unbounded"></element>
+    	</sequence>
+    	<attribute ref="tns:bowName"></attribute>
+    </complexType>
+    
+
+    <attribute name="synonymsFile" type="string"></attribute>
+</schema>

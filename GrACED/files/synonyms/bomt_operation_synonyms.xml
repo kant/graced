@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:synonym xmlns:tns="http://www.example.org/SynonymsSchema"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.example.org/SynonymsSchema SynonymsSchema.xsd"
+             tns:mainWord="operation">
+
+
+<!-- SYNONYMS -->
+
+<tns:word tns:originalWord="op"></tns:word>
+<tns:word tns:originalWord="operations"></tns:word>
+<tns:word tns:originalWord="operation"></tns:word>
+
+
+</tns:synonym>

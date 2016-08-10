@@ -1,0 +1,28 @@
+package gui.view.model;
+
+
+
+
+/**
+ * Model for each TreeTableView item on the tab table, as the project saves it. 
+ * Represents a single criterion of stakeholder that is available on the system.
+ * 
+ * @author Ing. Melina C. Vidoni - 2015
+ *
+ */
+public class TypeCriterion extends Type {
+	
+	
+	/**
+	 * Default constructor of the class.
+	 * @param l Level of the criterion node.
+	 * @param n Name of the criterion node.
+	 * @param d Description of the criterion node.
+	 */
+	public TypeCriterion(int l, String n, String d) {
+		// Call parent constructor
+		super(l, n, d, ((l == 0) ? "No" : "Yes") );
+	}
+
+
+}

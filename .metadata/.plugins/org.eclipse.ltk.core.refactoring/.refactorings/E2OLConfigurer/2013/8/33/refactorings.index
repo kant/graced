@@ -1,0 +1,22 @@
+1376311753048	Move compilation units
+1376311783873	Copy compilation unit
+1376311884612	Delete element
+1376315336406	Rename type 'MoveToLeftAL'
+1376396895113	Copy compilation unit
+1376397848123	Copy compilation unit
+1376397916170	Rename local variable 'asf'
+1376397955689	Rename type 'AddFunctionsAL'
+1376397961779	Delete elements
+1376398105859	Rename local variable 'aff'
+1376398169120	Rename local variable 'asf'
+1376400307849	Encapsulate field 'fileName'
+1376481580381	Encapsulate field 'function'
+1376487123310	Delete element
+1376490727581	Rename type 'AddQueryAndColsPanel'
+1376490804597	Delete element
+1376567139013	Rename type 'AddRestrictionsFrame'
+1376569321069	Delete element
+1376569334928	Rename type 'NextStepSub8AL'
+1376569341944	Move compilation unit
+1376569961175	Copy compilation unit
+1376571004653	Rename local variable 'isit'

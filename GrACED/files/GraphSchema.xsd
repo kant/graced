@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/GraphSchema" xmlns:tns="http://www.example.org/GraphSchema" elementFormDefault="qualified">
+
+    <attribute name="columnameBow" type="string"></attribute>
+
+    <attribute name="tablenameBow" type="string"></attribute>
+
+    <attribute name="usable" type="boolean"></attribute>
+
+    <attribute name="nodeName" type="string"></attribute>
+
+
+    <element name="root" type="tns:rootType"></element>
+    
+    <element name="node" type="tns:nodeType"></element>
+    
+    
+    <complexType name="rootType">
+    	<sequence minOccurs="1" maxOccurs="unbounded">
+    		<element ref="tns:node"></element>
+    	</sequence>
+    	<attribute ref="tns:nodeName" use="required"></attribute>
+    	<attribute ref="tns:usable" use="required"></attribute>
+    </complexType>
+
+
+
+
+    <complexType name="nodeType">
+    	<sequence minOccurs="1" maxOccurs="1">
+    		<element ref="tns:node" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    	<attribute ref="tns:nodeName" use="required"></attribute>
+    	<attribute ref="tns:usable" use="required"></attribute>
+    	<attribute ref="tns:columnameBow" use="required"></attribute>
+    	<attribute ref="tns:tablenameBow" use="required"></attribute>
+    </complexType>
+
+
+
+
+</schema>

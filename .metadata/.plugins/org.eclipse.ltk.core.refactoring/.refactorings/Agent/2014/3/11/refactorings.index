@@ -1,0 +1,21 @@
+1394450547427	Delete element
+1394458153266	Encapsulate field 'character'
+1394461615951	Move compilation units
+1394471767144	Encapsulate field 'type'
+1394471772559	Encapsulate field 'characters'
+1394471777322	Encapsulate field 'deletePrefix'
+1394471782207	Encapsulate field 'prefix'
+1394471787132	Encapsulate field 'extraSeparation'
+1394471790923	Encapsulate field 'extraChars'
+1394541566365	Encapsulate field 'separation'
+1394543275073	Rename field 'name'
+1394544905978	Delete element
+1394547904939	Delete element
+1394549938614	Delete element
+1394638817974	Rename local variable 'doc'
+1394638824996	Rename local variable 'stocks'
+1394710147290	Rename local variable 'graph'
+1394716193088	Copy compilation unit
+1394717640797	Rename local variable 'graph'
+1394719349251	Rename local variable 'graphFile'
+1394804257038	Rename local variable 'words'

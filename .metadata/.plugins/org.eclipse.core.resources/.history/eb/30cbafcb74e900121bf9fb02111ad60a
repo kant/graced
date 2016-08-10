@@ -1,0 +1,236 @@
+package gui.listeners.nextstep;
+
+
+
+
+import gui.frames.MainWindow;
+import gui.panels.content.Step6CP;
+import gui.threads.InsertOrderInfoThread;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.LinkedList;
+
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+
+import db.logic.IColumn;
+import db.logic.ITable;
+import db.logic.Interface;
+import db.logic.QColumn;
+import db.logic.QTable;
+import db.logic.Query;
+
+
+
+
+/**
+ * Action listener for the Next button on the sixth step
+ * panel of the configuration. Extends ActionListener.
+ * @author Ing. Melina C. Vidoni - 2013.
+ *
+ */
+public class NextStep6AL implements ActionListener {
+	private Step6CP contentPanel;
+	
+	
+	
+	/**
+	 * Default constructor of the class.
+	 * @param cp Reference to the content panel.
+	 */
+	public NextStep6AL(Step6CP cp) {
+		contentPanel = cp;
+	}
+	
+	
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// Get the tables
+		JTable visualTable = contentPanel.getVisualTable();
+		JTable sqlTable = contentPanel.getSqlTable();
+		
+		// Get the expression
+		RegExp re = new RegExp("[0-9]*"); 
+		
+		
+		// Prepare a flag
+		boolean flag = false;
+		
+		
+		// De-select the rows
+		visualTable.editCellAt(-1, -1);
+		sqlTable.editCellAt(-1, -1);
+		
+		// Lets test the rows...
+		for(int i=0; i<visualTable.getRowCount(); i++) {
+			// If there is any data missing...
+			String col0 = visualTable.getValueAt(i, 0).toString();
+			String col1 = visualTable.getValueAt(i, 1).toString();
+			
+			// If there is some row null...
+			if( (col0 == null || col0.equals("")) || (col1 == null || col1.equals("")) ) {
+				flag = true;
+			}
+			
+			// If some order row does not have the number
+			
+		}
+		
+		// Lets test the sql rows...
+		for(int j=0; j<sqlTable.getRowCount(); j++) {
+			// If there is any data missing
+			String col0 = sqlTable.getValueAt(j, 0).toString();
+			String col2 = sqlTable.getValueAt(j, 2).toString();
+			String col3 = sqlTable.getValueAt(j, 3).toString();
+			
+			// If something is null
+			if( (col0 == null || col0.equals("")) || (col2 == null || col2.equals("")) || (col3 == null || col3.equals("")) ) {
+				flag = true;
+			}
+			
+		}
+		
+
+		// If there is a flag
+		if( flag ) {
+			JOptionPane.showMessageDialog(MainWindow.getInstance(),
+					"There are rows with empty fields.\n Please remove them or fill all the fields.",
+					"Empty Rows", JOptionPane.WARNING_MESSAGE);
+		}
+		
+		// If the row qty is not the same
+		else if( visualTable.getRowCount() != sqlTable.getRowCount() ) {
+			JOptionPane.showMessageDialog(MainWindow.getInstance(),
+					"There must be a SQL row for each visual row.\nPlease, correct this and try to save again.",
+					"Inconsistent Rows", JOptionPane.WARNING_MESSAGE);			
+		}
+		// Else, create the objects
+		else {
+			
+			// Lets evaluate the restrictions
+			if( contentPanel.getRestrictions().size() > 0 ) {
+				// Create the instances
+				continueProcess();
+			}
+			
+			// If there are no restrictions
+			else {
+				// Prepare a message
+				String[] options = {"Continue", "Cancel"};
+				
+				// Now show the pane
+				int n = JOptionPane.showOptionDialog(MainWindow.getInstance(),
+						"Are you sure you want to continue without adding restrictions?\nThis can not be modified later.",
+						"Restriction Adding", JOptionPane.YES_NO_OPTION, 
+						JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+				
+				// Evaluate selection
+				switch(n) {
+					case JOptionPane.NO_OPTION: // Do nothing
+												break;
+												
+					case JOptionPane.YES_OPTION: // Continue the process
+												 continueProcess();
+												 break;
+				}
+				
+				
+			}
+
+		}
+	}
+
+
+
+	
+	
+	/**
+	 * Method that continues the process creating the object
+	 * elements and then  
+	 */
+	private void continueProcess() {
+		// Get the tables
+		JTable visualTable = contentPanel.getVisualTable();
+		JTable sqlTable = contentPanel.getSqlTable();
+		
+		
+		/*
+		 * VISUAL
+		 */
+		// Create an Interface
+		Interface inter = new Interface(1);
+		inter.setName("infotable");
+		inter.setNumber(1);
+		
+		// Create a table
+		ITable table = new ITable(1, 1);
+		table.setName("infotable");
+		table.setStart("");
+		table.setTitle("");
+		table.setDoubleHeader(false);
+		
+		// Add the table to the interface
+		inter.setOutput(table);
+		
+		// Now add the columns
+		LinkedList<IColumn> columnsList = new LinkedList<IColumn>();
+		for(int i=0; i<visualTable.getRowCount(); i++) {
+			// Create a column
+			IColumn icol = new IColumn(i+1);
+			icol.setName( visualTable.getValueAt(i, 0).toString() );
+			icol.setOrder( Integer.parseInt( visualTable.getValueAt(i, 1).toString() ));
+			
+			// Now add the column
+			columnsList.add(icol);
+		}
+		
+		// Put the columns on the table
+		table.setColumnList(columnsList);
+		
+		
+		/*
+		 * QUERY
+		 */
+		Query query = new Query(1, 'T', 'S');
+		
+		// Now add the columns
+		LinkedList<QColumn> qcolumnsList = new LinkedList<QColumn>();
+		for(int j=0; j<sqlTable.getRowCount(); j++) {
+			// Create a table
+			QTable qtab = new QTable(1);
+			qtab.setName( sqlTable.getValueAt(j, 2).toString() );
+			qtab.setAlias( sqlTable.getValueAt(j, 3).toString() );
+			
+			// Create the column
+			QColumn qcol = new QColumn(1);
+			qcol.setName( sqlTable.getValueAt(j, 0).toString() );
+			if( sqlTable.getValueAt(j, 1) != null )
+				qcol.setKey( sqlTable.getValueAt(j, 1).toString() );
+			qcol.setTable(qtab);
+			
+			// Add the column
+			qcolumnsList.add(qcol);
+		}
+		
+		// Add the columns to the query
+		query.setColumns(qcolumnsList);
+		
+		// Now set the restrictions
+		query.setRestrictions(contentPanel.getRestrictions());
+		
+		
+		// Prepare the thread
+		InsertOrderInfoThread ioit = new InsertOrderInfoThread(query, inter);
+		
+		// Lets call a thread...
+		Thread thread = new Thread(ioit);			
+		thread.start();
+		
+	}
+	
+	
+	
+
+}

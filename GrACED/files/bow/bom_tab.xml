@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:bow tns:bowName="Bill Of Materials" 
+		 xmlns:tns="http://www.example.org/BagOfWordsSchema" 
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		 xsi:schemaLocation="http://www.example.org/BagOfWordsSchema BagOfWordsSchema.xsd ">
+
+
+<!--Word: alternative-->
+<tns:word tns:word="alternative" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: bom-->
+<tns:word tns:word="bom" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="25"></tns:word>
+
+<!--Word: category-->
+<tns:word tns:word="category" tns:hasSynonyms="true" tns:synonymsFile="bomt_category_synonyms.xml" tns:wordWeight="3"></tns:word>
+
+<!--Word: change-->
+<tns:word tns:word="change" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: explosion-->
+<tns:word tns:word="explosion" tns:hasSynonyms="true" tns:synonymsFile="bomt_explosion_synonyms.xml" tns:wordWeight="2"></tns:word>
+
+<!--Word: group-->
+<tns:word tns:word="group" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: item-->
+<tns:word tns:word="item" tns:hasSynonyms="true" tns:synonymsFile="bomt_Item_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: line-->
+<tns:word tns:word="line" tns:hasSynonyms="true" tns:synonymsFile="bomt_line_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: mrp-->
+<tns:word tns:word="mrp" tns:hasSynonyms="true" tns:synonymsFile="bomt_mrp_synonyms.xml" tns:wordWeight="25"></tns:word>
+
+<!--Word: operation-->
+<tns:word tns:word="operation" tns:hasSynonyms="true" tns:synonymsFile="bomt_operation_synonyms.xml" tns:wordWeight="3"></tns:word>
+
+<!--Word: order-->
+<tns:word tns:word="order" tns:hasSynonyms="true" tns:synonymsFile="bomt_order_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: packaging-->
+<tns:word tns:word="packaging" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="3"></tns:word>
+
+<!--Word: price-->
+<tns:word tns:word="price" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: product-->
+<tns:word tns:word="product" tns:hasSynonyms="true" tns:synonymsFile="bomt_product_synonyms.xml" tns:wordWeight="15"></tns:word>
+
+<!--Word: production-->
+<tns:word tns:word="production" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: property-->
+<tns:word tns:word="property" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="2"></tns:word>
+
+<!--Word: qty-->
+<tns:word tns:word="qty" tns:hasSynonyms="true" tns:synonymsFile="bomt_qty_synonyms.xml" tns:wordWeight="2"></tns:word>
+
+<!--Word: rel-->
+<tns:word tns:word="rel" tns:hasSynonyms="false" tns:synonymsFile="" tns:wordWeight="1"></tns:word>
+
+<!--Word: sales-->
+<tns:word tns:word="sales" tns:hasSynonyms="true" tns:synonymsFile="bomt_sales_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: supplier-->
+<tns:word tns:word="supplier" tns:hasSynonyms="true" tns:synonymsFile="bomt_supplier_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+<!--Word: template-->
+<tns:word tns:word="template" tns:hasSynonyms="true" tns:synonymsFile="bomt_template_synonyms.xml" tns:wordWeight="8"></tns:word>
+
+<!--Word: uom-->
+<tns:word tns:word="uom" tns:hasSynonyms="true" tns:synonymsFile="bomt_uom_synonyms.xml" tns:wordWeight="1"></tns:word>
+
+</tns:bow>

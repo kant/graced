@@ -1,0 +1,25 @@
+1428935283847	Encapsulate field 'open'
+1428939478864	Encapsulate field 'openActorsTab'
+1429014280779	Rename local variable 'destination'
+1429026874548	Copy compilation unit
+1429026884947	Rename field 'route'
+1429029267962	Delete element
+1429031009486	Move file
+1429101636154	Move compilation unit
+1429101723213	Move compilation unit
+1429102469328	Delete element
+1429102478241	Rename type 'SaveTabProject'
+1429102497955	Rename method 'rewriteMainFile'
+1429102506760	Rename method 'recreateMainFile'
+1429186481973	Encapsulate field 'dimensionPieData'
+1429186486737	Encapsulate field 'criterionPieData'
+1429186491040	Encapsulate field 'rolesPieData'
+1429186498202	Encapsulate field 'piesSaved'
+1429187649167	Rename local variable 'dimensions'
+1429187674239	Rename local variable 'indexDim'
+1429188340175	Rename local variable 'criterion'
+1429188365306	Rename local variable 'indexCrit'
+1429191419177	Encapsulate field 'dchartTab'
+1429271503796	Move files
+1429277923158	Delete element
+1429279309746	Move compilation units

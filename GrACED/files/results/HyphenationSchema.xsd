@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/WordSeparationSchema" xmlns:tns="http://www.example.org/WordSeparationSchema" elementFormDefault="qualified">
+
+
+    <attribute name="word" type="string"></attribute>
+
+    <complexType name="WordType">
+    	<attribute ref="tns:word"></attribute>
+    </complexType>
+
+    <element name="name" type="tns:WordType"></element>
+
+    <element name="tableNames" type="tns:StructureType"></element>
+
+    <element name="columnNames" type="tns:StructureType"></element>
+
+    <complexType name="StructureType">
+    	<sequence>
+    		<element ref="tns:name" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="root" type="tns:RootType"></element>
+
+    <complexType name="RootType">
+    	<sequence>
+    		<element ref="tns:badSeparation" minOccurs="1" maxOccurs="1"></element>
+    		<element ref="tns:goodSeparation" minOccurs="1" maxOccurs="1"></element>
+    	</sequence>
+    </complexType>
+    
+    <element name="goodSeparation" type="tns:SeparationType"></element>
+
+    <element name="badSeparation" type="tns:SeparationType"></element>
+
+    <complexType name="SeparationType">
+    	<sequence>
+    		<element ref="tns:tableNames" minOccurs="1" maxOccurs="1"></element>
+    		<element ref="tns:columnNames" minOccurs="1" maxOccurs="1"></element>
+    	</sequence>
+    </complexType>
+</schema>

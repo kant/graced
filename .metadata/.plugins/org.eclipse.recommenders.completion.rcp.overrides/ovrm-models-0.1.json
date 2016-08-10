@@ -1,0 +1,12 @@
+{
+  "C:\\Program Files\\Java\\jre6\\lib\\rt.jar": {
+    "coordinate": "jre:jre:zip:ovrm:1.0.0",
+    "location": "C:\\Program Files\\Java\\jre6\\lib\\rt.jar",
+    "status": "RESOLVED"
+  },
+  "D:\\Worspace\\E2OLConfigurer\\src": {
+    "location": "D:\\Worspace\\E2OLConfigurer\\src",
+    "status": "UNRESOLVED",
+    "error": "No class path info available for \u0027D:\\Worspace\\E2OLConfigurer\\src\u0027. Skipped."
+  }
+}

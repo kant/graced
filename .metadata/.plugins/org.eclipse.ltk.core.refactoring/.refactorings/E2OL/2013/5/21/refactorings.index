@@ -1,0 +1,18 @@
+1369243940157	Rename local variable 'passwordHelp'
+1369396966612	Rename type 'LogUserThread'
+1369397528925	Rename type 'VentanaProgreso'
+1369400464408	Rename type 'UserInfoMR'
+1369401949317	Move compilation unit
+1369402206112	Delete element
+1369406220902	Encapsulate field 'id'
+1369406224092	Encapsulate field 'name'
+1369406226557	Encapsulate field 'alias'
+1369406906625	Encapsulate field 'id'
+1369406909935	Encapsulate field 'name'
+1369406913085	Encapsulate field 'key'
+1369406916560	Encapsulate field 'table'
+1369407619916	Encapsulate field 'id'
+1369407623486	Encapsulate field 'use'
+1369407640596	Encapsulate field 'type'
+1369413390241	Delete element
+1369416428457	Rename type 'QTable'

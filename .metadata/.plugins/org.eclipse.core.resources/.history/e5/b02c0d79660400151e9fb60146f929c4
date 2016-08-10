@@ -1,0 +1,975 @@
+package logic.filemanager;
+
+import gui.application.MainApp;
+import gui.application.paths.ImageLocation;
+import gui.view.model.Actor;
+import gui.view.model.IIActor;
+import gui.view.model.ProjectModel;
+import gui.view.model.Requirement;
+import gui.view.model.Role;
+import gui.view.model.RolesType;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
+import logic.filemanager.enums.LabelsMainFile;
+import logic.filemanager.enums.ProjectFileNames;
+
+import com.opencsv.CSVWriter;
+
+
+
+/**
+ * Main class to save an existing project and read all the files that such
+ * project contains. Reads the in-memory format at the time of saving, and
+ * translate them to CSV files.
+ * 
+ * @author Ing. Melina C. Vidoni - 2015
+ *
+ */
+public class SaveExistingProject {
+	private static SaveExistingProject instance = null;
+	private ProjectModel project;
+	
+	
+	
+	/**
+	 * Method to get the instance of the Saver
+	 * @return the current instance.
+	 */
+	public static SaveExistingProject getInstance() {
+		// If the isntance is null
+		if( instance == null) {
+			// Call the constructor
+			instance = new SaveExistingProject();
+		}
+		
+		// Return the instance
+		return instance;
+	}
+
+	
+	
+	/**
+	 * Default constructor of the class.
+	 */
+	private SaveExistingProject() {
+		instance = this;
+		project = ProjectModel.getInstance();
+	}
+	
+	
+	
+	
+	/**
+	 * Method that saves the current project, on the current location.
+	 */
+	public void saveProject() {
+		// This saves in the current location.
+		// Types cannot by modified, so let's check the other components
+	
+		// Create flags for saving
+		boolean rolesIncompleteInfo = false;
+		boolean actorsIncompleteInfo = false;
+		boolean reqsIncompleteInfo = false;
+		
+		// Create error messages
+		String errorMessage = "";
+				
+		
+		/*
+		 * ROLES CHECKING
+		 */
+		if( !project.isRolesSaved() ) {
+			/*
+			 * CUSTOM ROLES - INCOMPLETE INFORMATION: DO NOTHING, STOP THE SAVING
+			 */
+			if( project.getRolesType().equals(RolesType.CUSTOM) && !project.rolesCompleteInfo() ) {
+				// Change the flags
+				rolesIncompleteInfo = true;
+				
+				// Save error texts
+				errorMessage = errorMessage + "All custom roles must have a name and a description."
+						+ " If they don't have this minimum information, the project cannot be saved."
+						+ " Please delete the incomplete rows, or add the information.";
+			}
+			
+			
+			/*
+			 * Problem with roles, and having charts open
+			 */
+			if( MainApp.getMainApp().isOpenDChartTab() || MainApp.getMainApp().isOpenIIChartTab() ) {
+				// Change the flags
+				rolesIncompleteInfo = true;
+				
+				// Change error message to add the jump
+				if( !errorMessage.equals("") ) errorMessage = errorMessage + "\n\n";
+				
+				// Add the message
+				errorMessage = errorMessage + "Roles cannot be edited and saved while there are charts "
+						+ "opened. You should first close the charts, and then attempt to modify previous"
+						+ " information.";
+			}
+		}
+		/*
+		 * ACTORS CHECKING	
+		 */
+		if( !project.isActorsSaved() ) {
+			/*
+			 * CHECK COMPLETE DATA ON ACTORS
+			 */
+			if( !project.actorsCompleteInfo() ) {
+				// Change the flag
+				actorsIncompleteInfo = true;
+				
+				// Change error message to add the jump
+				if( !errorMessage.equals("") ) errorMessage = errorMessage + "\n\n";
+
+				// Add the text
+				errorMessage = errorMessage + "All actors must have complete information, including name, description,"
+						+ " criterion, dimension, role, influence and interest on the project, before being saved."
+						+ " Please complete the information or remove the incomplete rows.";
+				
+			}
+			
+			/*
+			 * Problem with actors, and having charts open
+			 */
+			if( MainApp.getMainApp().isOpenDChartTab() || MainApp.getMainApp().isOpenIIChartTab() ) {
+				// Change the flag
+				actorsIncompleteInfo = true;
+				
+				// Change error message to add the jump
+				if( !errorMessage.equals("") ) errorMessage = errorMessage + "\n\n";
+				
+				// Add the message
+				errorMessage = errorMessage + "Actors cannot be edited and saved while there are charts "
+						+ "opened. You should first close the charts, and then attempt to modify previous"
+						+ " information.";
+			}
+		}
+		/*
+		 * REQUIREMENTS CHECKING	
+		 */
+		if( !project.isReqsSaved() ) {
+			/*
+			 * CHECK COMPLETE DATA ON ACTORS
+			 */
+			if( !project.reqsCompleteInfo() ) {
+				// Change the flag
+				reqsIncompleteInfo = true;
+				
+				// Change error message to add the jump
+				if( !errorMessage.equals("") ) errorMessage = errorMessage + "\n\n";
+
+				// Add the text
+				errorMessage = errorMessage + "All requirements must have complete information, including an actor,"
+						+ " a name and description, before being saved. Please complete the information or remove "
+						+ "the incomplete requirements.";	
+			}
+		}
+		
+		
+		/*
+		 * TODO CHECK OTHER THINGS
+		 */
+		
+		
+		/*
+		 * MAIN SAVING
+		 */
+		// In case there are errors
+		if(rolesIncompleteInfo || actorsIncompleteInfo || reqsIncompleteInfo) {
+			// Inform!
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.initOwner( MainApp.getMainApp().getPrimaryStage() );
+				
+			// Set the image
+			alert.setGraphic(new ImageView(this.getClass().getResource(ImageLocation.ALERT_WARNING.toString()).toString()));
+				
+			// Set the text of the message
+			alert.setTitle("Problems while saving");
+			alert.setHeaderText("Several issues were encountered while attempting to save the project.");
+			alert.setContentText(errorMessage);
+
+			// Show alert and wait
+			alert.showAndWait();
+			
+		}
+		// Everything is OK, so procede with saving
+		else {
+			// If roles not saved, save!
+			if( !project.isRolesSaved() ) 
+				this.saveRoles(); 
+			
+			// If actors not saved, save!
+			if( !project.isActorsSaved() )
+				this.saveActors();
+			
+			// If requirements are not saved
+			if( !project.isReqsSaved() )
+				this.saveRequirements();
+			
+			// If distribution charts not saved, save!
+			if( !project.isPiesSaved() )
+				this.saveDistributionPieCharts();
+			
+			// If relevance chart not saved, save!
+			if( !project.isIIChartSaved() )
+				this.saveIIChart();
+			
+			// If proportion chart not saved, save!
+			if( !project.isArChartSaved() )
+				this.saveARChart();
+			
+			// TODO other savings...
+			
+			
+			// Rewrite Main File
+			recreateProject();
+		}
+	}
+	
+	
+	
+	
+	
+	private void saveARChart() {
+		try {
+			// Change to saved
+			project.setArChartSaved(true);
+			MainApp.getMainApp().getDchartTab().correctTabName();
+			
+			
+			/*
+			 * DIMENSION DISTRIBUTION
+			 */
+			if( !project.getDimensionPieData().isEmpty() ) {
+				// Get the destination
+				File destination = new File(project.getCurrentDirectory() + File.separator 
+						+ ProjectFileNames.DIMDIST_FILE.toString());
+
+				// Create the writer
+				CSVWriter writer = new CSVWriter(new FileWriter(destination));
+				
+				// Write basic info
+				String[] recordSeparator = {"sep=,"};
+				writer.writeNext(recordSeparator);
+				writer.writeNext("Dimension,Actors Qty".split(","));
+						        
+				// Now, for each role
+				for( PieChart.Data pd : project.getDimensionPieData() ) {
+					// Create a record
+					String[] record = new String[2];
+					
+					// Save the info
+					record[0] = pd.getName();
+					record[1] = String.valueOf(pd.getPieValue()).replace(',', ';');
+					
+					// Write record to file
+					writer.writeNext(record);
+				}
+				
+			    //close the writer
+			    writer.close();	
+			}
+			/*
+			 * CRITERION DISTRIBUTION
+			 */
+			if( !project.getCriterionPieData().isEmpty() ) {
+				// Get the destination
+				File destination = new File(project.getCurrentDirectory() + File.separator 
+						+ ProjectFileNames.CRITDIST_FILE.toString());
+
+				// Create the writer
+				CSVWriter writer = new CSVWriter(new FileWriter(destination));
+				
+				// Write basic info
+				String[] recordSeparator = {"sep=,"};
+				writer.writeNext(recordSeparator);
+				writer.writeNext("Criterion,Actors Qty".split(","));
+						        
+				// Now, for each role
+				for( PieChart.Data pd : project.getCriterionPieData() ) {
+					// Create a record
+					String[] record = new String[2];
+					
+					// Save the info
+					record[0] = pd.getName();
+					record[1] = String.valueOf(pd.getPieValue()).replace(',', ';');
+					
+					// Write record to file
+					writer.writeNext(record);
+				}
+				
+			    //close the writer
+			    writer.close();
+			}
+		}
+		catch(IOException e) {
+			// TODO MANAGE EXCEPTION
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+	/**
+	 * Method that exclusively saves the relevance quadrant chart of a project.
+	 */
+	private void saveIIChart() {
+		try {
+			// Change to saved
+			project.setIIChartSaved(true);
+			MainApp.getMainApp().getIIChartTab().correctTabName();
+			
+
+			if( !project.getRelevanceModel().isEmpty() ) {
+				// Get the destination
+				File destination = new File(project.getCurrentDirectory() + File.separator 
+						+ ProjectFileNames.IICHART_FILE.toString());
+
+				// Create the writer
+				CSVWriter writer = new CSVWriter(new FileWriter(destination));
+				
+				// Write basic info
+				String[] recordSeparator = {"sep=,"};
+				writer.writeNext(recordSeparator);
+				writer.writeNext("Actors ID,Quadrant,X,Y,Initials".split(","));
+						        
+				// Now, for each role
+				for( IIActor a : project.getRelevanceModel().getActorsList() ) {
+					// Create a record
+					String[] record = new String[5];
+					
+					// Save the info
+					record[0] = a.getActor().getId().replace(',', ';');
+					record[1] = String.valueOf( a.getQuadrant() );
+					record[2] = String.valueOf( a.getX() );
+					record[3] = String.valueOf( a.getY() );
+					record[4] = a.getInitials();
+
+					// Write record to file
+					writer.writeNext(record);
+				}
+				
+			    //close the writer
+			    writer.close();	
+			}
+
+		}
+		catch(IOException e) {
+			// TODO MANAGE EXCEPTION
+			e.printStackTrace();
+		}
+	}
+
+
+
+	/**
+	 * Method that exclusively saves the distribution pie charts of a project.
+	 */
+	private void saveDistributionPieCharts() {
+		try {
+			// Change to saved
+			project.setPiesSaved(true);
+			MainApp.getMainApp().getDchartTab().correctTabName();
+			
+			
+			/*
+			 * DIMENSION DISTRIBUTION
+			 */
+			if( !project.getDimensionPieData().isEmpty() ) {
+				// Get the destination
+				File destination = new File(project.getCurrentDirectory() + File.separator 
+						+ ProjectFileNames.DIMDIST_FILE.toString());
+
+				// Create the writer
+				CSVWriter writer = new CSVWriter(new FileWriter(destination));
+				
+				// Write basic info
+				String[] recordSeparator = {"sep=,"};
+				writer.writeNext(recordSeparator);
+				writer.writeNext("Dimension,Actors Qty".split(","));
+						        
+				// Now, for each role
+				for( PieChart.Data pd : project.getDimensionPieData() ) {
+					// Create a record
+					String[] record = new String[2];
+					
+					// Save the info
+					record[0] = pd.getName();
+					record[1] = String.valueOf(pd.getPieValue()).replace(',', ';');
+					
+					// Write record to file
+					writer.writeNext(record);
+				}
+				
+			    //close the writer
+			    writer.close();	
+			}
+			/*
+			 * CRITERION DISTRIBUTION
+			 */
+			if( !project.getCriterionPieData().isEmpty() ) {
+				// Get the destination
+				File destination = new File(project.getCurrentDirectory() + File.separator 
+						+ ProjectFileNames.CRITDIST_FILE.toString());
+
+				// Create the writer
+				CSVWriter writer = new CSVWriter(new FileWriter(destination));
+				
+				// Write basic info
+				String[] recordSeparator = {"sep=,"};
+				writer.writeNext(recordSeparator);
+				writer.writeNext("Criterion,Actors Qty".split(","));
+						        
+				// Now, for each role
+				for( PieChart.Data pd : project.getCriterionPieData() ) {
+					// Create a record
+					String[] record = new String[2];
+					
+					// Save the info
+					record[0] = pd.getName();
+					record[1] = String.valueOf(pd.getPieValue()).replace(',', ';');
+					
+					// Write record to file
+					writer.writeNext(record);
+				}
+				
+			    //close the writer
+			    writer.close();
+			}
+			/*
+			 * ROLES DISTRIBUTION
+			 */
+			if( !project.getRolesPieData().isEmpty() ) {
+				// Get the destination
+				File destination = new File(project.getCurrentDirectory() + File.separator 
+						+ ProjectFileNames.ROLDIST_FILE.toString());
+
+				// Create the writer
+				CSVWriter writer = new CSVWriter(new FileWriter(destination));
+				
+				// Write basic info
+				String[] recordSeparator = {"sep=,"};
+				writer.writeNext(recordSeparator);
+				writer.writeNext("Role,Actors Qty".split(","));
+						        
+				// Now, for each role
+				for( PieChart.Data pd : project.getRolesPieData() ) {
+					// Create a record
+					String[] record = new String[2];
+					
+					// Save the info
+					record[0] = pd.getName();
+					record[1] = String.valueOf(pd.getPieValue()).replace(',', ';');
+					
+					// Write record to file
+					writer.writeNext(record);
+				}
+				
+			    //close the writer
+			    writer.close();
+			}
+		}
+		catch(IOException e) {
+			// TODO MANAGE EXCEPTION
+			e.printStackTrace();
+		}
+	}
+
+
+	
+	/**
+	 * Method that exclusively saves the requirements list of a project.
+	 */
+	private void saveRequirements() {
+		try {
+			// Change to saved
+			project.setReqsSaved(true);
+			MainApp.getMainApp().getReqsTab().correctTabName();
+
+			// If there are requirements
+			if( !project.getReqsTableModel().isEmpty() ) {
+				// Get the destination
+				File destination = new File(project.getCurrentDirectory() + File.separator 
+						+ ProjectFileNames.REQS_FILE.toString());
+
+				// Create the writer
+				CSVWriter writer = new CSVWriter(new FileWriter(destination));
+				
+				// Write basic info
+				String[] recordSeparator = {"sep=,"};
+				writer.writeNext(recordSeparator);
+				writer.writeNext("Actors ID,Reqs ID,Reqs Name,Reqs Description,Functional?".split(","));
+						        
+				// Now, for each role
+				for( Requirement r : project.getReqsTableModel() ) {
+					// Create a record
+					String[] record = new String[5];
+					
+					// Save the info
+					record[0] = r.getActor().getId().replace(',', ';');
+					record[1] = String.valueOf( r.getReqId() );
+					record[2] = String.valueOf( r.getReqName() );
+					record[3] = String.valueOf( r.getReqDescription().replace(',', ';') );
+					record[4] = String.valueOf( r.getIsFR() );
+
+					// Write record to file
+					writer.writeNext(record);
+				}
+				
+			    //close the writer
+			    writer.close();	
+			}
+
+		}
+		catch(IOException e) {
+			// TODO MANAGE EXCEPTION
+			e.printStackTrace();
+		}
+	}
+
+	
+	
+	
+	
+	/**
+	 * Method that exclusively saves the actors of a project.
+	 */
+	private void saveActors() {
+		try {
+			// Get the destination
+			File destination = new File(project.getCurrentDirectory() + File.separator 
+					+ ProjectFileNames.ACTORS_FILE.toString());
+			
+
+			// Create the writer
+			CSVWriter writer = new CSVWriter(new FileWriter(destination));
+			
+			// Write basic info
+			String[] recordSeparator = {"sep=,"};
+			writer.writeNext(recordSeparator);
+			writer.writeNext("ID,Stakeholder,Description,Criterion,Dimension,Role,Influence,Interest".split(","));
+					        
+			// Now, for each actor
+			for( Actor a :  project.getActorsTableModel() ) {
+				// Create a record
+				String[] record = new String[8];
+				
+				// Save the info
+				record[0] = a.getId();
+				record[1] = a.getStakeholder().replace(',', ';');
+				record[2] = a.getDescription().replace(',', ';');
+				record[3] = a.getCriterion();
+				record[4] = a.getDimension();
+				record[5] = a.getRole();
+				record[6] = a.getInfluence();
+				record[7] = a.getInterest();
+				
+				// Write record to file
+				writer.writeNext(record);
+			}
+			
+		    //close the writer
+		    writer.close();
+		}
+		catch(IOException e) {
+			// TODO show stack trace
+			e.printStackTrace();
+		}
+	}
+
+
+
+	/**
+	 * Method that exclusively saves the roles of the project.
+	 */
+	private void saveRoles() {
+		try {
+			// Change to saved
+			project.setRolesSaved(true);
+			MainApp.getMainApp().getRolesTab().correctTabName();
+			
+			// Get the destination
+			File destination = new File(project.getCurrentDirectory() + File.separator 
+					+ ProjectFileNames.ROLES_FILE.toString());
+			
+			/*
+			 * DEFAULT ROLES
+			 */
+			if( project.getRolesType().equals(RolesType.DEFAULT) ) {
+				// Get the origin
+				File origin = new File("files" + File.separator + ProjectFileNames.ROLES_FILE.toString());
+				
+				// Copy the file
+				Files.copy(	origin.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			}
+			/*
+			 * CUSTOM ROLES
+			 */
+			else {
+				// Create the writer
+				CSVWriter writer = new CSVWriter(new FileWriter(destination));
+				
+				// Write basic info
+				String[] recordSeparator = {"sep=,"};
+				writer.writeNext(recordSeparator);
+				writer.writeNext("Name,Description,Responsibilities,Participation".split(","));
+						        
+				// Now, for each role
+				for( Role role :  project.getRolesTableModel() ) {
+					// Create a record
+					String[] record = new String[4];
+					
+					// Save the info
+					record[0] = role.getName();
+					record[1] = role.getDescription().replace(',', ';');
+					record[2] = role.getResponsibilities().replace(',', ';');
+					record[3] = role.getParticipation().replace(',', ';');
+					
+					// Write record to file
+					writer.writeNext(record);
+					
+				}
+							        
+			    //close the writer
+			    writer.close();
+			}
+		}
+		catch(IOException e) {
+			// TODO show stack trace
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+
+	
+	/**
+	 * This method performs main checks: evaluates if the main file should be rewritten,
+	 * and checks if some extra old files should be deleted or not.
+	 */
+	private void recreateProject() {
+		try {
+			// Rewrite the mainfile
+			this.rewriteMainFile();
+			
+			
+			/*
+			 * Check if a role file was not deleted
+			 */
+			if( project.getRolesTableModel().isEmpty() ) {
+				// Get the file
+				File roleFile = new File(project.getCurrentDirectory() + File.separator 
+						+ ProjectFileNames.ROLES_FILE.toString());
+				
+				// If file exists and it is not a directory
+				if( roleFile.exists() && !roleFile.isDirectory() ) {
+					// Check if the file was deleted
+					boolean rflag = roleFile.delete();
+					
+					// If not deleted, throw exception
+					if(!rflag)
+						throw new IOException("Unused Roles files could not be deleted.");
+				}
+			}
+			
+			/*
+			 * Check if actors file was not deleted
+			 */
+			if( project.getActorsTableModel().isEmpty() ) {
+				// Get the file
+				File actorsFile = new File(project.getCurrentDirectory() + File.separator 
+						+ ProjectFileNames.ACTORS_FILE.toString());
+				
+				// Check the file
+				if( actorsFile.exists() && !actorsFile.isDirectory() ) {
+					// Delete
+					boolean aflag = actorsFile.delete();
+					
+					// If not deleted, throw exception
+					if(!aflag)
+						throw new IOException("Unused Actors file could not be deleted.");
+				}
+			}
+			
+			/*
+			 * Check if requirements file was not deleted
+			 */
+			if( project.getReqsTableModel().isEmpty() ) {
+				// Get the file
+				File requirementsFile = new File(project.getCurrentDirectory() + File.separator
+						+ ProjectFileNames.REQS_FILE.toString());
+				
+				// Check the file
+				if( requirementsFile.exists() && !requirementsFile.isDirectory() ) {
+					// Delete
+					boolean reqflag = requirementsFile.delete();
+					
+					// If not deleted, throw an exception
+					if(!reqflag)
+						throw new IOException("Unused requirements file could not be deleted.");
+				}
+			}
+			
+			/*
+			 * Check if a dimension distribution file was not deleted
+			 */
+			if( project.getDimensionPieData().isEmpty() ) {
+				// Get the file
+				File dimDistFile = new File(project.getCurrentDirectory() + File.separator 
+						+ ProjectFileNames.DIMDIST_FILE.toString());
+				
+				// Check the file
+				if( dimDistFile.exists() && !dimDistFile.isDirectory() ) {
+					// Delete
+					boolean ddflag = dimDistFile.delete();
+					
+					// If not deleted, throw exception
+					if(!ddflag)
+						throw new IOException("Unused Dimension Distribution Pie chart file could not be deleted.");
+				}				
+			}
+			
+			/*
+			 * Check if a criterion distribution file was not deleted
+			 */
+			if( project.getCriterionPieData().isEmpty() ) {
+				// Get the file
+				File critDistFile = new File(project.getCurrentDirectory() + File.separator 
+						+ ProjectFileNames.CRITDIST_FILE.toString());
+				
+				// Check the file
+				if( critDistFile.exists() && !critDistFile.isDirectory() ) {
+					// Delete
+					boolean cdflag = critDistFile.delete();
+					
+					// If not deleted, throw exception
+					if(!cdflag)
+						throw new IOException("Unused Criterion Distribution Pie chart file could not be deleted.");
+				}				
+			}
+			
+			/*
+			 * Check if a roles distribution file was not deleted
+			 */
+			if( project.getRolesPieData().isEmpty() ) {
+				// Get the file
+				File rolesDistFile = new File(project.getCurrentDirectory() + File.separator 
+						+ ProjectFileNames.ROLDIST_FILE.toString());
+				
+				// Check the file
+				if( rolesDistFile.exists() && !rolesDistFile.isDirectory() ) {
+					// Delete
+					boolean rdflag = rolesDistFile.delete();
+					
+					// If not deleted, throw exception
+					if(!rdflag)
+						throw new IOException("Unused Roles Distribution Pie chart file could not be deleted.");
+				}				
+			}
+			
+			/*
+			 * Check if a relevance chart was not deleted
+			 */
+			if( project.getRelevanceModel().isEmpty() ) {
+				// Get the file
+				File relevanceFile = new File(project.getCurrentDirectory() + File.separator 
+						+ ProjectFileNames.IICHART_FILE.toString());
+				
+				// Check the file
+				if( relevanceFile.exists() && !relevanceFile.isDirectory() ) {
+					// Delete
+					boolean rdflag = relevanceFile.delete();
+					
+					// If not deleted, throw exception
+					if(!rdflag)
+						throw new IOException("Unused I&I (Relevance) Chart file could not be deleted.");
+				}		
+			}
+			
+			/*
+			 * Check if a proportion chart was not deleted
+			 */
+			if( project.getProportionModel().isEmpty() ) {
+				// Get the file
+				File proportionFile = new File(project.getCurrentDirectory() + File.separator
+						+ ProjectFileNames.ARCHART_FILE.toString());
+				
+				// Check the file
+				if( proportionFile.exists() && !proportionFile.isDirectory() ) {
+					// Delete
+					boolean pflag = proportionFile.delete();
+					
+					// If not deleted, throw exception
+					if(!pflag)
+						throw new IOException("Unused Requirements per Actors (Proportion) Chart file could not be deleted.");
+				}
+			}
+			
+		}
+		catch(IOException ioe) {
+			// TODO FIX EXCEPTION
+			ioe.printStackTrace();
+		}
+	}
+
+	
+	
+	
+	
+	/**
+	 * Class to rewrite the main file, and add all the new mandatory information.
+	 */
+	private void rewriteMainFile() {
+		try {		
+			// Obtain path
+			String path = project.getCurrentDirectory() + File.separator + ProjectFileNames.MAIN_FILE.toString();
+				
+			// Open the CSV writer
+			CSVWriter writer = new CSVWriter(new FileWriter(path));
+			
+		    // Create basic records
+			String[] recordSeparator = {"sep=,"};
+			String recordProjectName = LabelsMainFile.NAME.toString() + "," + project.getProjectName();
+			String recordOriginalPath = LabelsMainFile.PATH.toString() + "," + project.getCurrentDirectory();
+			String recordDimensionName = LabelsMainFile.DIMENSION.toString() + "," + ProjectFileNames.SH_TYPES_DIMENSION_FILE.toString();
+		    String recordCriterionName = LabelsMainFile.CRITERION.toString() + "," + ProjectFileNames.SH_TYPES_CRITERION_FILE.toString();
+					  
+		    
+			// Write the records
+			writer.writeNext( recordSeparator );
+			writer.writeNext( recordProjectName.split(",") );
+			writer.writeNext( recordOriginalPath.split(",") );
+			writer.writeNext( recordDimensionName.split(",") );
+			writer.writeNext( recordCriterionName.split(",") );
+		    
+		    
+		    /*
+		     * CHECK ROLES
+		     */
+		    if( !project.getRolesTableModel().isEmpty() ) {
+		    	// Create a record...
+			    String recordRolesName = (project.getRolesType().equals(RolesType.DEFAULT) 
+			    		? LabelsMainFile.DEFAULT_ROLES.toString() : LabelsMainFile.CUSTOM_ROLES.toString() ) ;
+			    				
+				// Finish the record
+				recordRolesName = recordRolesName + "," + ProjectFileNames.ROLES_FILE.toString();
+		    	
+		    	// Write it
+				writer.writeNext( recordRolesName.split(",") );
+		    }
+		    
+		    
+		    /*
+		     * CHECK ACTORS
+		     */
+		    if( !project.getActorsTableModel().isEmpty() ) {
+		    	// Create a record
+		    	String recordActorsName = LabelsMainFile.ACTORS.toString() + "," + ProjectFileNames.ACTORS_FILE.toString();
+
+		    	// Write the record
+		    	writer.writeNext( recordActorsName.split(",") );
+		    }
+		    
+		    
+		    /*
+		     * CHECK REQUIREMENTS TAB
+		     */
+		    if( !project.getReqsTableModel().isEmpty() ) {
+		    	// Create a record
+		    	String recordReqsName = LabelsMainFile.REQS_LIST.toString() + "," + ProjectFileNames.REQS_FILE.toString();
+		    	
+		    	// Write the record
+		    	writer.writeNext( recordReqsName.split(",") );
+		    }
+		    		    
+		    
+		    /*
+		     * CHECK DIMENSION DISTRIBUTION
+		     */
+		    if( !project.getDimensionPieData().isEmpty() ) {
+		    	// Create a record
+		    	String recordDimDistName = LabelsMainFile.DIST_DIM.toString() + "," + ProjectFileNames.DIMDIST_FILE.toString();
+
+		    	// Write the record
+		    	writer.writeNext( recordDimDistName.split(",") );
+		    }
+		    
+		    
+		    /*
+		     * CHECK CRITERION DISTRIBUTION
+		     */
+		    if( !project.getCriterionPieData().isEmpty() ) {
+		    	// Create a record
+		    	String recordCritDistName = LabelsMainFile.DIST_CRIT.toString() + "," + ProjectFileNames.CRITDIST_FILE.toString();
+
+		    	// Write the record
+		    	writer.writeNext( recordCritDistName.split(",") );
+		    }
+ 
+		    
+		    /*
+		     * CHECK ROLES DISTRIBUTION
+		     */
+		    if( !project.getRolesPieData().isEmpty() ) {
+		    	// Create a record
+		    	String recordRoleDistName = LabelsMainFile.DIST_ROLE.toString() + "," + ProjectFileNames.ROLDIST_FILE.toString();
+
+		    	// Write the record
+		    	writer.writeNext( recordRoleDistName.split(",") );
+		    }
+		    
+		    
+		    /*
+		     * CHECK RELEVANCE CHART
+		     */
+		    if( !project.getRelevanceModel().isEmpty() ) {
+		    	// Create a record
+		    	String recordRelevanceName = LabelsMainFile.II_CHART.toString() + "," + ProjectFileNames.IICHART_FILE.toString();
+
+		    	// Write the record
+		    	writer.writeNext( recordRelevanceName.split(",") );
+		    }
+		    
+		    
+		    /*
+		     * CHECK PROPORTION CHART 
+		     */
+		    if( !project.getProportionModel().isEmpty() ) {
+		    	// Create a record
+		    	String recordProportionName = LabelsMainFile.AR_CHART.toString() + "," + ProjectFileNames.ARCHART_FILE.toString();
+		    	
+		    	// Write the record
+		    	writer.writeNext(recordProportionName.split(","));
+		    }
+
+		    
+		    /*
+		     * TODO ADD MORE SAVINGS ON MAIN FILE
+		     */
+	    
+ 
+		     // Close the writer
+		     writer.close();
+		}
+		catch(IOException e) {
+			// TODO SHOW STACK TRACE
+			e.printStackTrace();
+		}
+	}
+	
+	
+}

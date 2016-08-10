@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/ResultsTypesSchema" xmlns:tns="http://www.example.org/ResultsTypesSchema" elementFormDefault="qualified">
+
+    <element name="root" type="tns:RootType"></element>
+    
+    <complexType name="RootType">
+    	<sequence>
+    		<element ref="tns:type" minOccurs="3" maxOccurs="3"></element>
+    	</sequence>
+    	<attribute ref="tns:totalQty"></attribute>
+    </complexType>
+
+    <attribute name="totalQty" type="int"></attribute>
+
+    <attribute name="typeName">
+    	<simpleType>
+    		<restriction base="string">
+    			<enumeration value="Tricky"></enumeration>
+    			<enumeration value="True"></enumeration>
+    			<enumeration value="Neutral"></enumeration>
+    		</restriction>
+    	</simpleType>
+    </attribute>
+    
+    <element name="type" type="tns:TypesType"></element>
+    
+    <complexType name="TypesType">
+    	<sequence>
+    		<element ref="tns:table" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    	<attribute ref="tns:typeName"></attribute>
+    </complexType>
+    
+    <attribute name="tableName" type="string"></attribute>
+
+
+    <attribute name="categoryName" type="string"></attribute>
+
+    <element name="table" type="tns:TableType"></element>
+    
+    <element name="category" type="tns:CategoryType"></element>
+    
+    <complexType name="CategoryType">
+    	<attribute ref="tns:categoryName"></attribute>
+    </complexType>
+
+    <complexType name="TableType">
+    	<sequence>
+    		<element ref="tns:category" maxOccurs="unbounded" minOccurs="1"></element>
+    	</sequence>
+    	<attribute ref="tns:tableName"></attribute>
+    </complexType>
+</schema>

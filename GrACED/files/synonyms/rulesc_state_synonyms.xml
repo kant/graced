@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:synonym xmlns:tns="http://www.example.org/SynonymsSchema"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.example.org/SynonymsSchema SynonymsSchema.xsd"
+             tns:mainWord="state">
+
+
+<!-- SYNONYMS -->
+
+<tns:word tns:originalWord="states"></tns:word>
+<tns:word tns:originalWord="status"></tns:word>
+<tns:word tns:originalWord="statut"></tns:word>
+<tns:word tns:originalWord="state"></tns:word>
+
+
+</tns:synonym>

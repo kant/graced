@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/DistributedInfoSchema" xmlns:tns="http://www.example.org/DistributedInfoSchema" elementFormDefault="qualified">
+
+    <attribute name="className" type="string"></attribute>
+
+    <attribute name="minPercent" type="double"></attribute>
+
+    <attribute name="maxPercent" type="double"></attribute>
+
+    <attribute name="averagePercent" type="double"></attribute>
+
+    <attribute name="defaultProportion" type="double"></attribute>
+
+    <attribute name="tableQty" type="int"></attribute>
+
+    <attribute name="totalTables" type="int"></attribute>
+
+    <complexType name="ansiClassType">
+    	<sequence>
+    		<element ref="tns:table" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    	<attribute ref="tns:className"></attribute>
+    	<attribute ref="tns:minPercent"></attribute>
+    	<attribute ref="tns:maxPercent"></attribute>
+    	<attribute ref="tns:averagePercent"></attribute>
+    	<attribute ref="tns:defaultProportion"></attribute>
+    	<attribute ref="tns:tableQty"></attribute>
+    </complexType>
+
+    <element name="ansiClass" type="tns:ansiClassType"></element>
+
+    <complexType name="rootType">
+    	<sequence>
+    		<element ref="tns:ansiClass" minOccurs="1" maxOccurs="unbounded"></element>
+    	</sequence>
+    	<attribute ref="tns:totalTables"></attribute>
+    </complexType>
+
+    <element name="root" type="tns:rootType"></element>
+
+    <attribute name="tableName" type="string"></attribute>
+
+    <attribute name="tpercent" type="string"></attribute>
+
+    <complexType name="tableType">
+    	<attribute ref="tns:tableName"></attribute>
+    	<attribute ref="tns:tpercent"></attribute>
+    </complexType>
+
+    <element name="table" type="tns:tableType"></element>
+</schema>

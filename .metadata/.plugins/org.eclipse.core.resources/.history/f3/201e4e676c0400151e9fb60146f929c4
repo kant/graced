@@ -1,0 +1,450 @@
+package gui.controller;
+
+import gui.application.MainApp;
+import gui.application.paths.FileLocation;
+import gui.application.paths.ImageLocation;
+import gui.view.model.ARProportionModel;
+import gui.view.model.ProjectModel;
+import gui.view.model.Requirement;
+import gui.view.model.SHRelevanceModel;
+
+import java.util.Optional;
+import java.util.Set;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
+import javafx.util.Callback;
+
+
+
+
+/**
+ * Controller class for the ARChartsTab. It configs the barchart and the piechart,
+ * the tables with the list of requirements, and the click listeners for the bars
+ * and slice of each graphic.
+ *
+ * @author Ing. Melina C. Vidoni ~ 2015
+ *
+ */
+public class ARChartTabController {
+	private ProjectModel project;
+	
+	@FXML private Tab arTab;
+	
+	@FXML private BarChart<String, Integer> barchart;
+	@FXML private NumberAxis yAxis;
+	
+	@FXML private PieChart piechart;
+	
+	@FXML private TableView<Requirement> tableBarchart;
+	@FXML private TableColumn<Requirement, String> col1Barchart;
+	@FXML private TableColumn<Requirement, String> col2Barchart;
+	
+	@FXML private TableView<Requirement> tablePiechart;
+	@FXML private TableColumn<Requirement, String> col1Piechart;
+ 	@FXML private TableColumn<Requirement, String> col2Piechart;
+	
+	
+	
+	
+	
+	/**
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
+     */
+    @FXML
+    private void initialize() {
+    	// Get the project
+    	project = ProjectModel.getInstance();
+    	
+    	// Correct the name
+    	correctTabName();
+    	
+    	// Config table columns
+    	col1Piechart.setCellValueFactory( cellData -> cellData.getValue().reqIdProperty() );
+    	col2Piechart.setCellValueFactory( cellData -> cellData.getValue().reqNameProperty() );
+    	
+    	col1Barchart.setCellValueFactory( cellData -> cellData.getValue().reqIdProperty() );
+    	col2Barchart.setCellValueFactory( cellData -> cellData.getValue().reqNameProperty() );
+    	
+    	
+    	// Config the barchart
+    	configBarChart();
+    	
+    	// Config the piechart
+    	configPieChart();
+    }
+
+    
+    
+    
+    /**
+     * Method to configure the piechart with all the information and the
+     * style of the labels.
+     */
+    private void configPieChart() {
+		// Set the data
+    	piechart.getData().addAll( project.getProportionModel().calculatePieData() );
+    	
+    	// Now change the text
+    	Set<Node> text = piechart.lookupAll(".text.chart-pie-label");
+    		
+    	// For each node
+    	for(Node n : text) {
+			// If the node is instance of text
+			if(n instanceof Text) {
+				Text t = (Text) n;
+				
+				// Look for the data again...
+				for( PieChart.Data pcd : piechart.getData() ) {
+					// Check the name
+					if(pcd.getName().equals(t.getText())) {
+						// Change the name
+						t.setText( pcd.getName() + "\n" 
+								+ String.valueOf(pcd.getPieValue()).replace(".0", " ") + "[Reqs]" );
+					}
+				}
+			}
+		}
+    	
+    	// Now add mouse handlers
+    	for (final PieChart.Data data : piechart.getData()) {
+    		// Add a mouse event handler...
+    		data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+		        @Override 
+		        public void handle(MouseEvent e) {
+		            callSliceHandler( data.getName() );
+		         }
+    		});
+    	}
+    	
+    	// Add centered text
+    	col1Piechart.setCellFactory(new Callback<TableColumn<Requirement, String>, TableCell<Requirement, String>>() {
+	        @Override
+	        public TableCell<Requirement, String> call(TableColumn<Requirement, String> param) {
+	        	
+	        	TableCell<Requirement, String> cell = new TableCell<Requirement, String>() {
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText(empty ? null : getString());
+                        setGraphic(null);
+                    }
+
+                    private String getString() {
+                        return getItem() == null ? "" : getItem().toString();
+                    }
+                };
+
+                cell.setAlignment(Pos.TOP_CENTER);
+                
+                return cell;
+	        }
+	        
+	    });
+	}
+
+
+
+
+	/**
+     * Method to configurate the bar chart with the list of
+     * requirements per actor, separated by FR and NFR.
+     */
+	private void configBarChart() {
+    	// Obtain the list of series
+		ObservableList<XYChart.Series<String,Integer>> series = project.getProportionModel().calculateBarchartSeries();
+
+    	// Now for each series
+    	for( XYChart.Series<String,Integer> s : series ) {
+    		// For each data
+    		for( XYChart.Data<String,Integer> d : s.getData() ) {
+    			// Add a listener...
+    			d.nodeProperty().addListener(new ChangeListener<Node>() {
+    		        @Override 
+    		        public void changed(ObservableValue<? extends Node> ov, Node oldNode, final Node node) {
+    		        	// Set a label with a number
+    		        	displayLabelForData(d, s.getName() );
+    		        }
+    		    });
+    		}
+    	}
+ 
+	
+    	// Add the series to the chart
+    	barchart.getData().addAll( series );
+   	 
+    	// Set style
+	    String css = MainApp.getMainApp().getClass().getResource(FileLocation.BARCHART_STYLE.toString()).toExternalForm();
+	    barchart.getStylesheets().add(css);
+	    
+    	// Now for each series
+	    for (XYChart.Series<String, Integer> serie: barchart.getData()) {
+	    	// For each data...
+            for (XYChart.Data<String, Integer> item: serie.getData()) {
+            	// For each item, add a mouse event listener
+                item.getNode().setOnMousePressed((MouseEvent event) -> {
+                    callBarHandler( item );
+                });
+            }
+        }
+	       
+    	
+	    // Add centered text to table
+	    col1Barchart.setCellFactory(new Callback<TableColumn<Requirement, String>, TableCell<Requirement, String>>() {
+	        @Override
+	        public TableCell<Requirement, String> call(TableColumn<Requirement, String> param) {
+	        	
+	        	TableCell<Requirement, String> cell = new TableCell<Requirement, String>() {
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText(empty ? null : getString());
+                        setGraphic(null);
+                    }
+
+                    private String getString() {
+                        return getItem() == null ? "" : getItem().toString();
+                    }
+                };
+
+                cell.setAlignment(Pos.TOP_CENTER);
+                
+                return cell;
+	        }
+	        
+	    });
+	}
+
+
+
+
+
+	/**
+     * Method to set the correct name of the tab, depending if its content
+     * is saved or not.
+     */
+    public void correctTabName() {
+    	arTab.setText( (project.isARChartSaved()) ? "Proportion Chart" : "*Proportion Chart" );
+    }
+    
+
+
+    
+    /**
+     * Places a text label with a bar's value above a bar node for a given XYChart.Data.
+     * http://stackoverflow.com/questions/15237192/how-to-display-bar-value-on-top-of-bar-javafx
+     * @param data The data from a specific series to have the label added.
+     * @param name The name of the series.
+     */
+    private void displayLabelForData(XYChart.Data<String, Integer> data, String name) {
+    	// Get the node
+    	Node node = data.getNode();
+
+    	// Get the name
+    	String acronym = name.equals("Functional Requirements") ? "F:" : "NF:";
+    	
+    	// Set the text
+    	Text dataText = new Text(acronym + data.getYValue());
+    	
+    	// Add a listener
+    	node.parentProperty().addListener(new ChangeListener<Parent>() {
+    		@Override 
+    		public void changed(ObservableValue<? extends Parent> ov, Parent oldParent, Parent parent) {
+    			Group parentGroup = (Group) parent;
+    			parentGroup.getChildren().add(dataText);
+    		}
+    	});
+   
+    	// Bound the property
+    	node.boundsInParentProperty().addListener(new ChangeListener<Bounds>() {
+    		@Override 
+    		public void changed(ObservableValue<? extends Bounds> ov, Bounds oldBounds, Bounds bounds) {
+    			dataText.setLayoutX( Math.round(
+    					bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2));
+    			dataText.setLayoutY(Math.round(bounds.getMinY() - dataText.prefHeight(-1) * 0.5));
+    		}
+    	});
+    }
+
+  
+    
+    
+    
+    /**
+     * Method with the logic that needs to be executed after a click on a slice
+     * of the requirements proportions pie chart.
+     * @param dimension The name of the clicked slice.
+     */
+	protected void callSliceHandler(String name) {
+		// Get the requirements of the model
+    	ObservableList<Requirement> reqs = FXCollections.<Requirement>observableArrayList();
+    	
+    	// Go through the project list
+    	for(Requirement r : project.getReqsTableModel()) {
+    		// Check if they both functional...
+    		if( (name.equals( ARProportionModel.FR_TEXT ) && r.getIsFR())
+    				|| (name.equals( ARProportionModel.NFR_TEXT ) && !r.getIsFR()) ) {
+    			// Add it to the list
+    			reqs.add(r);
+    		}
+    	}
+    	
+    	// Now clear the table
+    	tablePiechart.getItems().clear();
+    	
+    	// Add the new info
+    	tablePiechart.setItems(reqs);
+	}
+    
+    
+	
+    /**
+     * Method with the logic that needs to be executed after a click on a bar
+     * of the requirements per actor barchart.
+     * @param item The clicked bar.
+     */
+	private void callBarHandler(Data<String, Integer> item) {
+		// Get the splitted name
+		String splittedName = item.getXValue().split(": ")[1];
+		
+		// Get the requirements of the model
+		ObservableList<Requirement> reqs = FXCollections.<Requirement>observableArrayList();
+		
+		// Go through the project list
+		for(Requirement r : project.getReqsTableModel()) {
+			// If the actor is the same...
+			if( r.getActor().getStakeholder().equals( splittedName ) ) {
+				// Add it to the list
+				reqs.add(r);
+			}
+		}
+		
+		// Now clear the table
+		tableBarchart.getItems().clear();
+		
+		// Add the new info
+		tableBarchart.setItems(reqs);
+	}
+	
+	
+	
+	
+	/**
+	 * Event handler for the case where the tab is requested to be closed
+	 * and this studies the content and decides what to do.
+	 * @param e The event, so it can consume it if neccesary.
+	 */
+	@FXML
+    private void onCloseTabRequest(Event e) {
+		/*
+		 * SAVED CHANGES
+		 */
+		if( project.isARChartSaved() ) {
+			//If chart is saved, closing them will remove them from the project
+				
+			// Prepare the basic alert thing
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.initOwner( MainApp.getMainApp().getPrimaryStage() );
+			
+			// Set the image
+			alert.setGraphic(new ImageView(this.getClass().getResource(
+					ImageLocation.ALERT_WARNING.toString()).toString()));
+			
+			// Set the text of the message
+			alert.setTitle("Removing Existing Reqs per Actor Chart");
+			alert.setHeaderText("Closing this tab will clear the Proportion Charts.");
+			alert.setContentText("By closing this tab the current Requirements per Actor (Proportion) "
+					+ "Charts will be cleared from the project. Are you sure you want to remove them?");
+
+
+			// Show alert and wait
+			Optional<ButtonType> result = alert.showAndWait();
+				
+			// CLOSE TAB AND REMOVE CHART
+			if (result.get() == ButtonType.OK) {
+				// Clear model
+				project.setRelevanceModel(new SHRelevanceModel());
+				project.setIIChartSaved(false);	
+				
+				// Set tab closed
+				MainApp.getMainApp().setOpenIIChartTab(false);
+			} 
+			// DO NOTHING
+			else {
+				// ... user chose CANCEL or closed the dialog. Don't save and don't close the tab.
+				e.consume();
+			}
+		}
+
+		/*
+		 * UNSAVED CHANGES
+		 */
+		else {
+			// Prepare the basic alert thing
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.initOwner( MainApp.getMainApp().getPrimaryStage() );
+				
+			// Set the image
+			alert.setGraphic(new ImageView(this.getClass().getResource(ImageLocation.ALERT_WARNING.toString()).toString()));
+				
+			// Set the text of the message
+			alert.setTitle("Unsaved Changes");
+			alert.setHeaderText("There are unsaved changes on the Distribution Charts of the project.");
+			alert.setContentText("There are changes not saved that will be lost if you close the tab."
+						+ "Are you sure you want to close the tab?");
+
+
+			// Show alert and wait
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			
+			/*
+			 *  CLOSE TAB AND DON'T SAVE
+			 */
+			if (result.get() == ButtonType.OK) {
+				// Clear model
+				project.setRelevanceModel(new SHRelevanceModel());
+				project.setIIChartSaved(true);	
+				
+				// Set tab closed
+				MainApp.getMainApp().setOpenIIChartTab(false);
+			} 
+			/*
+			 *  DO NOTHINGS
+			 */
+			else {
+			    // ... user chose CANCEL or closed the dialog
+				// Don't save and don't close the tab
+				e.consume();
+			}
+		}
+	
+
+    }
+}

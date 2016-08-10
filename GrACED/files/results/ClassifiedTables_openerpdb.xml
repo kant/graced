@@ -1,0 +1,858 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<tns:root xmlns:tns="http://www.example.org/BagOfWordsSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/ClassifiedTablesSchema ../results/ClassifiedTablesSchema.xsd ">
+<tns:tables tns:tableName="employee_category_rel">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="13.56">
+<tns:tableClassification tns:classPercent="22.0"/>
+<tns:columnClassification tns:classPercent="5.12"/>
+</tns:class>
+<tns:column tns:columnName="category_id"/>
+<tns:column tns:columnName="emp_id"/>
+</tns:tables>
+<tns:tables tns:tableName="hr_department">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="10.92">
+<tns:tableClassification tns:classPercent="16.0"/>
+<tns:columnClassification tns:classPercent="5.840000000000001"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="company_id"/>
+<tns:column tns:columnName="note"/>
+<tns:column tns:columnName="parent_id"/>
+<tns:column tns:columnName="manager_id"/>
+</tns:tables>
+<tns:tables tns:tableName="hr_employee">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="30.265">
+<tns:tableClassification tns:classPercent="32.0"/>
+<tns:columnClassification tns:classPercent="28.529999999999998"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="address_id"/>
+<tns:column tns:columnName="coach_id"/>
+<tns:column tns:columnName="resource_id"/>
+<tns:column tns:columnName="color"/>
+<tns:column tns:columnName="image"/>
+<tns:column tns:columnName="marital"/>
+<tns:column tns:columnName="identification_id"/>
+<tns:column tns:columnName="bank_account_id"/>
+<tns:column tns:columnName="job_id"/>
+<tns:column tns:columnName="work_phone"/>
+<tns:column tns:columnName="country_id"/>
+<tns:column tns:columnName="parent_id"/>
+<tns:column tns:columnName="notes"/>
+<tns:column tns:columnName="department_id"/>
+<tns:column tns:columnName="otherid"/>
+<tns:column tns:columnName="mobile_phone"/>
+<tns:column tns:columnName="birthday"/>
+<tns:column tns:columnName="sinid"/>
+<tns:column tns:columnName="work_email"/>
+<tns:column tns:columnName="work_location"/>
+<tns:column tns:columnName="image_medium"/>
+<tns:column tns:columnName="name_related"/>
+<tns:column tns:columnName="ssnid"/>
+<tns:column tns:columnName="image_small"/>
+<tns:column tns:columnName="address_home_id"/>
+<tns:column tns:columnName="gender"/>
+<tns:column tns:columnName="passport_id"/>
+</tns:tables>
+<tns:tables tns:tableName="hr_job">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="18.779999999999994">
+<tns:tableClassification tns:classPercent="26.0"/>
+<tns:columnClassification tns:classPercent="11.559999999999992"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="requirements"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="description"/>
+<tns:column tns:columnName="company_id"/>
+<tns:column tns:columnName="state"/>
+<tns:column tns:columnName="no_of_recruitment"/>
+<tns:column tns:columnName="expected_employees"/>
+<tns:column tns:columnName="no_of_employee"/>
+<tns:column tns:columnName="department_id"/>
+</tns:tables>
+<tns:tables tns:tableName="mrp_bom">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="56.34">
+<tns:tableClassification tns:classPercent="50.0"/>
+<tns:columnClassification tns:classPercent="62.68000000000001"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="date_stop"/>
+<tns:column tns:columnName="code"/>
+<tns:column tns:columnName="product_uom"/>
+<tns:column tns:columnName="product_uos_qty"/>
+<tns:column tns:columnName="date_start"/>
+<tns:column tns:columnName="product_qty"/>
+<tns:column tns:columnName="product_uos"/>
+<tns:column tns:columnName="product_efficiency"/>
+<tns:column tns:columnName="active"/>
+<tns:column tns:columnName="product_rounding"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="sequence"/>
+<tns:column tns:columnName="company_id"/>
+<tns:column tns:columnName="routing_id"/>
+<tns:column tns:columnName="product_id"/>
+<tns:column tns:columnName="bom_id"/>
+<tns:column tns:columnName="position"/>
+<tns:column tns:columnName="type"/>
+</tns:tables>
+<tns:tables tns:tableName="mrp_bom_property_rel">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="31.57">
+<tns:tableClassification tns:classPercent="53.0"/>
+<tns:columnClassification tns:classPercent="10.14"/>
+</tns:class>
+<tns:column tns:columnName="bom_id"/>
+<tns:column tns:columnName="property_id"/>
+</tns:tables>
+<tns:tables tns:tableName="mrp_config_settings">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="19.71">
+<tns:tableClassification tns:classPercent="25.0"/>
+<tns:columnClassification tns:classPercent="14.420000000000002"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="module_mrp_byproduct"/>
+<tns:column tns:columnName="module_mrp_jit"/>
+<tns:column tns:columnName="group_mrp_properties"/>
+<tns:column tns:columnName="module_product_manufacturer"/>
+<tns:column tns:columnName="module_mrp_repair"/>
+<tns:column tns:columnName="module_mrp_operations"/>
+<tns:column tns:columnName="group_mrp_routings"/>
+<tns:column tns:columnName="module_stock_no_autopicking"/>
+</tns:tables>
+<tns:tables tns:tableName="mrp_product_price">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="24.14">
+<tns:tableClassification tns:classPercent="41.0"/>
+<tns:columnClassification tns:classPercent="7.28"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="number"/>
+</tns:tables>
+<tns:tables tns:tableName="mrp_product_produce">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="27.64">
+<tns:tableClassification tns:classPercent="40.0"/>
+<tns:columnClassification tns:classPercent="15.280000000000001"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="mode"/>
+<tns:column tns:columnName="product_qty"/>
+</tns:tables>
+<tns:tables tns:tableName="mrp_production">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="39.480000000000004">
+<tns:tableClassification tns:classPercent="26.0"/>
+<tns:columnClassification tns:classPercent="52.96000000000001"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="origin"/>
+<tns:column tns:columnName="product_uom"/>
+<tns:column tns:columnName="product_uos_qty"/>
+<tns:column tns:columnName="product_qty"/>
+<tns:column tns:columnName="product_uos"/>
+<tns:column tns:columnName="user_id"/>
+<tns:column tns:columnName="location_src_id"/>
+<tns:column tns:columnName="cycle_total"/>
+<tns:column tns:columnName="date_start"/>
+<tns:column tns:columnName="company_id"/>
+<tns:column tns:columnName="priority"/>
+<tns:column tns:columnName="state"/>
+<tns:column tns:columnName="bom_id"/>
+<tns:column tns:columnName="date_finished"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="product_id"/>
+<tns:column tns:columnName="date_planned"/>
+<tns:column tns:columnName="move_prod_id"/>
+<tns:column tns:columnName="routing_id"/>
+<tns:column tns:columnName="hour_total"/>
+<tns:column tns:columnName="location_dest_id"/>
+<tns:column tns:columnName="picking_id"/>
+</tns:tables>
+<tns:tables tns:tableName="mrp_production_product_line">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="39.71">
+<tns:tableClassification tns:classPercent="42.0"/>
+<tns:columnClassification tns:classPercent="37.42"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="product_uos_qty"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="product_uom"/>
+<tns:column tns:columnName="product_qty"/>
+<tns:column tns:columnName="product_uos"/>
+<tns:column tns:columnName="production_id"/>
+<tns:column tns:columnName="product_id"/>
+</tns:tables>
+<tns:tables tns:tableName="mrp_production_workcenter_line">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="13.92">
+<tns:tableClassification tns:classPercent="17.0"/>
+<tns:columnClassification tns:classPercent="10.84"/>
+</tns:class>
+<tns:class tns:className="Bill Of Materials" tns:classPercent="17.78">
+<tns:tableClassification tns:classPercent="27.0"/>
+<tns:columnClassification tns:classPercent="8.56"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="sequence"/>
+<tns:column tns:columnName="hour"/>
+<tns:column tns:columnName="production_id"/>
+<tns:column tns:columnName="workcenter_id"/>
+<tns:column tns:columnName="cycle"/>
+</tns:tables>
+<tns:tables tns:tableName="mrp_property">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="16.78">
+<tns:tableClassification tns:classPercent="27.0"/>
+<tns:columnClassification tns:classPercent="6.5600000000000005"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="composition"/>
+<tns:column tns:columnName="group_id"/>
+<tns:column tns:columnName="description"/>
+<tns:column tns:columnName="name"/>
+</tns:tables>
+<tns:tables tns:tableName="mrp_property_group">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="16.78">
+<tns:tableClassification tns:classPercent="28.0"/>
+<tns:columnClassification tns:classPercent="5.5600000000000005"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="description"/>
+</tns:tables>
+<tns:tables tns:tableName="mrp_routing">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="16.85">
+<tns:tableClassification tns:classPercent="25.0"/>
+<tns:columnClassification tns:classPercent="8.700000000000001"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="note"/>
+<tns:column tns:columnName="code"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="active"/>
+<tns:column tns:columnName="location_id"/>
+<tns:column tns:columnName="company_id"/>
+</tns:tables>
+<tns:tables tns:tableName="mrp_routing_workcenter">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="15.979999999999999">
+<tns:tableClassification tns:classPercent="16.0"/>
+<tns:columnClassification tns:classPercent="15.959999999999997"/>
+</tns:class>
+<tns:class tns:className="Bill Of Materials" tns:classPercent="15.92">
+<tns:tableClassification tns:classPercent="25.0"/>
+<tns:columnClassification tns:classPercent="6.84"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="cycle_nbr"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="sequence"/>
+<tns:column tns:columnName="company_id"/>
+<tns:column tns:columnName="note"/>
+<tns:column tns:columnName="routing_id"/>
+<tns:column tns:columnName="workcenter_id"/>
+<tns:column tns:columnName="hour_nbr"/>
+</tns:tables>
+<tns:tables tns:tableName="mrp_workcenter">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="21.155000000000005">
+<tns:tableClassification tns:classPercent="15.0"/>
+<tns:columnClassification tns:classPercent="27.31000000000001"/>
+</tns:class>
+<tns:class tns:className="Bill Of Materials" tns:classPercent="19.2">
+<tns:tableClassification tns:classPercent="25.0"/>
+<tns:columnClassification tns:classPercent="13.4"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="costs_cycle_account_id"/>
+<tns:column tns:columnName="capacity_per_cycle"/>
+<tns:column tns:columnName="time_start"/>
+<tns:column tns:columnName="product_id"/>
+<tns:column tns:columnName="resource_id"/>
+<tns:column tns:columnName="costs_journal_id"/>
+<tns:column tns:columnName="time_stop"/>
+<tns:column tns:columnName="note"/>
+<tns:column tns:columnName="costs_hour"/>
+<tns:column tns:columnName="costs_hour_account_id"/>
+<tns:column tns:columnName="costs_cycle"/>
+<tns:column tns:columnName="costs_general_account_id"/>
+<tns:column tns:columnName="time_cycle"/>
+</tns:tables>
+<tns:tables tns:tableName="mrp_workcenter_load">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="20.21">
+<tns:tableClassification tns:classPercent="25.0"/>
+<tns:columnClassification tns:classPercent="15.42"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="measure_unit"/>
+<tns:column tns:columnName="time_unit"/>
+</tns:tables>
+<tns:tables tns:tableName="process_transition_action">
+<tns:class tns:className="Production Rules" tns:classPercent="11.11">
+<tns:tableClassification tns:classPercent="16.0"/>
+<tns:columnClassification tns:classPercent="6.220000000000001"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="action"/>
+<tns:column tns:columnName="state"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="transition_id"/>
+</tns:tables>
+<tns:tables tns:tableName="product_category">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="15.540000000000001">
+<tns:tableClassification tns:classPercent="25.0"/>
+<tns:columnClassification tns:classPercent="6.080000000000001"/>
+</tns:class>
+<tns:class tns:className="Bill Of Materials" tns:classPercent="12.629999999999999">
+<tns:tableClassification tns:classPercent="18.0"/>
+<tns:columnClassification tns:classPercent="7.26"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="parent_left"/>
+<tns:column tns:columnName="parent_right"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="sequence"/>
+<tns:column tns:columnName="parent_id"/>
+<tns:column tns:columnName="type"/>
+</tns:tables>
+<tns:tables tns:tableName="product_packaging">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="13.96">
+<tns:tableClassification tns:classPercent="21.0"/>
+<tns:columnClassification tns:classPercent="6.920000000000001"/>
+</tns:class>
+<tns:class tns:className="Bill Of Materials" tns:classPercent="19.990000000000002">
+<tns:tableClassification tns:classPercent="18.0"/>
+<tns:columnClassification tns:classPercent="21.98"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="ul"/>
+<tns:column tns:columnName="code"/>
+<tns:column tns:columnName="product_id"/>
+<tns:column tns:columnName="weight"/>
+<tns:column tns:columnName="sequence"/>
+<tns:column tns:columnName="ul_qty"/>
+<tns:column tns:columnName="ean"/>
+<tns:column tns:columnName="qty"/>
+<tns:column tns:columnName="width"/>
+<tns:column tns:columnName="length"/>
+<tns:column tns:columnName="rows"/>
+<tns:column tns:columnName="height"/>
+<tns:column tns:columnName="weight_ul"/>
+<tns:column tns:columnName="name"/>
+</tns:tables>
+<tns:tables tns:tableName="product_price_list">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="12.64">
+<tns:tableClassification tns:classPercent="16.0"/>
+<tns:columnClassification tns:classPercent="9.280000000000001"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="qty1"/>
+<tns:column tns:columnName="qty2"/>
+<tns:column tns:columnName="qty3"/>
+<tns:column tns:columnName="qty4"/>
+<tns:column tns:columnName="qty5"/>
+<tns:column tns:columnName="price_list"/>
+</tns:tables>
+<tns:tables tns:tableName="product_price_type">
+<tns:class tns:className="Production Rules" tns:classPercent="8.11">
+<tns:tableClassification tns:classPercent="10.0"/>
+<tns:columnClassification tns:classPercent="6.220000000000001"/>
+</tns:class>
+<tns:class tns:className="Bill Of Materials" tns:classPercent="11.21">
+<tns:tableClassification tns:classPercent="16.0"/>
+<tns:columnClassification tns:classPercent="6.42"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="active"/>
+<tns:column tns:columnName="field"/>
+<tns:column tns:columnName="currency_id"/>
+<tns:column tns:columnName="name"/>
+</tns:tables>
+<tns:tables tns:tableName="product_pricelist">
+<tns:class tns:className="Production Rules" tns:classPercent="8.165000000000001">
+<tns:tableClassification tns:classPercent="10.0"/>
+<tns:columnClassification tns:classPercent="6.330000000000001"/>
+</tns:class>
+<tns:class tns:className="Bill Of Resources" tns:classPercent="12.92">
+<tns:tableClassification tns:classPercent="20.0"/>
+<tns:columnClassification tns:classPercent="5.840000000000001"/>
+</tns:class>
+<tns:class tns:className="Bill Of Materials" tns:classPercent="10.850000000000001">
+<tns:tableClassification tns:classPercent="15.0"/>
+<tns:columnClassification tns:classPercent="6.700000000000001"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="currency_id"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="active"/>
+<tns:column tns:columnName="type"/>
+<tns:column tns:columnName="company_id"/>
+</tns:tables>
+<tns:tables tns:tableName="product_pricelist_item">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="15.599999999999998">
+<tns:tableClassification tns:classPercent="20.0"/>
+<tns:columnClassification tns:classPercent="11.199999999999998"/>
+</tns:class>
+<tns:class tns:className="Bill Of Materials" tns:classPercent="31.99">
+<tns:tableClassification tns:classPercent="16.0"/>
+<tns:columnClassification tns:classPercent="47.98"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="price_round"/>
+<tns:column tns:columnName="price_discount"/>
+<tns:column tns:columnName="base_pricelist_id"/>
+<tns:column tns:columnName="sequence"/>
+<tns:column tns:columnName="price_max_margin"/>
+<tns:column tns:columnName="company_id"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="product_tmpl_id"/>
+<tns:column tns:columnName="product_id"/>
+<tns:column tns:columnName="base"/>
+<tns:column tns:columnName="price_version_id"/>
+<tns:column tns:columnName="min_quantity"/>
+<tns:column tns:columnName="price_min_margin"/>
+<tns:column tns:columnName="categ_id"/>
+<tns:column tns:columnName="price_surcharge"/>
+</tns:tables>
+<tns:tables tns:tableName="product_pricelist_type">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="11.21">
+<tns:tableClassification tns:classPercent="15.0"/>
+<tns:columnClassification tns:classPercent="7.42"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="key"/>
+</tns:tables>
+<tns:tables tns:tableName="product_pricelist_version">
+<tns:class tns:className="Production Rules" tns:classPercent="8.275">
+<tns:tableClassification tns:classPercent="10.0"/>
+<tns:columnClassification tns:classPercent="6.550000000000002"/>
+</tns:class>
+<tns:class tns:className="Bill Of Resources" tns:classPercent="12.98">
+<tns:tableClassification tns:classPercent="20.0"/>
+<tns:columnClassification tns:classPercent="5.960000000000001"/>
+</tns:class>
+<tns:class tns:className="Bill Of Materials" tns:classPercent="10.99">
+<tns:tableClassification tns:classPercent="15.0"/>
+<tns:columnClassification tns:classPercent="6.98"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="active"/>
+<tns:column tns:columnName="pricelist_id"/>
+<tns:column tns:columnName="date_end"/>
+<tns:column tns:columnName="date_start"/>
+<tns:column tns:columnName="company_id"/>
+</tns:tables>
+<tns:tables tns:tableName="product_product">
+<tns:class tns:className="Production Rules" tns:classPercent="13.330000000000002">
+<tns:tableClassification tns:classPercent="20.0"/>
+<tns:columnClassification tns:classPercent="6.660000000000002"/>
+</tns:class>
+<tns:class tns:className="Bill Of Materials" tns:classPercent="29.26">
+<tns:tableClassification tns:classPercent="30.0"/>
+<tns:columnClassification tns:classPercent="28.520000000000003"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="ean13"/>
+<tns:column tns:columnName="color"/>
+<tns:column tns:columnName="image"/>
+<tns:column tns:columnName="price_extra"/>
+<tns:column tns:columnName="default_code"/>
+<tns:column tns:columnName="name_template"/>
+<tns:column tns:columnName="active"/>
+<tns:column tns:columnName="variants"/>
+<tns:column tns:columnName="image_medium"/>
+<tns:column tns:columnName="image_small"/>
+<tns:column tns:columnName="product_tmpl_id"/>
+<tns:column tns:columnName="price_margin"/>
+<tns:column tns:columnName="track_outgoing"/>
+<tns:column tns:columnName="track_incoming"/>
+<tns:column tns:columnName="valuation"/>
+<tns:column tns:columnName="track_production"/>
+</tns:tables>
+<tns:tables tns:tableName="product_supplierinfo">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="16.159999999999997">
+<tns:tableClassification tns:classPercent="21.0"/>
+<tns:columnClassification tns:classPercent="11.319999999999997"/>
+</tns:class>
+<tns:class tns:className="Bill Of Materials" tns:classPercent="21.060000000000002">
+<tns:tableClassification tns:classPercent="15.0"/>
+<tns:columnClassification tns:classPercent="27.12"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="sequence"/>
+<tns:column tns:columnName="company_id"/>
+<tns:column tns:columnName="qty"/>
+<tns:column tns:columnName="delay"/>
+<tns:column tns:columnName="min_qty"/>
+<tns:column tns:columnName="product_code"/>
+<tns:column tns:columnName="product_name"/>
+<tns:column tns:columnName="product_id"/>
+</tns:tables>
+<tns:tables tns:tableName="product_template">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="13.520000000000001">
+<tns:tableClassification tns:classPercent="20.0"/>
+<tns:columnClassification tns:classPercent="7.040000000000002"/>
+</tns:class>
+<tns:class tns:className="Bill Of Materials" tns:classPercent="31.53000000000001">
+<tns:tableClassification tns:classPercent="23.0"/>
+<tns:columnClassification tns:classPercent="40.06000000000002"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="warranty"/>
+<tns:column tns:columnName="uos_id"/>
+<tns:column tns:columnName="list_price"/>
+<tns:column tns:columnName="description"/>
+<tns:column tns:columnName="weight"/>
+<tns:column tns:columnName="weight_net"/>
+<tns:column tns:columnName="standard_price"/>
+<tns:column tns:columnName="mes_type"/>
+<tns:column tns:columnName="uom_id"/>
+<tns:column tns:columnName="description_purchase"/>
+<tns:column tns:columnName="cost_method"/>
+<tns:column tns:columnName="categ_id"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="uos_coeff"/>
+<tns:column tns:columnName="volume"/>
+<tns:column tns:columnName="sale_ok"/>
+<tns:column tns:columnName="description_sale"/>
+<tns:column tns:columnName="product_manager"/>
+<tns:column tns:columnName="company_id"/>
+<tns:column tns:columnName="state"/>
+<tns:column tns:columnName="produce_delay"/>
+<tns:column tns:columnName="uom_po_id"/>
+<tns:column tns:columnName="rental"/>
+<tns:column tns:columnName="type"/>
+<tns:column tns:columnName="loc_rack"/>
+<tns:column tns:columnName="loc_row"/>
+<tns:column tns:columnName="sale_delay"/>
+<tns:column tns:columnName="loc_case"/>
+<tns:column tns:columnName="supply_method"/>
+<tns:column tns:columnName="procure_method"/>
+<tns:column tns:columnName="purchase_ok"/>
+</tns:tables>
+<tns:tables tns:tableName="product_ul">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="10.780000000000001">
+<tns:tableClassification tns:classPercent="16.0"/>
+<tns:columnClassification tns:classPercent="5.5600000000000005"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="type"/>
+<tns:column tns:columnName="name"/>
+</tns:tables>
+<tns:tables tns:tableName="product_uom">
+<tns:class tns:className="Production Rules" tns:classPercent="8.11">
+<tns:tableClassification tns:classPercent="10.0"/>
+<tns:columnClassification tns:classPercent="6.220000000000001"/>
+</tns:class>
+<tns:class tns:className="Bill Of Resources" tns:classPercent="12.92">
+<tns:tableClassification tns:classPercent="20.0"/>
+<tns:columnClassification tns:classPercent="5.840000000000001"/>
+</tns:class>
+<tns:class tns:className="Bill Of Materials" tns:classPercent="15.350000000000001">
+<tns:tableClassification tns:classPercent="16.0"/>
+<tns:columnClassification tns:classPercent="14.700000000000003"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="uom_type"/>
+<tns:column tns:columnName="category_id"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="rounding"/>
+<tns:column tns:columnName="factor"/>
+<tns:column tns:columnName="active"/>
+</tns:tables>
+<tns:tables tns:tableName="product_uom_categ">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="12.21">
+<tns:tableClassification tns:classPercent="19.0"/>
+<tns:columnClassification tns:classPercent="5.42"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="name"/>
+</tns:tables>
+<tns:tables tns:tableName="report_workcenter_load">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="8.18">
+<tns:tableClassification tns:classPercent="11.0"/>
+<tns:columnClassification tns:classPercent="5.36"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="hour"/>
+<tns:column tns:columnName="cycle"/>
+<tns:column tns:columnName="workcenter_id"/>
+</tns:tables>
+<tns:tables tns:tableName="resource_calendar">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="12.8">
+<tns:tableClassification tns:classPercent="20.0"/>
+<tns:columnClassification tns:classPercent="5.6000000000000005"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="manager"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="company_id"/>
+</tns:tables>
+<tns:tables tns:tableName="resource_calendar_leaves">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="17.86">
+<tns:tableClassification tns:classPercent="20.0"/>
+<tns:columnClassification tns:classPercent="15.719999999999997"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="resource_id"/>
+<tns:column tns:columnName="calendar_id"/>
+<tns:column tns:columnName="date_from"/>
+<tns:column tns:columnName="date_to"/>
+<tns:column tns:columnName="company_id"/>
+</tns:tables>
+<tns:tables tns:tableName="resource_resource">
+<tns:class tns:className="Bill Of Resources" tns:classPercent="28.04">
+<tns:tableClassification tns:classPercent="40.0"/>
+<tns:columnClassification tns:classPercent="16.079999999999995"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="time_efficiency"/>
+<tns:column tns:columnName="code"/>
+<tns:column tns:columnName="user_id"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="company_id"/>
+<tns:column tns:columnName="active"/>
+<tns:column tns:columnName="calendar_id"/>
+<tns:column tns:columnName="resource_type"/>
+</tns:tables>
+<tns:tables tns:tableName="stock_change_product_qty">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="17.71">
+<tns:tableClassification tns:classPercent="18.0"/>
+<tns:columnClassification tns:classPercent="17.42"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="prodlot_id"/>
+<tns:column tns:columnName="location_id"/>
+<tns:column tns:columnName="new_quantity"/>
+<tns:column tns:columnName="product_id"/>
+</tns:tables>
+<tns:tables tns:tableName="stock_location_product">
+<tns:class tns:className="Bill Of Materials" tns:classPercent="10.35">
+<tns:tableClassification tns:classPercent="15.0"/>
+<tns:columnClassification tns:classPercent="5.7"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="from_date"/>
+<tns:column tns:columnName="type"/>
+<tns:column tns:columnName="to_date"/>
+</tns:tables>
+<tns:tables tns:tableName="wkf_activity">
+<tns:class tns:className="Production Rules" tns:classPercent="37.05">
+<tns:tableClassification tns:classPercent="40.0"/>
+<tns:columnClassification tns:classPercent="34.099999999999994"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="wkf_id"/>
+<tns:column tns:columnName="subflow_id"/>
+<tns:column tns:columnName="split_mode"/>
+<tns:column tns:columnName="join_mode"/>
+<tns:column tns:columnName="kind"/>
+<tns:column tns:columnName="name"/>
+<tns:column tns:columnName="signal_send"/>
+<tns:column tns:columnName="flow_start"/>
+<tns:column tns:columnName="flow_stop"/>
+<tns:column tns:columnName="action"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="action_id"/>
+</tns:tables>
+<tns:tables tns:tableName="wkf_instance">
+<tns:class tns:className="Production Rules" tns:classPercent="26.11">
+<tns:tableClassification tns:classPercent="31.0"/>
+<tns:columnClassification tns:classPercent="21.22"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="wkf_id"/>
+<tns:column tns:columnName="uid"/>
+<tns:column tns:columnName="res_id"/>
+<tns:column tns:columnName="res_type"/>
+<tns:column tns:columnName="state"/>
+</tns:tables>
+<tns:tables tns:tableName="wkf_logs">
+<tns:class tns:className="Production Rules" tns:classPercent="18.665">
+<tns:tableClassification tns:classPercent="31.0"/>
+<tns:columnClassification tns:classPercent="6.330000000000001"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="res_type"/>
+<tns:column tns:columnName="res_id"/>
+<tns:column tns:columnName="uid"/>
+<tns:column tns:columnName="act_id"/>
+<tns:column tns:columnName="time"/>
+<tns:column tns:columnName="info"/>
+</tns:tables>
+<tns:tables tns:tableName="wkf_transition">
+<tns:class tns:className="Production Rules" tns:classPercent="24.384999999999998">
+<tns:tableClassification tns:classPercent="35.0"/>
+<tns:columnClassification tns:classPercent="13.769999999999996"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="act_from"/>
+<tns:column tns:columnName="act_to"/>
+<tns:column tns:columnName="condition"/>
+<tns:column tns:columnName="trigger_type"/>
+<tns:column tns:columnName="trigger_expr_id"/>
+<tns:column tns:columnName="signal"/>
+<tns:column tns:columnName="group_id"/>
+<tns:column tns:columnName="create_uid"/>
+<tns:column tns:columnName="create_date"/>
+<tns:column tns:columnName="write_date"/>
+<tns:column tns:columnName="write_uid"/>
+<tns:column tns:columnName="trigger_model"/>
+</tns:tables>
+<tns:tables tns:tableName="wkf_workitem">
+<tns:class tns:className="Production Rules" tns:classPercent="30.11">
+<tns:tableClassification tns:classPercent="35.0"/>
+<tns:columnClassification tns:classPercent="25.22"/>
+</tns:class>
+<tns:column tns:columnName="id"/>
+<tns:column tns:columnName="act_id"/>
+<tns:column tns:columnName="inst_id"/>
+<tns:column tns:columnName="subflow_id"/>
+<tns:column tns:columnName="state"/>
+</tns:tables>
+</tns:root>

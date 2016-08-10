@@ -1,0 +1,14 @@
+1430134374490	Rename local variable 'actorsFile'
+1430135319586	Rename local variable 'pieDData'
+1430317198978	Rename type 'IIChartController'
+1430317290284	Encapsulate field 'iichartTab'
+1430317296358	Encapsulate field 'openIIChartTab'
+1430391907981	Encapsulate field 'iiChartSaved'
+1430392329024	Rename resource 'MatrixStyle'
+1430393811572	Delete element
+1430394650624	Delete element
+1430394708925	Rename resource 'MatrixStyle.css'
+1430394727298	Move file
+1430396611740	Move file
+1430399168372	Delete element
+1430400489036	Delete element

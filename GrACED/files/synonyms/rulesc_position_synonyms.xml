@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:synonym xmlns:tns="http://www.example.org/SynonymsSchema"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.example.org/SynonymsSchema SynonymsSchema.xsd"
+             tns:mainWord="position">
+
+
+<!-- SYNONYMS -->
+
+<tns:word tns:originalWord="x"></tns:word>
+<tns:word tns:originalWord="y"></tns:word>
+<tns:word tns:originalWord="posy"></tns:word>
+<tns:word tns:originalWord="posx"></tns:word>
+<tns:word tns:originalWord="posz"></tns:word>
+<tns:word tns:originalWord="z"></tns:word>
+<tns:word tns:originalWord="pos"></tns:word>
+<tns:word tns:originalWord="position"></tns:word>
+
+
+</tns:synonym>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/RelationSchema" xmlns:tns="http://www.example.org/RelationSchema" elementFormDefault="qualified">
+
+
+    <attribute name="propX" type="double" default="0.30"></attribute>
+
+    <attribute name="nodeName" type="string"></attribute>
+
+    <attribute name="propYgivenX" type="double"></attribute>
+
+    <complexType name="ParentType">
+    	<attribute ref="tns:nodeName"></attribute>
+    	<attribute ref="tns:propX"></attribute>
+    	<attribute ref="tns:propYgivenX"></attribute>
+    </complexType>
+
+    <complexType name="ChildType">
+    	<sequence>
+    		<element ref="tns:parentNode" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    	<attribute ref="tns:nodeName"></attribute>
+    	<attribute ref="tns:propX"></attribute>
+    </complexType>
+
+    <element name="parentNode" type="tns:ParentType"></element>
+
+    <element name="childNode" type="tns:ChildType"></element>
+
+    <complexType name="RootType">
+    	<sequence>
+    		<element ref="tns:childNode" minOccurs="1" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="root" type="tns:RootType"></element>
+</schema>

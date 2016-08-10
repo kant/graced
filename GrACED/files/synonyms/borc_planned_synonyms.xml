@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:synonym xmlns:tns="http://www.example.org/SynonymsSchema"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.example.org/SynonymsSchema SynonymsSchema.xsd"
+             tns:mainWord="planned">
+
+
+<!-- SYNONYMS -->
+
+<tns:word tns:originalWord="planing"></tns:word>
+<tns:word tns:originalWord="planning"></tns:word>
+<tns:word tns:originalWord="commande"></tns:word>
+<tns:word tns:originalWord="planned"></tns:word>
+
+
+</tns:synonym>

@@ -1,0 +1,17 @@
+package gui.view.model;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
+
+
+
+
+public class Types {
+	protected IntegerProperty level;
+	protected StringProperty name;
+	protected StringProperty usable;
+	protected StringProperty description;	
+	
+	
+	
+}

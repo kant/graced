@@ -1,0 +1,33 @@
+1370260664858	Copy file
+1370276528628	Rename type 'SalirAL'
+1370368948952	Rename type 'DesconectarAL'
+1370372440857	Encapsulate field 'id'
+1370372443681	Encapsulate field 'name'
+1370372446579	Encapsulate field 'number'
+1370372547491	Delete element
+1370372725690	Encapsulate field 'id'
+1370372729311	Encapsulate field 'name'
+1370372733476	Encapsulate field 'start'
+1370372736316	Encapsulate field 'title'
+1370372741199	Encapsulate field 'fromInterface'
+1370372917356	Rename type 'Output'
+1370372979759	Rename field 'id'
+1370373090929	Encapsulate field 'tableID'
+1370373093350	Encapsulate field 'doubleHeader'
+1370373352212	Encapsulate field 'itable'
+1370373615807	Encapsulate field 'id'
+1370373618397	Encapsulate field 'name'
+1370373621002	Encapsulate field 'order'
+1370373779181	Encapsulate field 'output'
+1370373799710	Encapsulate field 'icolumnList'
+1370431515467	Move compilation units
+1370431518827	Delete element
+1370431531307	Move compilation unit
+1370431534347	Delete element
+1370431598061	Delete element
+1370431612522	Rename type 'TablaNoEditableModel'
+1370432227905	Rename local variable 'cantidadColumnas'
+1370439205862	Copy compilation unit
+1370526234386	Copy compilation units
+1370631040584	Copy file
+1370632277540	Copy compilation units

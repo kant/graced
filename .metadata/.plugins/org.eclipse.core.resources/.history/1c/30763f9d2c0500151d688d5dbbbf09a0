@@ -1,0 +1,1720 @@
+package logic.filemanager;
+
+import gui.view.model.Actor;
+import gui.view.model.IIActor;
+import gui.view.model.ProjectModel;
+import gui.view.model.Requirement;
+import gui.view.model.Role;
+import gui.view.model.RolesType;
+import gui.view.model.TypeCriterion;
+import gui.view.model.TypeDimension;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import javafx.scene.chart.PieChart;
+
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Hyperlink;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.charts.AxisCrosses;
+import org.apache.poi.ss.usermodel.charts.AxisPosition;
+import org.apache.poi.ss.usermodel.charts.AxisTickMark;
+import org.apache.poi.ss.usermodel.charts.ChartDataSource;
+import org.apache.poi.ss.usermodel.charts.DataSources;
+import org.apache.poi.ss.usermodel.charts.LegendPosition;
+import org.apache.poi.ss.usermodel.charts.ScatterChartSeries;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.usermodel.XSSFChart;
+import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
+import org.apache.poi.xssf.usermodel.XSSFDrawing;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.charts.XSSFChartLegend;
+import org.apache.poi.xssf.usermodel.charts.XSSFScatterChartData;
+import org.apache.poi.xssf.usermodel.charts.XSSFValueAxis;
+
+
+
+
+/**
+ * Class that acts as a manager, and controls all the steps to export
+ * the current project into an Excel file. It can be used for XLS files
+ * with no charts, or XLSX files with charts.
+ * Uses Apache POI.
+ * 
+ * @author Ing. Melina C. Vidoni - 2015.
+ *
+ */
+public class ExcelManager {
+	private ProjectModel project;
+	private File destDirectory;
+	
+	private HSSFWorkbook workbookXLS;
+	private XSSFWorkbook workbookXLSX;
+	
+	private CellStyle wrapTextStyle;
+	private CellStyle boldTextStyle;
+	private CellStyle topAlignTextStyle;
+	private CellStyle hyperlinkStyle;
+
+		
+	
+	/**
+	 * Default constructor of the class
+	 * @param d Destination directory for the excel export.
+	 */
+	public ExcelManager(File d) {
+		destDirectory = d;
+		project = ProjectModel.getInstance();
+	}
+
+
+
+	/**
+	 * Main selector method to decide what type of export is desired.
+	 * @param xls @true if the selected format is XLS, @false in the other hand.
+	 * @param xlsx @true if the selected format is XLSX, @false in the other hand.
+	 */
+	public void exportTo(boolean xls, boolean xlsx) {
+		// First of all, save
+		SaveExistingProject saver = SaveExistingProject.getInstance();
+		saver.saveProject();
+	    
+	    /*
+	     * Main export
+	     */
+		if(xls) exportToXLS();
+		if(xlsx) exportToXLSX();
+	}
+
+
+	
+	/**
+	 * Main method to create the complete logic of creating the
+	 * excel file with style, in the new XSSF format for XLSX.
+	 */
+	private void exportToXLSX() {
+		try {
+			// Create the workbook
+		    workbookXLSX = new XSSFWorkbook();
+		    
+		    /*
+			 * SET STYLES
+			 */
+		    // Prepare Wrappable Text
+		    wrapTextStyle = workbookXLSX.createCellStyle();
+		    wrapTextStyle.setWrapText(true);
+		    
+		    // Prepare Top aling
+		    topAlignTextStyle = workbookXLSX.createCellStyle();
+		    topAlignTextStyle.setVerticalAlignment(CellStyle.VERTICAL_TOP);
+		    
+		    // Prepare Bold Text
+		    boldTextStyle = workbookXLSX.createCellStyle();
+		    Font font = workbookXLSX.createFont();
+	        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		    boldTextStyle.setFont( font );
+		    
+		    // Prepare Hyperlink style
+		    hyperlinkStyle = workbookXLSX.createCellStyle();
+		    Font hyperlinkFont = workbookXLSX.createFont();
+		    hyperlinkFont.setUnderline(Font.U_SINGLE);
+		    hyperlinkFont.setColor(IndexedColors.BLUE.getIndex());
+		    hyperlinkStyle.setFont(hyperlinkFont);
+		    hyperlinkStyle.setVerticalAlignment(CellStyle.VERTICAL_TOP);
+		    
+		    
+		    /*
+		     * CREATE SHEETS
+		     */
+		    // Types Dimension Sheet
+		    String tdName = typesDimensionSheetXLSX();
+		    
+		    // Types Criterion Sheet
+		    String tcName = typesCriterionSheetXLSX();
+		    
+		    // Roles Sheet
+		    String rName = rolesSheetXLSX();
+		    
+		    // Actors Sheet
+		    String aName = actorsSheetXLSX(tdName, tcName, rName);
+		    
+		    // Requirement Sheet
+		    @SuppressWarnings("unused")
+			String reqName = requirementsSheetXLSX(aName);
+		    
+		    // Distribution Sheet
+		    @SuppressWarnings("unused")
+			String dcName = distributionSheetXLSX(tdName, tcName, rName);
+		    
+		    // Relevance Sheet
+		    @SuppressWarnings("unused")
+			String rcName = relevanceSheetXLSX(aName);
+
+		    
+		    
+		    // TODO add more sheets
+		    		    
+		    
+		    
+		    // Create the output
+		    FileOutputStream excelFile = new FileOutputStream(destDirectory.getPath() + File.separator 
+					+ project.getProjectName().replace(" ", "") + ".xlsx");
+		    
+		    // Write
+		    workbookXLSX.write(excelFile);
+		    
+		    // Then close
+		    excelFile.close();
+		}
+		catch(FileNotFoundException e) {
+			// TODO catch exception
+			e.printStackTrace();
+		}
+		catch(IOException e) {
+			// TODO catch exception
+			e.printStackTrace();
+		}
+	}
+
+
+
+	/**
+	 * Main method to create the complete logic of creating the
+	 * excel file with style, in the old HSSF format for XLS.
+	 */
+	private void exportToXLS() {	
+	    try {
+			// Create a new file
+	    	workbookXLS = new HSSFWorkbook();
+			
+			/*
+			 * SET STYLES
+			 */
+		    // Prepare Wrappable Text
+		    wrapTextStyle = workbookXLS.createCellStyle();
+		    wrapTextStyle.setWrapText(true);
+		    
+		    // Prepare Top aling
+		    topAlignTextStyle = workbookXLS.createCellStyle();
+		    topAlignTextStyle.setVerticalAlignment(CellStyle.VERTICAL_TOP);
+		    
+		    // Prepare Bold Text
+		    boldTextStyle = workbookXLS.createCellStyle();
+		    Font font = workbookXLS.createFont();
+	        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		    boldTextStyle.setFont( font );
+		    
+		    // Prepare Hyperlink style
+		    hyperlinkStyle = workbookXLS.createCellStyle();
+		    Font hyperlinkFont = workbookXLS.createFont();
+		    hyperlinkFont.setUnderline(Font.U_SINGLE);
+		    hyperlinkFont.setColor(IndexedColors.BLUE.getIndex());
+		    hyperlinkStyle.setFont(hyperlinkFont);
+		    hyperlinkStyle.setVerticalAlignment(CellStyle.VERTICAL_TOP);
+		    
+		    
+		    /*
+		     * SET SHEETS
+		     */
+			// Create types dimension sheet
+			String tdName = typesDimensionSheetXLS();
+			
+			// Create types criterion sheet
+			String tcName = typesCriterionSheetXLS();
+			
+			// Create roles sheet
+			String rName = rolesSheetXLS();
+			
+			// Create actors sheet
+			String aName = actorsSheetXLS(tdName, tcName, rName);
+			
+			// Create requirements sheet
+			@SuppressWarnings("unused")
+			String reqName = requirementsSheetXLS(aName);
+			
+			// Create Distribution Sheets
+			@SuppressWarnings("unused")
+			String dcName = distributionSheetXLS(tdName, tcName, rName);
+			
+			// Creating Relevance Sheet
+			@SuppressWarnings("unused")
+			String iiName = relevanceSheetXLS(aName);
+			
+		    // Proportion Sheet
+			@SuppressWarnings("unused")
+		    String pName = proportionSheetXLS(aName);
+
+			
+			// TODO ADD MORE SHEETS
+			
+
+			// Create the excel File
+			File excelFile = new File( destDirectory.getPath() + File.separator 
+					+ project.getProjectName().replace(" ", "") + ".xls" );
+			
+			// Create the output
+	        FileOutputStream out = new FileOutputStream( excelFile );
+	        
+	        // Write it
+	        workbookXLS.write(out);
+	        
+	        // Close it
+	        out.close();	         
+	    } 
+	    catch (FileNotFoundException e) {
+	    	// TODO autogenerated stacktrace
+	        e.printStackTrace();
+	    } 
+	    catch (IOException e) {
+	    	// TODO autogenerated stacktrace
+	        e.printStackTrace();
+	    }
+		
+	}
+
+
+
+
+	/**
+	 * Method to create the sheet with the information needed to create the scatter chart
+	 * about requirements per actor proportion. XLS format.
+	 * @param aName The name of the actors sheet.
+	 * @return The name of this sheet
+	 */
+	private String proportionSheetXLS(String aName) {
+		// Create name
+		String name = "Requirements per Actor";
+				
+		// Create a new sheet
+		HSSFSheet iiSheet = workbookXLS.createSheet(name);
+				
+		// Get a helper
+		CreationHelper createHelper = workbookXLS.getCreationHelper();
+				
+		// Create header Row
+		HSSFRow header = iiSheet.createRow(0);
+	    header.createCell(0).setCellValue("Actors ID");
+	    header.createCell(1).setCellValue("Actors Name");
+	    header.createCell(2).setCellValue("Functional Reqs Qty");
+	    header.createCell(3).setCellValue("Non Functional Reqs Qty");
+	    
+	    // Set bold font
+	    for(int i=0; i<5; i++)
+	    	header.getCell(i).setCellStyle(boldTextStyle);
+			    
+	    // Create a flag
+	    int index = 1;
+			    
+	    // Now go through each element
+	    for( int i=0; i<project.getProportionModel().getActors().size() ) {
+	    	// Create a new row
+	    	HSSFRow dataRow = iiSheet.createRow(index);
+	    	
+	    	// Get actor index
+	    	int actorIndex = project.getActorsTableModel().indexOf(
+	    			project.getActorByID(  
+	    					project.getProportionModel().getActors().get(i).split(": ")[0]
+	    			)) + 2;
+	    	
+	    	// ID Cell with style
+	    	Hyperlink linkID = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+	    	linkID.setAddress("'" + aName + "'!A" + actorIndex);
+	    	dataRow.createCell(0).setCellValue(iia.getActor().getId());
+	    	dataRow.getCell(0).setHyperlink(linkID);
+	    	dataRow.getCell(0).setCellStyle(hyperlinkStyle);
+
+	    	// Name cell with style
+	    	Hyperlink linkName = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+	    	linkName.setAddress("'" + aName + "'!B" + actorIndex);
+	    	dataRow.createCell(1).setCellValue(iia.getActor().getStakeholder());
+	    	dataRow.getCell(1).setHyperlink(linkName);
+	    	dataRow.getCell(1).setCellStyle(hyperlinkStyle);
+	    	
+	    	// Other cells
+	    	dataRow.createCell(2).setCellValue( iia.getQuadrant() );
+	    	dataRow.createCell(3).setCellValue( iia.getX() );
+	    	dataRow.createCell(4).setCellValue( iia.getY() );
+	    	dataRow.createCell(5).setCellValue( iia.getInitials() );
+	    	
+	    	// Style rows
+	    	for(int i=2; i<6; i++)
+		    	dataRow.getCell(i).setCellStyle(topAlignTextStyle);
+
+
+	    	// Increase the level
+	    	index++;
+	    }
+	    
+	    // Autoadjust width of colos
+	    for(int j=0; j<6; j++)
+	    	iiSheet.autoSizeColumn(j);
+	    
+	    // Return the name
+	    return name;
+	}
+
+	
+	
+	
+
+
+	/**
+	 * Method to create the sheet with the information needed to create the scatter chart
+	 * about stakeholders relevance (interest vs influence). XLS format.
+	 * @param aName The name of the actors sheet.
+	 * @return The name of this sheet
+	 */
+	private String relevanceSheetXLS(String aName) {
+		// Create name
+		String name = "Interest vs Influence";
+		
+		// Create a new sheet
+		HSSFSheet iiSheet = workbookXLS.createSheet(name);
+		
+		// Get a helper
+		CreationHelper createHelper = workbookXLS.getCreationHelper();
+		
+		// Create header Row
+		HSSFRow header = iiSheet.createRow(0);
+	    header.createCell(0).setCellValue("Actors ID");
+	    header.createCell(1).setCellValue("Name");
+	    header.createCell(2).setCellValue("Quadrant");
+	    header.createCell(3).setCellValue("X");
+	    header.createCell(4).setCellValue("Y");
+	    header.createCell(5).setCellValue("Initials");
+	    
+	    // Set bold font
+	    for(int i=0; i<6; i++)
+	    	header.getCell(i).setCellStyle(boldTextStyle);
+
+	    
+	    // Create a flag
+	    int index = 1;
+	    
+	    // Now go through each element
+	    for( IIActor iia : project.getRelevanceModel().getActorsList() ) {
+	    	// Create a new row
+	    	HSSFRow dataRow = iiSheet.createRow(index);
+	    	
+	    	// Get actor index
+	    	int actorIndex = project.getActorsTableModel().indexOf(iia.getActor()) + 2;
+	    	
+	    	// ID Cell with style
+	    	Hyperlink linkID = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+	    	linkID.setAddress("'" + aName + "'!A" + actorIndex);
+	    	dataRow.createCell(0).setCellValue(iia.getActor().getId());
+	    	dataRow.getCell(0).setHyperlink(linkID);
+	    	dataRow.getCell(0).setCellStyle(hyperlinkStyle);
+
+	    	// Name cell with style
+	    	Hyperlink linkName = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+	    	linkName.setAddress("'" + aName + "'!B" + actorIndex);
+	    	dataRow.createCell(1).setCellValue(iia.getActor().getStakeholder());
+	    	dataRow.getCell(1).setHyperlink(linkName);
+	    	dataRow.getCell(1).setCellStyle(hyperlinkStyle);
+	    	
+	    	// Other cells
+	    	dataRow.createCell(2).setCellValue( iia.getQuadrant() );
+	    	dataRow.createCell(3).setCellValue( iia.getX() );
+	    	dataRow.createCell(4).setCellValue( iia.getY() );
+	    	dataRow.createCell(5).setCellValue( iia.getInitials() );
+	    	
+	    	// Style rows
+	    	for(int i=2; i<6; i++)
+		    	dataRow.getCell(i).setCellStyle(topAlignTextStyle);
+
+
+	    	// Increase the level
+	    	index++;
+	    }
+	    
+	    // Autoadjust width of colos
+	    for(int j=0; j<6; j++)
+	    	iiSheet.autoSizeColumn(j);
+	    
+	    // Return the name
+	    return name;
+	}
+
+
+	
+	
+	
+	
+	/**
+	 * Method to create the sheet with the information needed to create the scatter chart
+	 * about stakeholders relevance (interest vs influence). Creates the chart. XLSX format.
+	 * @param aName The name of the actors sheet.
+	 * @return The name of this sheet
+	 */
+	private String relevanceSheetXLSX(String aName) {
+		// Create name
+		String name = "Interest vs Influence";
+		
+		// Create a new sheet
+		XSSFSheet iiSheet = workbookXLSX.createSheet(name);
+		
+		// Get a helper
+		CreationHelper createHelper = workbookXLSX.getCreationHelper();
+		
+		// Create header Row
+		XSSFRow header = iiSheet.createRow(0);
+	    header.createCell(0).setCellValue("Actors ID");
+	    header.createCell(1).setCellValue("Name");
+	    header.createCell(2).setCellValue("Quadrant");
+	    header.createCell(3).setCellValue("X");
+	    header.createCell(4).setCellValue("Y");
+	    header.createCell(5).setCellValue("Initials");
+	    
+	    // Set bold font
+	    for(int i=0; i<6; i++)
+	    	header.getCell(i).setCellStyle(boldTextStyle);
+
+	    
+	    // Create a flag
+	    int index = 1;
+	    
+	    // Now go through each element
+	    for( IIActor iia : project.getRelevanceModel().getActorsList() ) {
+	    	// Create a new row
+	    	XSSFRow dataRow = iiSheet.createRow(index);
+	    	
+	    	// Get actor index
+	    	int actorIndex = project.getActorsTableModel().indexOf(iia.getActor()) + 2;
+	    	
+	    	// ID Cell with style
+	    	Hyperlink linkID = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+	    	linkID.setAddress("'" + aName + "'!A" + actorIndex);
+	    	dataRow.createCell(0).setCellValue(iia.getActor().getId());
+	    	dataRow.getCell(0).setHyperlink(linkID);
+	    	dataRow.getCell(0).setCellStyle(hyperlinkStyle);
+
+	    	// Name cell with style
+	    	Hyperlink linkName = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+	    	linkName.setAddress("'" + aName + "'!B" + actorIndex);
+	    	dataRow.createCell(1).setCellValue(iia.getActor().getStakeholder());
+	    	dataRow.getCell(1).setHyperlink(linkName);
+	    	dataRow.getCell(1).setCellStyle(hyperlinkStyle);
+	    	
+	    	// Other cells
+	    	dataRow.createCell(2).setCellValue( iia.getQuadrant() );
+	    	dataRow.createCell(3).setCellValue( iia.getX() );
+	    	dataRow.createCell(4).setCellValue( iia.getY() );
+	    	dataRow.createCell(5).setCellValue( iia.getInitials() );
+	    	
+	    	// Style rows
+	    	for(int i=2; i<6; i++)
+		    	dataRow.getCell(i).setCellStyle(topAlignTextStyle);
+
+
+	    	// Increase the level
+	    	index++;
+	    }
+	    
+	    // Autoadjust width of colos
+	    for(int j=0; j<6; j++)
+	    	iiSheet.autoSizeColumn(j);
+	    
+	    
+	    /*
+	     * SCATTER CHART
+	     */
+	    // Create a drawing
+	    XSSFDrawing drawing = iiSheet.createDrawingPatriarch();
+        XSSFClientAnchor anchor = drawing.createAnchor(0, 0, 0, 0, 0, 5, 10, 15);
+
+        // Now create the chart
+        XSSFChart chart = drawing.createChart(anchor);
+        
+        // And set the legend
+        XSSFChartLegend legend = chart.getOrCreateLegend();
+        legend.setPosition(LegendPosition.TOP_RIGHT);
+
+        // Create a data set
+        XSSFScatterChartData data = chart.getChartDataFactory().createScatterChartData();
+
+        // Create the axis
+        XSSFValueAxis xAxis = chart.getChartAxisFactory().createValueAxis(AxisPosition.BOTTOM);
+        xAxis.setMinimum(-10);
+        xAxis.setMaximum(10);
+        xAxis.setMajorTickMark(AxisTickMark.NONE);
+        xAxis.setMinorTickMark(AxisTickMark.NONE);
+        
+        XSSFValueAxis yAxis = chart.getChartAxisFactory().createValueAxis(AxisPosition.LEFT);    
+        yAxis.setCrosses(AxisCrosses.AUTO_ZERO);
+        yAxis.setMinimum(-10);
+        yAxis.setMaximum(10);
+        yAxis.setMajorTickMark(AxisTickMark.NONE);
+        yAxis.setMinorTickMark(AxisTickMark.NONE);
+        
+        // For each actor
+        for(int a=1; a<project.getRelevanceModel().getActorsList().size()+1; a++ ) {
+        	// Create xcoord
+            ChartDataSource<Number> xs = DataSources.fromNumericCellRange(iiSheet, 
+            		new CellRangeAddress(a, a, 3, 3));
+
+            // Create ycoord
+            ChartDataSource<Number> ys = DataSources.fromNumericCellRange(iiSheet, 
+            		new CellRangeAddress(a, a, 4, 4));
+
+            // Create series name           
+            ScatterChartSeries scs = data.addSerie(xs, ys);
+            scs.setTitle( new CellReference(name, a, 1, false, false) );
+  	
+        }
+  
+        // Plot the chart
+        chart.plot(data, xAxis, yAxis);
+ 
+	    // Return the name
+	    return name;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	/**
+	 * Method to add another sheet with information about the distribution charts.
+	 * It doesn't create a chart because ApachePOI doesn't support creating piecharts.
+	 * @param tdName Name of the Types Dimension Sheet.
+	 * @param tcName Name of the Types Criterion Sheet.
+	 * @param rName Name of the Roles sheet.
+	 * @return  The name of this sheet.
+	 */
+	private String distributionSheetXLS(String tdName, String tcName, String rName) {
+		// Create a name
+		String name = "Distribution Charts";
+		
+		// Create a new sheet
+		HSSFSheet aSheet = workbookXLS.createSheet(name);
+		
+		// Get a helper
+		CreationHelper createHelper = workbookXLS.getCreationHelper();
+		
+		// Create starting index for each chart
+		int dimIndexMain = 0;
+		int critIndexMain = 0;
+		int roleIndexMain = 0;
+		
+		// Create main row header
+		HSSFRow mainHeader = aSheet.createRow(0);
+		if( !project.getDimensionPieData().isEmpty() ) {
+			// Create the main header
+			mainHeader.createCell(dimIndexMain).setCellValue("Dimension");;
+			mainHeader.getCell(dimIndexMain).setCellStyle(boldTextStyle);
+			
+			// Increment
+			critIndexMain += 3;
+			roleIndexMain += 3;
+		}
+		if( !project.getCriterionPieData().isEmpty() ) {
+			// Create the main header
+			mainHeader.createCell(critIndexMain).setCellValue("Criterion");
+			mainHeader.getCell(critIndexMain).setCellStyle(boldTextStyle);
+			
+			// Increment
+			roleIndexMain += 3;
+		}
+		if( !project.getRolesPieData().isEmpty() ) {
+			// Create the main header
+			mainHeader.createCell(roleIndexMain).setCellValue("Roles");;
+			mainHeader.getCell(roleIndexMain).setCellStyle(boldTextStyle);
+		}
+		
+		
+		// Create subheader Row
+		HSSFRow subheader = aSheet.createRow(1);
+		if( !project.getDimensionPieData().isEmpty() ) {
+			// Add subheaders for dimension
+		    subheader.createCell(dimIndexMain).setCellValue("Dimension");
+		    subheader.createCell(dimIndexMain+1).setCellValue("Actors Quantity");
+		    
+		    // Set style
+		    subheader.getCell(dimIndexMain).setCellStyle(boldTextStyle);
+		    subheader.getCell(dimIndexMain+1).setCellStyle(boldTextStyle);
+		}
+		if( !project.getCriterionPieData().isEmpty() ) {
+			// Add subheaders for criterion
+			subheader.createCell(critIndexMain).setCellValue("Criterion");
+			subheader.createCell(critIndexMain+1).setCellValue("Actors Quantity");
+			
+			// Set style
+			subheader.getCell(critIndexMain).setCellStyle(boldTextStyle);
+			subheader.getCell(critIndexMain+1).setCellStyle(boldTextStyle);
+		}
+		if( !project.getRolesPieData().isEmpty() ) {
+			// Add subheaders
+			subheader.createCell(roleIndexMain).setCellValue("Role");
+			subheader.createCell(roleIndexMain+1).setCellValue("Actors Quantity");
+			
+			// Set style
+			subheader.getCell(roleIndexMain).setCellStyle(boldTextStyle);
+			subheader.getCell(roleIndexMain+1).setCellStyle(boldTextStyle);
+		}
+
+		// Get list sizes
+		int dimSize = project.getDimensionPieData().size();
+		int critSize = project.getCriterionPieData().size();
+		int roleSize = project.getRolesPieData().size();
+			
+		// Get max role
+		int maxRow = Math.max(Math.max(dimSize, critSize), roleSize);
+		int currentItem = 0;
+		
+		// Now iterate from the min to the max
+		for(int rowIndex=2; rowIndex<maxRow; rowIndex++) {		
+	    	// Create a new row
+			HSSFRow dataRow = aSheet.createRow(rowIndex);
+			
+	    	// If dimension exists
+	    	if( !project.getDimensionPieData().isEmpty() && currentItem<dimSize ) {
+	    		// Get an item
+	    		PieChart.Data dData = project.getDimensionPieData().get(currentItem);
+	    		
+				// Dimension cell
+				int dimensionIndex = project.getIndexOfDimension( dData.getName() ) + 2;
+				Hyperlink linkDimension = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+				linkDimension.setAddress("'" + tdName + "'!B" + dimensionIndex);
+				dataRow.createCell(dimIndexMain).setCellValue( dData.getName() );
+				dataRow.getCell(dimIndexMain).setHyperlink(linkDimension);
+				dataRow.getCell(dimIndexMain).setCellStyle(hyperlinkStyle);
+				
+				// Set the number
+				dataRow.createCell(dimIndexMain+1).setCellValue( dData.getPieValue() );
+				dataRow.getCell(dimIndexMain+1).setCellStyle(topAlignTextStyle);
+	    	}
+
+	    	
+	    	// If criterion exists
+	    	if( !project.getCriterionPieData().isEmpty() && currentItem<critSize ) {
+	    		// Get an item
+	    		PieChart.Data cData = project.getCriterionPieData().get(currentItem);
+	    		
+				// Criterion cell
+				int criterionIndex = project.getIndexOfCriterion( cData.getName() ) + 2;
+				Hyperlink linkCriterion = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+				linkCriterion.setAddress("'" + tcName + "'!B" + criterionIndex);
+				dataRow.createCell(critIndexMain).setCellValue( cData.getName() );
+				dataRow.getCell(critIndexMain).setHyperlink(linkCriterion);
+				dataRow.getCell(critIndexMain).setCellStyle(hyperlinkStyle);
+				
+				// Set the number
+				dataRow.createCell(critIndexMain+1).setCellValue( cData.getPieValue() );
+				dataRow.getCell(critIndexMain+1).setCellStyle(topAlignTextStyle);
+	    	}
+	    	
+	    	// If roles exists
+	    	if( !project.getRolesPieData().isEmpty() && currentItem<roleSize ) {
+	    		// Get an item
+	    		PieChart.Data rData = project.getRolesPieData().get(currentItem);
+	    		
+				// Roles cell
+				int rolesIndex = project.getIndexOfCriterion( rData.getName() ) + 2;
+				Hyperlink linkRole = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+				linkRole.setAddress("'" + rName + "'!B" + rolesIndex);
+				dataRow.createCell(roleIndexMain).setCellValue( rData.getName() );
+				dataRow.getCell(roleIndexMain).setHyperlink(linkRole);
+				dataRow.getCell(roleIndexMain).setCellStyle(hyperlinkStyle);
+				
+				// Set the number
+				dataRow.createCell(roleIndexMain+1).setCellValue( rData.getPieValue() );
+				dataRow.getCell(roleIndexMain+1).setCellStyle(topAlignTextStyle);
+	    	}
+	    	
+	    	// Increment item
+	    	currentItem++;
+		}
+
+ 
+	    // Autoadjust width
+	    if( !project.getDimensionPieData().isEmpty() ) {
+		    // Change the width
+		    aSheet.autoSizeColumn(dimIndexMain);
+		    aSheet.autoSizeColumn(dimIndexMain+1);
+	    }
+	    if( !project.getCriterionPieData().isEmpty() ) {
+		    // Change the width
+		    aSheet.autoSizeColumn(critIndexMain);
+		    aSheet.autoSizeColumn(critIndexMain+1);
+	    }
+	    if( !project.getRolesPieData().isEmpty() ) {
+		    // Change the width
+		    aSheet.autoSizeColumn(roleIndexMain);
+		    aSheet.autoSizeColumn(roleIndexMain+1);
+	    }
+
+
+	    // Return name
+	    return name;
+	}
+
+
+
+	
+	
+	
+	/**
+	 * Method to add another sheet with information about the distribution charts.
+	 * It doesn't create a chart because ApachePOI doesn't support creating piecharts.
+	 * @param tdName Name of the Types Dimension Sheet.
+	 * @param tcName Name of the Types Criterion Sheet.
+	 * @param rName Name of the Roles sheet.
+	 * @return  The name of this sheet.
+	 */
+	private String distributionSheetXLSX(String tdName, String tcName, String rName) {
+		// Create a name
+		String name = "Distribution Charts";
+		
+		// Create a new sheet
+		XSSFSheet aSheet = workbookXLSX.createSheet(name);
+		
+		// Get a helper
+		CreationHelper createHelper = workbookXLSX.getCreationHelper();
+		
+		// Create starting index for each chart
+		int dimIndexMain = 0;
+		int critIndexMain = 0;
+		int roleIndexMain = 0;
+		
+		// Create main row header
+		XSSFRow mainHeader = aSheet.createRow(0);
+		if( !project.getDimensionPieData().isEmpty() ) {
+			// Create the main header
+			mainHeader.createCell(dimIndexMain).setCellValue("Dimension");;
+			mainHeader.getCell(dimIndexMain).setCellStyle(boldTextStyle);
+			
+			// Increment
+			critIndexMain += 3;
+			roleIndexMain += 3;
+		}
+		if( !project.getCriterionPieData().isEmpty() ) {
+			// Create the main header
+			mainHeader.createCell(critIndexMain).setCellValue("Criterion");
+			mainHeader.getCell(critIndexMain).setCellStyle(boldTextStyle);
+			
+			// Increment
+			roleIndexMain += 3;
+		}
+		if( !project.getRolesPieData().isEmpty() ) {
+			// Create the main header
+			mainHeader.createCell(roleIndexMain).setCellValue("Roles");;
+			mainHeader.getCell(roleIndexMain).setCellStyle(boldTextStyle);
+		}
+		
+		
+		// Create subheader Row
+		XSSFRow subheader = aSheet.createRow(1);
+		if( !project.getDimensionPieData().isEmpty() ) {
+			// Add subheaders for dimension
+		    subheader.createCell(dimIndexMain).setCellValue("Dimension");
+		    subheader.createCell(dimIndexMain+1).setCellValue("Actors Quantity");
+		    
+		    // Set style
+		    subheader.getCell(dimIndexMain).setCellStyle(boldTextStyle);
+		    subheader.getCell(dimIndexMain+1).setCellStyle(boldTextStyle);
+		}
+		if( !project.getCriterionPieData().isEmpty() ) {
+			// Add subheaders for criterion
+			subheader.createCell(critIndexMain).setCellValue("Criterion");
+			subheader.createCell(critIndexMain+1).setCellValue("Actors Quantity");
+			
+			// Set style
+			subheader.getCell(critIndexMain).setCellStyle(boldTextStyle);
+			subheader.getCell(critIndexMain+1).setCellStyle(boldTextStyle);
+		}
+		if( !project.getRolesPieData().isEmpty() ) {
+			// Add subheaders
+			subheader.createCell(roleIndexMain).setCellValue("Role");
+			subheader.createCell(roleIndexMain+1).setCellValue("Actors Quantity");
+			
+			// Set style
+			subheader.getCell(roleIndexMain).setCellStyle(boldTextStyle);
+			subheader.getCell(roleIndexMain+1).setCellStyle(boldTextStyle);
+		}
+
+		// Get list sizes
+		int dimSize = project.getDimensionPieData().size();
+		int critSize = project.getCriterionPieData().size();
+		int roleSize = project.getRolesPieData().size();
+			
+		// Get max role
+		int maxRow = Math.max(Math.max(dimSize, critSize), roleSize);
+		int currentItem = 0;
+		
+		// Now iterate from the min to the max
+		for(int rowIndex=2; rowIndex<maxRow; rowIndex++) {		
+	    	// Create a new row
+			XSSFRow dataRow = aSheet.createRow(rowIndex);
+			
+	    	// If dimension exists
+	    	if( !project.getDimensionPieData().isEmpty() && currentItem<dimSize ) {
+	    		// Get an item
+	    		PieChart.Data dData = project.getDimensionPieData().get(currentItem);
+	    		
+				// Dimension cell
+				int dimensionIndex = project.getIndexOfDimension( dData.getName() ) + 2;
+				Hyperlink linkDimension = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+				linkDimension.setAddress("'" + tdName + "'!B" + dimensionIndex);
+				dataRow.createCell(dimIndexMain).setCellValue( dData.getName() );
+				dataRow.getCell(dimIndexMain).setHyperlink(linkDimension);
+				dataRow.getCell(dimIndexMain).setCellStyle(hyperlinkStyle);
+				
+				// Set the number
+				dataRow.createCell(dimIndexMain+1).setCellValue( dData.getPieValue() );
+				dataRow.getCell(dimIndexMain+1).setCellStyle(topAlignTextStyle);
+	    	}
+
+	    	
+	    	// If criterion exists
+	    	if( !project.getCriterionPieData().isEmpty() && currentItem<critSize ) {
+	    		// Get an item
+	    		PieChart.Data cData = project.getCriterionPieData().get(currentItem);
+	    		
+				// Criterion cell
+				int criterionIndex = project.getIndexOfCriterion( cData.getName() ) + 2;
+				Hyperlink linkCriterion = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+				linkCriterion.setAddress("'" + tcName + "'!B" + criterionIndex);
+				dataRow.createCell(critIndexMain).setCellValue( cData.getName() );
+				dataRow.getCell(critIndexMain).setHyperlink(linkCriterion);
+				dataRow.getCell(critIndexMain).setCellStyle(hyperlinkStyle);
+				
+				// Set the number
+				dataRow.createCell(critIndexMain+1).setCellValue( cData.getPieValue() );
+				dataRow.getCell(critIndexMain+1).setCellStyle(topAlignTextStyle);
+	    	}
+	    	
+	    	// If roles exists
+	    	if( !project.getRolesPieData().isEmpty() && currentItem<roleSize ) {
+	    		// Get an item
+	    		PieChart.Data rData = project.getRolesPieData().get(currentItem);
+	    		
+				// Roles cell
+				int rolesIndex = project.getIndexOfCriterion( rData.getName() ) + 2;
+				Hyperlink linkRole = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+				linkRole.setAddress("'" + rName + "'!B" + rolesIndex);
+				dataRow.createCell(roleIndexMain).setCellValue( rData.getName() );
+				dataRow.getCell(roleIndexMain).setHyperlink(linkRole);
+				dataRow.getCell(roleIndexMain).setCellStyle(hyperlinkStyle);
+				
+				// Set the number
+				dataRow.createCell(roleIndexMain+1).setCellValue( rData.getPieValue() );
+				dataRow.getCell(roleIndexMain+1).setCellStyle(topAlignTextStyle);
+	    	}
+	    	
+	    	// Increment item
+	    	currentItem++;
+		}
+
+ 
+	    // Autoadjust width
+	    if( !project.getDimensionPieData().isEmpty() ) {
+		    // Change the width
+		    aSheet.autoSizeColumn(dimIndexMain);
+		    aSheet.autoSizeColumn(dimIndexMain+1);
+	    }
+	    if( !project.getCriterionPieData().isEmpty() ) {
+		    // Change the width
+		    aSheet.autoSizeColumn(critIndexMain);
+		    aSheet.autoSizeColumn(critIndexMain+1);
+	    }
+	    if( !project.getRolesPieData().isEmpty() ) {
+		    // Change the width
+		    aSheet.autoSizeColumn(roleIndexMain);
+		    aSheet.autoSizeColumn(roleIndexMain+1);
+	    }
+
+
+	    // Return name
+	    return name;
+	}
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Method to add a sheet with the information about the requirements to the workbook. 
+	 * It uses the names of other sheets to put links on the actors, that link back to the 
+	 * original sheet with information. Creates XLS workbook.
+	 * @param aName The name of the actors sheet
+	 * @return the name of this sheet.
+	 */
+	private String requirementsSheetXLS(String aName) {
+		// Create a name
+		String name = "Requirements";
+		
+		// Create a new sheet
+		HSSFSheet rSheet = workbookXLS.createSheet(name);
+
+		// Get a helper
+		CreationHelper createHelper = workbookXLS.getCreationHelper();
+								
+		// Create header Row
+		HSSFRow header = rSheet.createRow(0);
+	    header.createCell(0).setCellValue("Actor");
+	    header.createCell(1).setCellValue("Reqs ID");
+	    header.createCell(2).setCellValue("Reqs Name");
+	    header.createCell(3).setCellValue("Reqs Description");
+	    header.createCell(4).setCellValue("Functional?");
+		
+	    // Set bold font
+	    for(int i=0; i<5; i++)
+	    	header.getCell(i).setCellStyle(boldTextStyle);
+
+	    // Create a flag
+	    int index = 1;
+	    
+	    // Now go through each element
+	    for( Requirement r : project.getReqsTableModel() ) {
+	    	// Create a new row
+	    	HSSFRow dataRow = rSheet.createRow(index);
+	    	
+	    	// Get actor index
+	    	int actorIndex = project.getActorsTableModel().indexOf(r.getActor()) + 2;
+	    	
+	    	// Actor with style
+	    	Hyperlink linkActorName = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+	    	linkActorName.setAddress("'" + aName + "'!B" + actorIndex);
+	    	dataRow.createCell(0).setCellValue(r.getActor().getStakeholder());
+	    	dataRow.getCell(0).setHyperlink(linkActorName);
+	    	dataRow.getCell(0).setCellStyle(hyperlinkStyle);
+	    				
+			// Req ID with style
+			dataRow.createCell(1).setCellValue( r.getReqId() );
+			dataRow.getCell(1).setCellStyle(topAlignTextStyle);
+	    	
+			// Req Name with style
+			dataRow.createCell(2).setCellValue( r.getReqName() );
+			dataRow.getCell(2).setCellStyle(topAlignTextStyle);
+			
+			// Description cell with wrap
+			dataRow.createCell(3).setCellValue( r.getReqDescription() );
+			dataRow.getCell(3).setCellStyle(wrapTextStyle);
+	    				
+			// Functional with style
+			dataRow.createCell(4).setCellValue( r.getIsFR() );
+			dataRow.getCell(4).setCellStyle(topAlignTextStyle);
+
+	    	// Increase the level
+	    	index++;
+	    }
+	    
+	    // Autoadjust width
+	    rSheet.autoSizeColumn(0);
+	    rSheet.autoSizeColumn(1);
+	    rSheet.autoSizeColumn(2);
+	    rSheet.setColumnWidth(3, 9000);
+	    rSheet.autoSizeColumn(4);
+    
+	    // Return name
+	    return name;
+
+	}
+	
+	
+	
+	/**
+	 * Method to add a sheet with the information about the requirements to the workbook. 
+	 * It uses the names of other sheets to put links on the actors, that link back to the 
+	 * original sheet with information. Creates XLSX workbook.
+	 * @param aName The name of the actors sheet
+	 * @return the name of this sheet.
+	 */
+	private String requirementsSheetXLSX(String aName) {
+		// Create a name
+		String name = "Requirements";
+		
+		// Create a new sheet
+		XSSFSheet rSheet = workbookXLSX.createSheet(name);
+
+		// Get a helper
+		CreationHelper createHelper = workbookXLSX.getCreationHelper();
+								
+		// Create header Row
+		XSSFRow header = rSheet.createRow(0);
+	    header.createCell(0).setCellValue("Actor");
+	    header.createCell(1).setCellValue("Reqs ID");
+	    header.createCell(2).setCellValue("Reqs Name");
+	    header.createCell(3).setCellValue("Reqs Description");
+	    header.createCell(4).setCellValue("Functional?");
+		
+	    // Set bold font
+	    for(int i=0; i<5; i++)
+	    	header.getCell(i).setCellStyle(boldTextStyle);
+
+	    // Create a flag
+	    int index = 1;
+	    
+	    // Now go through each element
+	    for( Requirement r : project.getReqsTableModel() ) {
+	    	// Create a new row
+	    	XSSFRow dataRow = rSheet.createRow(index);
+	    	
+	    	// Get actor index
+	    	int actorIndex = project.getActorsTableModel().indexOf(r.getActor()) + 2;
+	    	
+	    	// Actor with style
+	    	Hyperlink linkActorName = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+	    	linkActorName.setAddress("'" + aName + "'!B" + actorIndex);
+	    	dataRow.createCell(0).setCellValue(r.getActor().getStakeholder());
+	    	dataRow.getCell(0).setHyperlink(linkActorName);
+	    	dataRow.getCell(0).setCellStyle(hyperlinkStyle);
+	    				
+			// Req ID with style
+			dataRow.createCell(1).setCellValue( r.getReqId() );
+			dataRow.getCell(1).setCellStyle(topAlignTextStyle);
+	    	
+			// Req Name with style
+			dataRow.createCell(2).setCellValue( r.getReqName() );
+			dataRow.getCell(2).setCellStyle(topAlignTextStyle);
+			
+			// Description cell with wrap
+			dataRow.createCell(3).setCellValue( r.getReqDescription() );
+			dataRow.getCell(3).setCellStyle(wrapTextStyle);
+	    				
+			// Functional with style
+			dataRow.createCell(4).setCellValue( r.getIsFR() );
+			dataRow.getCell(4).setCellStyle(topAlignTextStyle);
+
+	    	// Increase the level
+	    	index++;
+	    }
+	    
+	    // Autoadjust width
+	    rSheet.autoSizeColumn(0);
+	    rSheet.autoSizeColumn(1);
+	    rSheet.autoSizeColumn(2);
+	    rSheet.setColumnWidth(3, 9000);
+	    rSheet.autoSizeColumn(4);
+    
+	    // Return name
+	    return name;
+
+	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * Method to add a sheet with the information about the actors to the workbook. It uses the names
+	 * of other sheets to put links on Dimensions, Criterions and Roles, that link back to the original
+	 * sheet with information. Creates XLS workbook.
+	 * @param tdName Name of the Types Dimension Sheet.
+	 * @param tcName Name of the Types Criterion sheet.
+	 * @param rName Name of the Roles sheet.
+	 * @return The name of this sheet.
+	 */
+	private String actorsSheetXLS(String tdName, String tcName, String rName) {	
+		// Create a name
+		String name = "Actors";
+		
+		// Create a new sheet
+		HSSFSheet aSheet = workbookXLS.createSheet(name);
+		aSheet.setSelected(true);
+		
+		// Get a helper
+		CreationHelper createHelper = workbookXLS.getCreationHelper();
+								
+		// Create header Row
+		HSSFRow header = aSheet.createRow(0);
+	    header.createCell(0).setCellValue("ID");
+	    header.createCell(1).setCellValue("Stakeholder");
+	    header.createCell(2).setCellValue("Description");
+	    header.createCell(3).setCellValue("Criterion");
+	    header.createCell(4).setCellValue("Dimension");
+	    header.createCell(5).setCellValue("Role");
+	    header.createCell(6).setCellValue("Influence");
+	    header.createCell(7).setCellValue("Interest");
+	    
+	    // Set bold font
+	    for(int i=0; i<8; i++)
+	    	header.getCell(i).setCellStyle(boldTextStyle);
+
+	    // Create a flag
+	    int index = 1;
+	    
+	    // Now go through each element
+	    for( Actor a : project.getActorsTableModel() ) {
+	    	// Create a new row
+	    	HSSFRow dataRow = aSheet.createRow(index);
+	    	
+	    	// Id with style
+			dataRow.createCell(0).setCellValue( a.getId() );
+			dataRow.getCell(0).setCellStyle(topAlignTextStyle);
+			
+			// Name with style
+			dataRow.createCell(1).setCellValue( a.getStakeholder() );
+			dataRow.getCell(1).setCellStyle(topAlignTextStyle);
+	    	
+			// Description cell with wrap
+			dataRow.createCell(2).setCellValue( a.getDescription() );
+			dataRow.getCell(2).setCellStyle(wrapTextStyle);
+	    	
+	    	// Criterion cell
+			int tcIndex = project.getIndexOfCriterion( a.getCriterion() ) + 2;
+			Hyperlink linkCriterion = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+			linkCriterion.setAddress("'" + tcName + "'!B" + tcIndex);
+			dataRow.createCell(3).setCellValue( a.getCriterion() );
+			dataRow.getCell(3).setHyperlink(linkCriterion);
+			dataRow.getCell(3).setCellStyle(hyperlinkStyle);
+			
+
+			// Dimension cell
+			int tdIndex = project.getIndexOfDimension( a.getDimension() ) + 2;
+			Hyperlink linkDimension = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+			linkDimension.setAddress("'" + tdName + "'!B" + tdIndex);
+			dataRow.createCell(4).setCellValue( a.getDimension() );
+			dataRow.getCell(4).setHyperlink(linkDimension);
+			dataRow.getCell(4).setCellStyle(hyperlinkStyle);
+			
+			
+			// Role cell
+			int rIndex = project.getIndexOfRoles( a.getRole() ) + 2;
+			Hyperlink linkRole = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+			linkRole.setAddress("'" + rName + "'!A" + rIndex);
+			dataRow.createCell(5).setCellValue( a.getRole() );
+			dataRow.getCell(5).setHyperlink(linkRole);
+			dataRow.getCell(5).setCellStyle(hyperlinkStyle);
+			
+			
+			// Influence with style
+			dataRow.createCell(6).setCellValue( a.getInfluence() );
+			dataRow.getCell(6).setCellStyle(topAlignTextStyle);
+			
+			// Interest with style
+			dataRow.createCell(7).setCellValue( a.getInterest() );
+			dataRow.getCell(7).setCellStyle(topAlignTextStyle);
+			
+ 	
+	    	// Increase the level
+	    	index++;
+	    }
+	    
+	    // Autoadjust width
+	    aSheet.autoSizeColumn(0);
+	    aSheet.autoSizeColumn(1);
+	    aSheet.setColumnWidth(2, 9000);
+	    aSheet.autoSizeColumn(3);
+	    aSheet.autoSizeColumn(4);
+	    aSheet.autoSizeColumn(5);
+	    aSheet.autoSizeColumn(6);
+	    aSheet.autoSizeColumn(7);
+	    
+	    // Return name
+	    return name;
+	}
+
+
+	
+	
+	/**
+	 * Method to add a sheet with the information about the actors to the workbook. It uses the names
+	 * of other sheets to put links on Dimensions, Criterions and Roles, that link back to the original
+	 * sheet with information. Creates an XLSX workbook.
+	 * @param tdName Name of the Types Dimension Sheet.
+	 * @param tcName Name of the Types Criterion sheet.
+	 * @param rName Name of the Roles sheet.
+	 * @return The name of this sheet.
+	 */
+	private String actorsSheetXLSX(String tdName, String tcName, String rName) {	
+		// Create a name
+		String name = "Actors";
+		
+		// Create a new sheet
+		XSSFSheet aSheet = workbookXLSX.createSheet(name);
+		aSheet.setSelected(true);
+		
+		// Get a helper
+		CreationHelper createHelper = workbookXLSX.getCreationHelper();
+								
+		// Create header Row
+		XSSFRow header = aSheet.createRow(0);
+	    header.createCell(0).setCellValue("ID");
+	    header.createCell(1).setCellValue("Stakeholder");
+	    header.createCell(2).setCellValue("Description");
+	    header.createCell(3).setCellValue("Criterion");
+	    header.createCell(4).setCellValue("Dimension");
+	    header.createCell(5).setCellValue("Role");
+	    header.createCell(6).setCellValue("Influence");
+	    header.createCell(7).setCellValue("Interest");
+	    
+	    // Set bold font
+	    for(int i=0; i<8; i++)
+	    	header.getCell(i).setCellStyle(boldTextStyle);
+
+	    // Create a flag
+	    int index = 1;
+	    
+	    // Now go through each element
+	    for( Actor a : project.getActorsTableModel() ) {
+	    	// Create a new row
+	    	XSSFRow dataRow = aSheet.createRow(index);
+	    	
+	    	// Id with style
+			dataRow.createCell(0).setCellValue( a.getId() );
+			dataRow.getCell(0).setCellStyle(topAlignTextStyle);
+			
+			// Name with style
+			dataRow.createCell(1).setCellValue( a.getStakeholder() );
+			dataRow.getCell(1).setCellStyle(topAlignTextStyle);
+	    	
+			// Description cell with wrap
+			dataRow.createCell(2).setCellValue( a.getDescription() );
+			dataRow.getCell(2).setCellStyle(wrapTextStyle);
+	    	
+	    	// Criterion cell
+			int tcIndex = project.getIndexOfCriterion( a.getCriterion() ) + 2;
+			Hyperlink linkCriterion = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+			linkCriterion.setAddress("'" + tcName + "'!B" + tcIndex);
+			dataRow.createCell(3).setCellValue( a.getCriterion() );
+			dataRow.getCell(3).setHyperlink(linkCriterion);
+			dataRow.getCell(3).setCellStyle(hyperlinkStyle);
+			
+
+			// Dimension cell
+			int tdIndex = project.getIndexOfDimension( a.getDimension() ) + 2;
+			Hyperlink linkDimension = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+			linkDimension.setAddress("'" + tdName + "'!B" + tdIndex);
+			dataRow.createCell(4).setCellValue( a.getDimension() );
+			dataRow.getCell(4).setHyperlink(linkDimension);
+			dataRow.getCell(4).setCellStyle(hyperlinkStyle);
+			
+			
+			// Role cell
+			int rIndex = project.getIndexOfRoles( a.getRole() ) + 2;
+			Hyperlink linkRole = createHelper.createHyperlink(Hyperlink.LINK_DOCUMENT);
+			linkRole.setAddress("'" + rName + "'!A" + rIndex);
+			dataRow.createCell(5).setCellValue( a.getRole() );
+			dataRow.getCell(5).setHyperlink(linkRole);
+			dataRow.getCell(5).setCellStyle(hyperlinkStyle);
+			
+			
+			// Influence with style
+			dataRow.createCell(6).setCellValue( a.getInfluence() );
+			dataRow.getCell(6).setCellStyle(topAlignTextStyle);
+			
+			// Interest with style
+			dataRow.createCell(7).setCellValue( a.getInterest() );
+			dataRow.getCell(7).setCellStyle(topAlignTextStyle);
+			
+ 	
+	    	// Increase the level
+	    	index++;
+	    }
+	    
+	    // Autoadjust width
+	    aSheet.autoSizeColumn(0);
+	    aSheet.autoSizeColumn(1);
+	    aSheet.setColumnWidth(2, 9000);
+	    aSheet.autoSizeColumn(3);
+	    aSheet.autoSizeColumn(4);
+	    aSheet.autoSizeColumn(5);
+	    aSheet.autoSizeColumn(6);
+	    aSheet.autoSizeColumn(7);
+	    
+	    // Return name
+	    return name;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	/**
+	 * Method to create a new sheet on the XLS Workbook, that contains
+	 * the Roles information, and the name of the sheet indicates if the
+	 * roles are customs or default.
+	 * @return The name of this sheet.
+	 */
+	private String rolesSheetXLS() {
+		// Create name
+		String name = ( project.getRolesType().equals(RolesType.CUSTOM) ? "Custom" : "Default" ) + " Roles";
+		
+		// Create a new sheet
+		HSSFSheet rSheet = workbookXLS.createSheet(name);
+	
+		// Create header Row
+		HSSFRow header = rSheet.createRow(0);
+	    header.createCell(0).setCellValue("Name");
+	    header.createCell(1).setCellValue("Description");
+	    header.createCell(2).setCellValue("Responsibilities");
+	    header.createCell(3).setCellValue("Participation");
+	    
+	    // Set bold font
+	    for(int i=0; i<4; i++)
+	    	header.getCell(i).setCellStyle(boldTextStyle);
+
+	    // Create a flag
+	    int index = 1;
+	    
+	    // Now go through each element
+	    for( Role r : project.getRolesTableModel() ) {
+	    	// Create a new row
+	    	HSSFRow dataRow = rSheet.createRow(index);
+	    	
+	    	// Name cell with style
+			dataRow.createCell(0).setCellValue( r.getName() );
+	    	dataRow.getCell(0).setCellStyle(topAlignTextStyle);
+
+	    	// Other cells
+	    	dataRow.createCell(1).setCellValue( r.getDescription() );
+	    	dataRow.createCell(2).setCellValue( r.getResponsibilities() );
+	    	dataRow.createCell(3).setCellValue( r.getParticipation() );
+
+	    	// Set wrap text style
+	    	for(int i=1; i<4; i++)
+	    		dataRow.getCell(i).setCellStyle(wrapTextStyle);
+	    	
+	    	// Increase the level
+	    	index++;
+	    }
+	    
+	    // Autoadjust width
+	    rSheet.autoSizeColumn(0);
+	    rSheet.setColumnWidth(1, 9000);
+	    rSheet.setColumnWidth(2, 9000);
+	    rSheet.setColumnWidth(3, 9000);
+	    
+	    // Return the name
+	    return name;
+	}
+
+	
+	
+	
+	
+	/**
+	 * Method to create a new sheet on the XLSX Workbook, that contains
+	 * the Roles information, and the name of the sheet indicates if the
+	 * roles are customs or default.
+	 * @return The name of this sheet.
+	 */
+	private String rolesSheetXLSX() {
+		// Create name
+		String name = ( project.getRolesType().equals(RolesType.CUSTOM) ? "Custom" : "Default" ) + " Roles";
+		
+		// Create a new sheet
+		XSSFSheet rSheet = workbookXLSX.createSheet(name);
+	
+		// Create header Row
+		XSSFRow header = rSheet.createRow(0);
+	    header.createCell(0).setCellValue("Name");
+	    header.createCell(1).setCellValue("Description");
+	    header.createCell(2).setCellValue("Responsibilities");
+	    header.createCell(3).setCellValue("Participation");
+	    
+	    // Set bold font
+	    for(int i=0; i<4; i++)
+	    	header.getCell(i).setCellStyle(boldTextStyle);
+
+	    // Create a flag
+	    int index = 1;
+	    
+	    // Now go through each element
+	    for( Role r : project.getRolesTableModel() ) {
+	    	// Create a new row
+	    	XSSFRow dataRow = rSheet.createRow(index);
+	    	
+	    	// Name cell with style
+			dataRow.createCell(0).setCellValue( r.getName() );
+	    	dataRow.getCell(0).setCellStyle(topAlignTextStyle);
+
+	    	// Other cells
+	    	dataRow.createCell(1).setCellValue( r.getDescription() );
+	    	dataRow.createCell(2).setCellValue( r.getResponsibilities() );
+	    	dataRow.createCell(3).setCellValue( r.getParticipation() );
+
+	    	// Set wrap text style
+	    	for(int i=1; i<4; i++)
+	    		dataRow.getCell(i).setCellStyle(wrapTextStyle);
+	    	
+	    	// Increase the level
+	    	index++;
+	    }
+	    
+	    // Autoadjust width
+	    rSheet.autoSizeColumn(0);
+	    rSheet.setColumnWidth(1, 9000);
+	    rSheet.setColumnWidth(2, 9000);
+	    rSheet.setColumnWidth(3, 9000);
+	    
+	    // Return the name
+	    return name;
+	}
+
+
+	
+
+	
+	
+
+	/**
+	 * Method to create a new sheet on the XLS Workbook, that contains
+	 * the Types Criterion information.
+	 * @return The name of this sheet.
+	 */
+	private String typesCriterionSheetXLS() {
+		// Create the name
+		String name = "Types Criterion";
+		
+		// Create a new sheet
+		HSSFSheet tcSheet = workbookXLS.createSheet(name);
+	
+		// Create header Row
+		HSSFRow header = tcSheet.createRow(0);
+	    header.createCell(0).setCellValue("Level");
+	    header.createCell(1).setCellValue("Name");
+	    header.createCell(2).setCellValue("Description");
+	    
+	    // Set bold font
+	    for(int i=0; i<3; i++)
+	    	header.getCell(i).setCellStyle(boldTextStyle);
+
+	     
+	    // Create a flag
+	    int index = 1;
+	    
+	    
+	    // Now go through each element
+	    for( TypeCriterion tc : project.getCriterionList() ) {
+	    	// Create a new row
+	    	HSSFRow dataRow = tcSheet.createRow(index);
+			dataRow.createCell(0).setCellValue( tc.getLevel() );
+	    	dataRow.createCell(1).setCellValue( tc.getName() );
+
+	    	// Set style
+	    	dataRow.getCell(0).setCellStyle(topAlignTextStyle);
+	    	dataRow.getCell(1).setCellStyle(topAlignTextStyle);
+	    	
+	    	// Description row with wrap text style
+	    	dataRow.createCell(2).setCellValue( tc.getDescription() );
+	    	dataRow.getCell(2).setCellStyle(wrapTextStyle);
+	    	
+	    	// Increase the level
+	    	index++;
+	    }
+	    
+	    // Autoadjust width
+	    tcSheet.autoSizeColumn(0);
+	    tcSheet.autoSizeColumn(1);
+	    tcSheet.setColumnWidth(2, 9000);
+	    
+	    // Return the name
+	    return name;
+	}
+
+	
+	/**
+	 * Method to create a new sheet on the XLSX Workbook, that contains
+	 * the Types Criterion information.
+	 * @return The name of this sheet.
+	 */
+	private String typesCriterionSheetXLSX() {
+		// Create the name
+		String name = "Types Criterion";
+		
+		// Create a new sheet
+		XSSFSheet tcSheet = workbookXLSX.createSheet(name);
+	
+		// Create header Row
+		XSSFRow header = tcSheet.createRow(0);
+	    header.createCell(0).setCellValue("Level");
+	    header.createCell(1).setCellValue("Name");
+	    header.createCell(2).setCellValue("Description");
+	    
+	    // Set bold font
+	    for(int i=0; i<3; i++)
+	    	header.getCell(i).setCellStyle(boldTextStyle);
+
+	     
+	    // Create a flag
+	    int index = 1;
+	    
+	    
+	    // Now go through each element
+	    for( TypeCriterion tc : project.getCriterionList() ) {
+	    	// Create a new row
+	    	XSSFRow dataRow = tcSheet.createRow(index);
+			dataRow.createCell(0).setCellValue( tc.getLevel() );
+	    	dataRow.createCell(1).setCellValue( tc.getName() );
+
+	    	// Set style
+	    	dataRow.getCell(0).setCellStyle(topAlignTextStyle);
+	    	dataRow.getCell(1).setCellStyle(topAlignTextStyle);
+	    	
+	    	// Description row with wrap text style
+	    	dataRow.createCell(2).setCellValue( tc.getDescription() );
+	    	dataRow.getCell(2).setCellStyle(wrapTextStyle);
+	    	
+	    	// Increase the level
+	    	index++;
+	    }
+	    
+	    // Autoadjust width
+	    tcSheet.autoSizeColumn(0);
+	    tcSheet.autoSizeColumn(1);
+	    tcSheet.setColumnWidth(2, 9000);
+	    
+	    // Return the name
+	    return name;
+	}
+
+
+	
+
+
+	/**
+	 * Method to create a new sheet on the XLS Workbook, that contains
+	 * the Types Dimension information.
+	 * @return The name of this sheet.
+	 */
+	private String typesDimensionSheetXLS() {
+		// Create the name
+		String name = "Types Dimension";
+		
+		// Create a new sheet
+		HSSFSheet tdSheet = workbookXLS.createSheet(name);
+	
+		// Create header Row
+		HSSFRow header = tdSheet.createRow(0);
+	    header.createCell(0).setCellValue("Level");
+	    header.createCell(1).setCellValue("Name");
+	    header.createCell(2).setCellValue("Usable");
+	    header.createCell(3).setCellValue("Description");
+	    
+	    // Set bold font
+	    for(int i=0; i<4; i++)
+	    	header.getCell(i).setCellStyle(boldTextStyle);
+
+	     
+	    // Create a flag
+	    int index = 1;
+	    
+	    
+	    // Now go through each element
+	    for( TypeDimension td : project.getDimensionList() ) {
+	    	// Create a new row
+	    	HSSFRow dataRow = tdSheet.createRow(index);
+			dataRow.createCell(0).setCellValue( td.getLevel() );
+	    	dataRow.createCell(1).setCellValue( td.getName() );
+	    	dataRow.createCell(2).setCellValue( td.getUsable() );
+	    	
+	    	// Set style
+	    	for(int i=0; i<3; i++)
+	    		dataRow.getCell(i).setCellStyle(topAlignTextStyle);
+	    	
+	    	// Description row with wrap text style
+	    	dataRow.createCell(3).setCellValue( td.getDescription() );
+	    	dataRow.getCell(3).setCellStyle(wrapTextStyle);
+	    	
+	    	// Increase the level
+	    	index++;
+	    }
+	    
+	    // Autoadjust width
+	    tdSheet.autoSizeColumn(0);
+	    tdSheet.autoSizeColumn(1);
+	    tdSheet.autoSizeColumn(2);
+	    tdSheet.setColumnWidth(3, 9000);
+	    
+	    // Return the name
+	    return name;
+	}
+
+	
+	
+	/**
+	 * Method to create a new sheet on the XLS Workbook, that contains
+	 * the Types Dimension information.
+	 * @return The name of this sheet.
+	 */
+	private String typesDimensionSheetXLSX() {
+		// Create the name
+		String name = "Types Dimension";
+		
+		// Create a new sheet
+		XSSFSheet tdSheet = workbookXLSX.createSheet(name);
+	
+		// Create header Row
+		XSSFRow header = tdSheet.createRow(0);
+	    header.createCell(0).setCellValue("Level");
+	    header.createCell(1).setCellValue("Name");
+	    header.createCell(2).setCellValue("Usable");
+	    header.createCell(3).setCellValue("Description");
+	    
+	    // Set bold font
+	    for(int i=0; i<4; i++)
+	    	header.getCell(i).setCellStyle(boldTextStyle);
+
+	     
+	    // Create a flag
+	    int index = 1;
+	    
+	    
+	    // Now go through each element
+	    for( TypeDimension td : project.getDimensionList() ) {
+	    	// Create a new row
+	    	XSSFRow dataRow = tdSheet.createRow(index);
+			dataRow.createCell(0).setCellValue( td.getLevel() );
+	    	dataRow.createCell(1).setCellValue( td.getName() );
+	    	dataRow.createCell(2).setCellValue( td.getUsable() );
+	    	
+	    	// Set style
+	    	for(int i=0; i<3; i++)
+	    		dataRow.getCell(i).setCellStyle(topAlignTextStyle);
+	    	
+	    	// Description row with wrap text style
+	    	dataRow.createCell(3).setCellValue( td.getDescription() );
+	    	dataRow.getCell(3).setCellStyle(wrapTextStyle);
+	    	
+	    	// Increase the level
+	    	index++;
+	    }
+	    
+	    // Autoadjust width
+	    tdSheet.autoSizeColumn(0);
+	    tdSheet.autoSizeColumn(1);
+	    tdSheet.autoSizeColumn(2);
+	    tdSheet.setColumnWidth(3, 9000);
+	    
+	    // Return the name
+	    return name;
+	}
+
+	
+}

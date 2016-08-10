@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<tns:RootType xmlns:tns="http://www.example.org/ResultsTypesSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" tns:totalQty="60" xsi:schemaLocation="http://www.example.org/ResultsTypesSchema ResultsTypesSchema.xsd ">
+<tns:type tns:typeName="Tricky">
+<tns:table tns:tableName="hr_department">
+<tns:category tns:categoryName="Bill Of Resources"/>
+</tns:table>
+<tns:table tns:tableName="process_transition_action">
+<tns:category tns:categoryName="Production Rules"/>
+</tns:table>
+<tns:table tns:tableName="product_price_type">
+<tns:category tns:categoryName="Production Rules"/>
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="product_pricelist">
+<tns:category tns:categoryName="Production Rules"/>
+<tns:category tns:categoryName="Bill Of Resources"/>
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="product_pricelist_version">
+<tns:category tns:categoryName="Production Rules"/>
+<tns:category tns:categoryName="Bill Of Resources"/>
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="product_product">
+<tns:category tns:categoryName="Production Rules"/>
+</tns:table>
+<tns:table tns:tableName="product_ul">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="product_uom">
+<tns:category tns:categoryName="Production Rules"/>
+<tns:category tns:categoryName="Bill Of Resources"/>
+</tns:table>
+<tns:table tns:tableName="product_uom_categ">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="report_workcenter_load">
+<tns:category tns:categoryName="Bill Of Resources"/>
+</tns:table>
+<tns:table tns:tableName="resource_calendar">
+<tns:category tns:categoryName="Bill Of Resources"/>
+</tns:table>
+<tns:table tns:tableName="stock_location_product">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+</tns:type>
+<tns:type tns:typeName="True">
+<tns:table tns:tableName="mrp_bom">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="mrp_bom_property_rel">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="mrp_product_price">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="mrp_product_produce">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="mrp_production">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="mrp_production_product_line">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="product_pricelist_item">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="product_template">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="resource_resource">
+<tns:category tns:categoryName="Bill Of Resources"/>
+</tns:table>
+<tns:table tns:tableName="wkf_activity">
+<tns:category tns:categoryName="Production Rules"/>
+</tns:table>
+</tns:type>
+<tns:type tns:typeName="Neutral">
+<tns:table tns:tableName="employee_category_rel">
+<tns:category tns:categoryName="Bill Of Resources"/>
+</tns:table>
+<tns:table tns:tableName="hr_employee">
+<tns:category tns:categoryName="Bill Of Resources"/>
+</tns:table>
+<tns:table tns:tableName="hr_job">
+<tns:category tns:categoryName="Bill Of Resources"/>
+</tns:table>
+<tns:table tns:tableName="mrp_config_settings">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="mrp_production_workcenter_line">
+<tns:category tns:categoryName="Bill Of Resources"/>
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="mrp_property">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="mrp_property_group">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="mrp_routing">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="mrp_routing_workcenter">
+<tns:category tns:categoryName="Bill Of Resources"/>
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="mrp_workcenter">
+<tns:category tns:categoryName="Bill Of Resources"/>
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="mrp_workcenter_load">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="product_category">
+<tns:category tns:categoryName="Bill Of Resources"/>
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="product_packaging">
+<tns:category tns:categoryName="Bill Of Resources"/>
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="product_price_list">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="product_pricelist_item">
+<tns:category tns:categoryName="Bill Of Resources"/>
+</tns:table>
+<tns:table tns:tableName="product_pricelist_type">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="product_product">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="product_supplierinfo">
+<tns:category tns:categoryName="Bill Of Resources"/>
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="product_template">
+<tns:category tns:categoryName="Bill Of Resources"/>
+</tns:table>
+<tns:table tns:tableName="product_uom">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="resource_calendar_leaves">
+<tns:category tns:categoryName="Bill Of Resources"/>
+</tns:table>
+<tns:table tns:tableName="stock_change_product_qty">
+<tns:category tns:categoryName="Bill Of Materials"/>
+</tns:table>
+<tns:table tns:tableName="wkf_instance">
+<tns:category tns:categoryName="Production Rules"/>
+</tns:table>
+<tns:table tns:tableName="wkf_logs">
+<tns:category tns:categoryName="Production Rules"/>
+</tns:table>
+<tns:table tns:tableName="wkf_transition">
+<tns:category tns:categoryName="Production Rules"/>
+</tns:table>
+<tns:table tns:tableName="wkf_workitem">
+<tns:category tns:categoryName="Production Rules"/>
+</tns:table>
+</tns:type>
+</tns:RootType>
