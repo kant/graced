@@ -14,7 +14,7 @@ GrACED has generated several publications, in both the local and international a
 # Downloads
 Currently, the only download available is for windows. Other bundles will be available soon.
 
-## Windows v2.0
+*Windows v2.0*
 Download portable version, ready to use. [Download] (https://drive.google.com/open?id=0B0xQo50QDczjWmdEMjV5dGhLMEU).
 
 
