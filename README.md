@@ -36,6 +36,7 @@ To install, follow the next steps:
 You can create a desktop shortcut for the file `GrACED.exe` by right clicking it, then selecting "Send to", then 
 "Desktop (create shortcut)".
 
+![Graced](https://preview.ibb.co/jUrATL/Graced.png)
 
 
 ## License
