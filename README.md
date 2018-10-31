@@ -1,6 +1,6 @@
 # GrACED
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![DOI](https://zenodo.org/badge/155585881.svg)](https://zenodo.org/badge/latestdoi/155585881)
 
 GrACED stands for Grammar Agent for Classifying Enterprise Systems Databases. It is a graph based intelligent agent that studies the relational database of a given ES (Enterprise System) to determine if it abides to the classification of manufacturing information provided by the ANSI/ISA-95 (S95) international standard.
 
