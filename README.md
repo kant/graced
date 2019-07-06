@@ -11,9 +11,9 @@ The agent mainly works in English, but other languages can be added as synonyms.
 ## Publications
 GrACED has generated several publications. More insight about its design, inner working and obtained results can be found in the following:
 
-- Vidoni, M.; Vecchietti, A. "An Intelligent Agent for ERP's Data Structure Analysis, BAsed on ANSI/ISA-95 Standard",
+- Vidoni, M.; Vecchietti, A. "An Intelligent Agent for ERP's Data Structure Analysis, Based on ANSI/ISA-95 Standard",
  _Computers in Industry_, vol. 73, 2015, pp39-50. ISSN: 0166-3615. [https://dx.doi.org/10.1016/j.compind.2015.07.011](https://dx.doi.org/10.1016/j.compind.2015.07.011)
-- Vidoni, M.; Vchietti, A. "Desarrollo de un Agente Inteligente Basado en el Estándar ANSI/ISA-95", _2º Congreso 
+- Vidoni, M.; Vecchietti, A. "Desarrollo de un Agente Inteligente Basado en el Estándar ANSI/ISA-95", _2º Congreso 
 Nacional de Ingeniería Informática y Sistemas de Información (CONAIISI)_. San Luis, Argentina. 2016, pp47-59. ISSN: 
 2346-9927.
 - Vidoni, M.; Vecchietti, A.; "Análisis de Adecuación de Bases de Datos al Estándar ANSI/ISA-95, Utilizando un Agente
